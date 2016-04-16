@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>SchemeUserState</key>
+	<dict>
+		<key>PlayerKit.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>1</integer>
+		</dict>
+		<key>PlayerKitFramework.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>3</integer>
+		</dict>
+		<key>PlayerKitResources.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>2</integer>
+		</dict>
+	</dict>
+	<key>SuppressBuildableAutocreation</key>
+	<dict>
+		<key>11C9E6FF1A5959FA001F7338</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>11C9E70A1A5959FB001F7338</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>11C9E7261A595A24001F7338</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>11CAAE601A78C507004C7484</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+	</dict>
+</dict>
+</plist>

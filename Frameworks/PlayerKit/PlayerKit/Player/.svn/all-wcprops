@@ -1,0 +1,803 @@
+K 25
+svn:wc:ra_dav:version-url
+V 140
+/code_svn/xl_download/!svn/ver/202638/xl_embed/thunder_mobile/products/thunder_ios/branch/TDPlayerDemo/Frameworks/PlayerKit/PlayerKit/Player
+END
+PKProgressDescriptionView.h
+K 25
+svn:wc:ra_dav:version-url
+V 168
+/code_svn/xl_download/!svn/ver/177382/xl_embed/thunder_mobile/products/thunder_ios/branch/TDPlayerDemo/Frameworks/PlayerKit/PlayerKit/Player/PKProgressDescriptionView.h
+END
+PKEnum.h
+K 25
+svn:wc:ra_dav:version-url
+V 149
+/code_svn/xl_download/!svn/ver/183766/xl_embed/thunder_mobile/products/thunder_ios/branch/TDPlayerDemo/Frameworks/PlayerKit/PlayerKit/Player/PKEnum.h
+END
+PKProgressDescriptionView.m
+K 25
+svn:wc:ra_dav:version-url
+V 168
+/code_svn/xl_download/!svn/ver/185708/xl_embed/thunder_mobile/products/thunder_ios/branch/TDPlayerDemo/Frameworks/PlayerKit/PlayerKit/Player/PKProgressDescriptionView.m
+END
+PKAudioTrackViewController_i5.xib
+K 25
+svn:wc:ra_dav:version-url
+V 174
+/code_svn/xl_download/!svn/ver/192512/xl_embed/thunder_mobile/products/thunder_ios/branch/TDPlayerDemo/Frameworks/PlayerKit/PlayerKit/Player/PKAudioTrackViewController_i5.xib
+END
+PKPlayerStatusSource.h
+K 25
+svn:wc:ra_dav:version-url
+V 163
+/code_svn/xl_download/!svn/ver/187051/xl_embed/thunder_mobile/products/thunder_ios/branch/TDPlayerDemo/Frameworks/PlayerKit/PlayerKit/Player/PKPlayerStatusSource.h
+END
+PKSingleEpisodeCell.xib
+K 25
+svn:wc:ra_dav:version-url
+V 164
+/code_svn/xl_download/!svn/ver/190146/xl_embed/thunder_mobile/products/thunder_ios/branch/TDPlayerDemo/Frameworks/PlayerKit/PlayerKit/Player/PKSingleEpisodeCell.xib
+END
+PKPlayerStatusSource.m
+K 25
+svn:wc:ra_dav:version-url
+V 163
+/code_svn/xl_download/!svn/ver/183035/xl_embed/thunder_mobile/products/thunder_ios/branch/TDPlayerDemo/Frameworks/PlayerKit/PlayerKit/Player/PKPlayerStatusSource.m
+END
+PKSingleEpisodeCell.h
+K 25
+svn:wc:ra_dav:version-url
+V 162
+/code_svn/xl_download/!svn/ver/184792/xl_embed/thunder_mobile/products/thunder_ios/branch/TDPlayerDemo/Frameworks/PlayerKit/PlayerKit/Player/PKSingleEpisodeCell.h
+END
+PKSingleEpisodeCell.m
+K 25
+svn:wc:ra_dav:version-url
+V 162
+/code_svn/xl_download/!svn/ver/181990/xl_embed/thunder_mobile/products/thunder_ios/branch/TDPlayerDemo/Frameworks/PlayerKit/PlayerKit/Player/PKSingleEpisodeCell.m
+END
+MusicPlayerBgView.h
+K 25
+svn:wc:ra_dav:version-url
+V 160
+/code_svn/xl_download/!svn/ver/190198/xl_embed/thunder_mobile/products/thunder_ios/branch/TDPlayerDemo/Frameworks/PlayerKit/PlayerKit/Player/MusicPlayerBgView.h
+END
+PKSubtitleInfo.h
+K 25
+svn:wc:ra_dav:version-url
+V 157
+/code_svn/xl_download/!svn/ver/183766/xl_embed/thunder_mobile/products/thunder_ios/branch/TDPlayerDemo/Frameworks/PlayerKit/PlayerKit/Player/PKSubtitleInfo.h
+END
+PKVideoPlayerViewController~ipad.xib
+K 25
+svn:wc:ra_dav:version-url
+V 177
+/code_svn/xl_download/!svn/ver/193761/xl_embed/thunder_mobile/products/thunder_ios/branch/TDPlayerDemo/Frameworks/PlayerKit/PlayerKit/Player/PKVideoPlayerViewController~ipad.xib
+END
+MusicPlayerBgView.m
+K 25
+svn:wc:ra_dav:version-url
+V 160
+/code_svn/xl_download/!svn/ver/190198/xl_embed/thunder_mobile/products/thunder_ios/branch/TDPlayerDemo/Frameworks/PlayerKit/PlayerKit/Player/MusicPlayerBgView.m
+END
+PKSubtitleInfo.m
+K 25
+svn:wc:ra_dav:version-url
+V 157
+/code_svn/xl_download/!svn/ver/182842/xl_embed/thunder_mobile/products/thunder_ios/branch/TDPlayerDemo/Frameworks/PlayerKit/PlayerKit/Player/PKSubtitleInfo.m
+END
+TWeakTimer.h
+K 25
+svn:wc:ra_dav:version-url
+V 153
+/code_svn/xl_download/!svn/ver/178336/xl_embed/thunder_mobile/products/thunder_ios/branch/TDPlayerDemo/Frameworks/PlayerKit/PlayerKit/Player/TWeakTimer.h
+END
+PKSubtitleViewController_i5.xib
+K 25
+svn:wc:ra_dav:version-url
+V 172
+/code_svn/xl_download/!svn/ver/192512/xl_embed/thunder_mobile/products/thunder_ios/branch/TDPlayerDemo/Frameworks/PlayerKit/PlayerKit/Player/PKSubtitleViewController_i5.xib
+END
+PKTip_i5.xib
+K 25
+svn:wc:ra_dav:version-url
+V 153
+/code_svn/xl_download/!svn/ver/192473/xl_embed/thunder_mobile/products/thunder_ios/branch/TDPlayerDemo/Frameworks/PlayerKit/PlayerKit/Player/PKTip_i5.xib
+END
+TWeakTimer.m
+K 25
+svn:wc:ra_dav:version-url
+V 153
+/code_svn/xl_download/!svn/ver/184794/xl_embed/thunder_mobile/products/thunder_ios/branch/TDPlayerDemo/Frameworks/PlayerKit/PlayerKit/Player/TWeakTimer.m
+END
+PKGuideViewController.xib
+K 25
+svn:wc:ra_dav:version-url
+V 166
+/code_svn/xl_download/!svn/ver/186815/xl_embed/thunder_mobile/products/thunder_ios/branch/TDPlayerDemo/Frameworks/PlayerKit/PlayerKit/Player/PKGuideViewController.xib
+END
+PKProgressDescriptionView~ipad.xib
+K 25
+svn:wc:ra_dav:version-url
+V 175
+/code_svn/xl_download/!svn/ver/185708/xl_embed/thunder_mobile/products/thunder_ios/branch/TDPlayerDemo/Frameworks/PlayerKit/PlayerKit/Player/PKProgressDescriptionView~ipad.xib
+END
+PKProgressIndicator.xib
+K 25
+svn:wc:ra_dav:version-url
+V 164
+/code_svn/xl_download/!svn/ver/185867/xl_embed/thunder_mobile/products/thunder_ios/branch/TDPlayerDemo/Frameworks/PlayerKit/PlayerKit/Player/PKProgressIndicator.xib
+END
+PKPopoverController.h
+K 25
+svn:wc:ra_dav:version-url
+V 162
+/code_svn/xl_download/!svn/ver/181555/xl_embed/thunder_mobile/products/thunder_ios/branch/TDPlayerDemo/Frameworks/PlayerKit/PlayerKit/Player/PKPopoverController.h
+END
+PKProgressDescriptionView.xib
+K 25
+svn:wc:ra_dav:version-url
+V 170
+/code_svn/xl_download/!svn/ver/185867/xl_embed/thunder_mobile/products/thunder_ios/branch/TDPlayerDemo/Frameworks/PlayerKit/PlayerKit/Player/PKProgressDescriptionView.xib
+END
+PKRecordSource.h
+K 25
+svn:wc:ra_dav:version-url
+V 157
+/code_svn/xl_download/!svn/ver/181764/xl_embed/thunder_mobile/products/thunder_ios/branch/TDPlayerDemo/Frameworks/PlayerKit/PlayerKit/Player/PKRecordSource.h
+END
+PKPopoverController.m
+K 25
+svn:wc:ra_dav:version-url
+V 162
+/code_svn/xl_download/!svn/ver/185708/xl_embed/thunder_mobile/products/thunder_ios/branch/TDPlayerDemo/Frameworks/PlayerKit/PlayerKit/Player/PKPopoverController.m
+END
+PKRecordSource.m
+K 25
+svn:wc:ra_dav:version-url
+V 157
+/code_svn/xl_download/!svn/ver/181294/xl_embed/thunder_mobile/products/thunder_ios/branch/TDPlayerDemo/Frameworks/PlayerKit/PlayerKit/Player/PKRecordSource.m
+END
+UIDevice+pk.h
+K 25
+svn:wc:ra_dav:version-url
+V 154
+/code_svn/xl_download/!svn/ver/185867/xl_embed/thunder_mobile/products/thunder_ios/branch/TDPlayerDemo/Frameworks/PlayerKit/PlayerKit/Player/UIDevice+pk.h
+END
+PKStreamSlice.h
+K 25
+svn:wc:ra_dav:version-url
+V 156
+/code_svn/xl_download/!svn/ver/178931/xl_embed/thunder_mobile/products/thunder_ios/branch/TDPlayerDemo/Frameworks/PlayerKit/PlayerKit/Player/PKStreamSlice.h
+END
+UIApplication+pk.h
+K 25
+svn:wc:ra_dav:version-url
+V 159
+/code_svn/xl_download/!svn/ver/176501/xl_embed/thunder_mobile/products/thunder_ios/branch/TDPlayerDemo/Frameworks/PlayerKit/PlayerKit/Player/UIApplication+pk.h
+END
+UIDevice+pk.m
+K 25
+svn:wc:ra_dav:version-url
+V 154
+/code_svn/xl_download/!svn/ver/185867/xl_embed/thunder_mobile/products/thunder_ios/branch/TDPlayerDemo/Frameworks/PlayerKit/PlayerKit/Player/UIDevice+pk.m
+END
+PKStreamSlice.m
+K 25
+svn:wc:ra_dav:version-url
+V 156
+/code_svn/xl_download/!svn/ver/178931/xl_embed/thunder_mobile/products/thunder_ios/branch/TDPlayerDemo/Frameworks/PlayerKit/PlayerKit/Player/PKStreamSlice.m
+END
+PKAudioTrackViewController.xib
+K 25
+svn:wc:ra_dav:version-url
+V 171
+/code_svn/xl_download/!svn/ver/189606/xl_embed/thunder_mobile/products/thunder_ios/branch/TDPlayerDemo/Frameworks/PlayerKit/PlayerKit/Player/PKAudioTrackViewController.xib
+END
+UIApplication+pk.m
+K 25
+svn:wc:ra_dav:version-url
+V 159
+/code_svn/xl_download/!svn/ver/176501/xl_embed/thunder_mobile/products/thunder_ios/branch/TDPlayerDemo/Frameworks/PlayerKit/PlayerKit/Player/UIApplication+pk.m
+END
+PKStatisticSource.h
+K 25
+svn:wc:ra_dav:version-url
+V 160
+/code_svn/xl_download/!svn/ver/190382/xl_embed/thunder_mobile/products/thunder_ios/branch/TDPlayerDemo/Frameworks/PlayerKit/PlayerKit/Player/PKStatisticSource.h
+END
+PKSubtitleCell.h
+K 25
+svn:wc:ra_dav:version-url
+V 157
+/code_svn/xl_download/!svn/ver/182703/xl_embed/thunder_mobile/products/thunder_ios/branch/TDPlayerDemo/Frameworks/PlayerKit/PlayerKit/Player/PKSubtitleCell.h
+END
+PKTip.h
+K 25
+svn:wc:ra_dav:version-url
+V 148
+/code_svn/xl_download/!svn/ver/185474/xl_embed/thunder_mobile/products/thunder_ios/branch/TDPlayerDemo/Frameworks/PlayerKit/PlayerKit/Player/PKTip.h
+END
+PKStatisticSource.m
+K 25
+svn:wc:ra_dav:version-url
+V 160
+/code_svn/xl_download/!svn/ver/183766/xl_embed/thunder_mobile/products/thunder_ios/branch/TDPlayerDemo/Frameworks/PlayerKit/PlayerKit/Player/PKStatisticSource.m
+END
+PKSubtitleCell.m
+K 25
+svn:wc:ra_dav:version-url
+V 157
+/code_svn/xl_download/!svn/ver/182322/xl_embed/thunder_mobile/products/thunder_ios/branch/TDPlayerDemo/Frameworks/PlayerKit/PlayerKit/Player/PKSubtitleCell.m
+END
+PKMusicPlayViewController.xib
+K 25
+svn:wc:ra_dav:version-url
+V 170
+/code_svn/xl_download/!svn/ver/190198/xl_embed/thunder_mobile/products/thunder_ios/branch/TDPlayerDemo/Frameworks/PlayerKit/PlayerKit/Player/PKMusicPlayViewController.xib
+END
+PKTip.m
+K 25
+svn:wc:ra_dav:version-url
+V 148
+/code_svn/xl_download/!svn/ver/186030/xl_embed/thunder_mobile/products/thunder_ios/branch/TDPlayerDemo/Frameworks/PlayerKit/PlayerKit/Player/PKTip.m
+END
+PKLoading_i5.xib
+K 25
+svn:wc:ra_dav:version-url
+V 157
+/code_svn/xl_download/!svn/ver/192473/xl_embed/thunder_mobile/products/thunder_ios/branch/TDPlayerDemo/Frameworks/PlayerKit/PlayerKit/Player/PKLoading_i5.xib
+END
+PKVideoPlayerViewController_i5.xib
+K 25
+svn:wc:ra_dav:version-url
+V 175
+/code_svn/xl_download/!svn/ver/192658/xl_embed/thunder_mobile/products/thunder_ios/branch/TDPlayerDemo/Frameworks/PlayerKit/PlayerKit/Player/PKVideoPlayerViewController_i5.xib
+END
+PKVolumeController.h
+K 25
+svn:wc:ra_dav:version-url
+V 161
+/code_svn/xl_download/!svn/ver/183282/xl_embed/thunder_mobile/products/thunder_ios/branch/TDPlayerDemo/Frameworks/PlayerKit/PlayerKit/Player/PKVolumeController.h
+END
+PKAudioTrackCell~ipad.xib
+K 25
+svn:wc:ra_dav:version-url
+V 166
+/code_svn/xl_download/!svn/ver/189606/xl_embed/thunder_mobile/products/thunder_ios/branch/TDPlayerDemo/Frameworks/PlayerKit/PlayerKit/Player/PKAudioTrackCell~ipad.xib
+END
+PKVolumeController.m
+K 25
+svn:wc:ra_dav:version-url
+V 161
+/code_svn/xl_download/!svn/ver/202638/xl_embed/thunder_mobile/products/thunder_ios/branch/TDPlayerDemo/Frameworks/PlayerKit/PlayerKit/Player/PKVolumeController.m
+END
+PKXMPVideoPlayerCore.h
+K 25
+svn:wc:ra_dav:version-url
+V 163
+/code_svn/xl_download/!svn/ver/180092/xl_embed/thunder_mobile/products/thunder_ios/branch/TDPlayerDemo/Frameworks/PlayerKit/PlayerKit/Player/PKXMPVideoPlayerCore.h
+END
+PKSingleEpisodeCell~ipad.xib
+K 25
+svn:wc:ra_dav:version-url
+V 169
+/code_svn/xl_download/!svn/ver/185867/xl_embed/thunder_mobile/products/thunder_ios/branch/TDPlayerDemo/Frameworks/PlayerKit/PlayerKit/Player/PKSingleEpisodeCell~ipad.xib
+END
+PKVideoInfo.h
+K 25
+svn:wc:ra_dav:version-url
+V 154
+/code_svn/xl_download/!svn/ver/190349/xl_embed/thunder_mobile/products/thunder_ios/branch/TDPlayerDemo/Frameworks/PlayerKit/PlayerKit/Player/PKVideoInfo.h
+END
+PKTip~ipad.xib
+K 25
+svn:wc:ra_dav:version-url
+V 155
+/code_svn/xl_download/!svn/ver/185708/xl_embed/thunder_mobile/products/thunder_ios/branch/TDPlayerDemo/Frameworks/PlayerKit/PlayerKit/Player/PKTip~ipad.xib
+END
+PKResolutionSource.h
+K 25
+svn:wc:ra_dav:version-url
+V 161
+/code_svn/xl_download/!svn/ver/186591/xl_embed/thunder_mobile/products/thunder_ios/branch/TDPlayerDemo/Frameworks/PlayerKit/PlayerKit/Player/PKResolutionSource.h
+END
+NSBundle+pk.h
+K 25
+svn:wc:ra_dav:version-url
+V 154
+/code_svn/xl_download/!svn/ver/176501/xl_embed/thunder_mobile/products/thunder_ios/branch/TDPlayerDemo/Frameworks/PlayerKit/PlayerKit/Player/NSBundle+pk.h
+END
+PKXMPVideoPlayerCore.m
+K 25
+svn:wc:ra_dav:version-url
+V 163
+/code_svn/xl_download/!svn/ver/190347/xl_embed/thunder_mobile/products/thunder_ios/branch/TDPlayerDemo/Frameworks/PlayerKit/PlayerKit/Player/PKXMPVideoPlayerCore.m
+END
+PKVideoInfo.m
+K 25
+svn:wc:ra_dav:version-url
+V 154
+/code_svn/xl_download/!svn/ver/190349/xl_embed/thunder_mobile/products/thunder_ios/branch/TDPlayerDemo/Frameworks/PlayerKit/PlayerKit/Player/PKVideoInfo.m
+END
+PKPlayerManager.h
+K 25
+svn:wc:ra_dav:version-url
+V 158
+/code_svn/xl_download/!svn/ver/189815/xl_embed/thunder_mobile/products/thunder_ios/branch/TDPlayerDemo/Frameworks/PlayerKit/PlayerKit/Player/PKPlayerManager.h
+END
+UIScreen+pk.h
+K 25
+svn:wc:ra_dav:version-url
+V 154
+/code_svn/xl_download/!svn/ver/179699/xl_embed/thunder_mobile/products/thunder_ios/branch/TDPlayerDemo/Frameworks/PlayerKit/PlayerKit/Player/UIScreen+pk.h
+END
+PKProgressIndicator_i5.xib
+K 25
+svn:wc:ra_dav:version-url
+V 167
+/code_svn/xl_download/!svn/ver/192473/xl_embed/thunder_mobile/products/thunder_ios/branch/TDPlayerDemo/Frameworks/PlayerKit/PlayerKit/Player/PKProgressIndicator_i5.xib
+END
+PKResolutionSource.m
+K 25
+svn:wc:ra_dav:version-url
+V 161
+/code_svn/xl_download/!svn/ver/181555/xl_embed/thunder_mobile/products/thunder_ios/branch/TDPlayerDemo/Frameworks/PlayerKit/PlayerKit/Player/PKResolutionSource.m
+END
+NSBundle+pk.m
+K 25
+svn:wc:ra_dav:version-url
+V 154
+/code_svn/xl_download/!svn/ver/176501/xl_embed/thunder_mobile/products/thunder_ios/branch/TDPlayerDemo/Frameworks/PlayerKit/PlayerKit/Player/NSBundle+pk.m
+END
+PKPlayerManager.m
+K 25
+svn:wc:ra_dav:version-url
+V 158
+/code_svn/xl_download/!svn/ver/202638/xl_embed/thunder_mobile/products/thunder_ios/branch/TDPlayerDemo/Frameworks/PlayerKit/PlayerKit/Player/PKPlayerManager.m
+END
+PKResolutionViewController.xib
+K 25
+svn:wc:ra_dav:version-url
+V 171
+/code_svn/xl_download/!svn/ver/185867/xl_embed/thunder_mobile/products/thunder_ios/branch/TDPlayerDemo/Frameworks/PlayerKit/PlayerKit/Player/PKResolutionViewController.xib
+END
+UIScreen+pk.m
+K 25
+svn:wc:ra_dav:version-url
+V 154
+/code_svn/xl_download/!svn/ver/187824/xl_embed/thunder_mobile/products/thunder_ios/branch/TDPlayerDemo/Frameworks/PlayerKit/PlayerKit/Player/UIScreen+pk.m
+END
+PKProgressIndicator.h
+K 25
+svn:wc:ra_dav:version-url
+V 162
+/code_svn/xl_download/!svn/ver/190020/xl_embed/thunder_mobile/products/thunder_ios/branch/TDPlayerDemo/Frameworks/PlayerKit/PlayerKit/Player/PKProgressIndicator.h
+END
+PKTitleSource.h
+K 25
+svn:wc:ra_dav:version-url
+V 156
+/code_svn/xl_download/!svn/ver/182294/xl_embed/thunder_mobile/products/thunder_ios/branch/TDPlayerDemo/Frameworks/PlayerKit/PlayerKit/Player/PKTitleSource.h
+END
+PKResolutionViewController.h
+K 25
+svn:wc:ra_dav:version-url
+V 169
+/code_svn/xl_download/!svn/ver/186591/xl_embed/thunder_mobile/products/thunder_ios/branch/TDPlayerDemo/Frameworks/PlayerKit/PlayerKit/Player/PKResolutionViewController.h
+END
+PKProgressIndicator.m
+K 25
+svn:wc:ra_dav:version-url
+V 162
+/code_svn/xl_download/!svn/ver/190527/xl_embed/thunder_mobile/products/thunder_ios/branch/TDPlayerDemo/Frameworks/PlayerKit/PlayerKit/Player/PKProgressIndicator.m
+END
+PKTitleSource.m
+K 25
+svn:wc:ra_dav:version-url
+V 156
+/code_svn/xl_download/!svn/ver/182294/xl_embed/thunder_mobile/products/thunder_ios/branch/TDPlayerDemo/Frameworks/PlayerKit/PlayerKit/Player/PKTitleSource.m
+END
+PKResolutionViewController.m
+K 25
+svn:wc:ra_dav:version-url
+V 169
+/code_svn/xl_download/!svn/ver/192658/xl_embed/thunder_mobile/products/thunder_ios/branch/TDPlayerDemo/Frameworks/PlayerKit/PlayerKit/Player/PKResolutionViewController.m
+END
+PKSubtitlePopoverController.h
+K 25
+svn:wc:ra_dav:version-url
+V 170
+/code_svn/xl_download/!svn/ver/182322/xl_embed/thunder_mobile/products/thunder_ios/branch/TDPlayerDemo/Frameworks/PlayerKit/PlayerKit/Player/PKSubtitlePopoverController.h
+END
+PKSubtitleSource.h
+K 25
+svn:wc:ra_dav:version-url
+V 159
+/code_svn/xl_download/!svn/ver/182842/xl_embed/thunder_mobile/products/thunder_ios/branch/TDPlayerDemo/Frameworks/PlayerKit/PlayerKit/Player/PKSubtitleSource.h
+END
+PKAudioTrackViewController~ipad.xib
+K 25
+svn:wc:ra_dav:version-url
+V 176
+/code_svn/xl_download/!svn/ver/189606/xl_embed/thunder_mobile/products/thunder_ios/branch/TDPlayerDemo/Frameworks/PlayerKit/PlayerKit/Player/PKAudioTrackViewController~ipad.xib
+END
+PKSubtitlePopoverController.m
+K 25
+svn:wc:ra_dav:version-url
+V 170
+/code_svn/xl_download/!svn/ver/182322/xl_embed/thunder_mobile/products/thunder_ios/branch/TDPlayerDemo/Frameworks/PlayerKit/PlayerKit/Player/PKSubtitlePopoverController.m
+END
+PKSubtitleSource.m
+K 25
+svn:wc:ra_dav:version-url
+V 159
+/code_svn/xl_download/!svn/ver/182322/xl_embed/thunder_mobile/products/thunder_ios/branch/TDPlayerDemo/Frameworks/PlayerKit/PlayerKit/Player/PKSubtitleSource.m
+END
+PKAudioTrackCell.xib
+K 25
+svn:wc:ra_dav:version-url
+V 161
+/code_svn/xl_download/!svn/ver/189606/xl_embed/thunder_mobile/products/thunder_ios/branch/TDPlayerDemo/Frameworks/PlayerKit/PlayerKit/Player/PKAudioTrackCell.xib
+END
+PKSubtitleCell~ipad.xib
+K 25
+svn:wc:ra_dav:version-url
+V 164
+/code_svn/xl_download/!svn/ver/189606/xl_embed/thunder_mobile/products/thunder_ios/branch/TDPlayerDemo/Frameworks/PlayerKit/PlayerKit/Player/PKSubtitleCell~ipad.xib
+END
+PKSubtitleCell_i5.xib
+K 25
+svn:wc:ra_dav:version-url
+V 162
+/code_svn/xl_download/!svn/ver/192512/xl_embed/thunder_mobile/products/thunder_ios/branch/TDPlayerDemo/Frameworks/PlayerKit/PlayerKit/Player/PKSubtitleCell_i5.xib
+END
+PKSubtitleViewController.xib
+K 25
+svn:wc:ra_dav:version-url
+V 169
+/code_svn/xl_download/!svn/ver/185867/xl_embed/thunder_mobile/products/thunder_ios/branch/TDPlayerDemo/Frameworks/PlayerKit/PlayerKit/Player/PKSubtitleViewController.xib
+END
+PKAudioTrackViewController.h
+K 25
+svn:wc:ra_dav:version-url
+V 169
+/code_svn/xl_download/!svn/ver/189606/xl_embed/thunder_mobile/products/thunder_ios/branch/TDPlayerDemo/Frameworks/PlayerKit/PlayerKit/Player/PKAudioTrackViewController.h
+END
+PKSubtitleCell.xib
+K 25
+svn:wc:ra_dav:version-url
+V 159
+/code_svn/xl_download/!svn/ver/185867/xl_embed/thunder_mobile/products/thunder_ios/branch/TDPlayerDemo/Frameworks/PlayerKit/PlayerKit/Player/PKSubtitleCell.xib
+END
+PKAudioTrackCell.h
+K 25
+svn:wc:ra_dav:version-url
+V 159
+/code_svn/xl_download/!svn/ver/189606/xl_embed/thunder_mobile/products/thunder_ios/branch/TDPlayerDemo/Frameworks/PlayerKit/PlayerKit/Player/PKAudioTrackCell.h
+END
+UIViewController+pk.h
+K 25
+svn:wc:ra_dav:version-url
+V 162
+/code_svn/xl_download/!svn/ver/180325/xl_embed/thunder_mobile/products/thunder_ios/branch/TDPlayerDemo/Frameworks/PlayerKit/PlayerKit/Player/UIViewController+pk.h
+END
+PKSubtitleViewController.h
+K 25
+svn:wc:ra_dav:version-url
+V 167
+/code_svn/xl_download/!svn/ver/185474/xl_embed/thunder_mobile/products/thunder_ios/branch/TDPlayerDemo/Frameworks/PlayerKit/PlayerKit/Player/PKSubtitleViewController.h
+END
+PKAudioTrackViewController.m
+K 25
+svn:wc:ra_dav:version-url
+V 169
+/code_svn/xl_download/!svn/ver/192473/xl_embed/thunder_mobile/products/thunder_ios/branch/TDPlayerDemo/Frameworks/PlayerKit/PlayerKit/Player/PKAudioTrackViewController.m
+END
+UIImage+pk.h
+K 25
+svn:wc:ra_dav:version-url
+V 153
+/code_svn/xl_download/!svn/ver/187824/xl_embed/thunder_mobile/products/thunder_ios/branch/TDPlayerDemo/Frameworks/PlayerKit/PlayerKit/Player/UIImage+pk.h
+END
+PKAudioTrackCell.m
+K 25
+svn:wc:ra_dav:version-url
+V 159
+/code_svn/xl_download/!svn/ver/189606/xl_embed/thunder_mobile/products/thunder_ios/branch/TDPlayerDemo/Frameworks/PlayerKit/PlayerKit/Player/PKAudioTrackCell.m
+END
+PKMusicPlayViewController~ipad.xib
+K 25
+svn:wc:ra_dav:version-url
+V 175
+/code_svn/xl_download/!svn/ver/190220/xl_embed/thunder_mobile/products/thunder_ios/branch/TDPlayerDemo/Frameworks/PlayerKit/PlayerKit/Player/PKMusicPlayViewController~ipad.xib
+END
+UIViewController+pk.m
+K 25
+svn:wc:ra_dav:version-url
+V 162
+/code_svn/xl_download/!svn/ver/180325/xl_embed/thunder_mobile/products/thunder_ios/branch/TDPlayerDemo/Frameworks/PlayerKit/PlayerKit/Player/UIViewController+pk.m
+END
+PKSubtitleViewController.m
+K 25
+svn:wc:ra_dav:version-url
+V 167
+/code_svn/xl_download/!svn/ver/192473/xl_embed/thunder_mobile/products/thunder_ios/branch/TDPlayerDemo/Frameworks/PlayerKit/PlayerKit/Player/PKSubtitleViewController.m
+END
+PKDLNASource.h
+K 25
+svn:wc:ra_dav:version-url
+V 155
+/code_svn/xl_download/!svn/ver/187624/xl_embed/thunder_mobile/products/thunder_ios/branch/TDPlayerDemo/Frameworks/PlayerKit/PlayerKit/Player/PKDLNASource.h
+END
+UIImage+pk.m
+K 25
+svn:wc:ra_dav:version-url
+V 153
+/code_svn/xl_download/!svn/ver/187824/xl_embed/thunder_mobile/products/thunder_ios/branch/TDPlayerDemo/Frameworks/PlayerKit/PlayerKit/Player/UIImage+pk.m
+END
+PKSystemVideoPlayerCore.h
+K 25
+svn:wc:ra_dav:version-url
+V 166
+/code_svn/xl_download/!svn/ver/176501/xl_embed/thunder_mobile/products/thunder_ios/branch/TDPlayerDemo/Frameworks/PlayerKit/PlayerKit/Player/PKSystemVideoPlayerCore.h
+END
+PKMutilEpisodeCell.h
+K 25
+svn:wc:ra_dav:version-url
+V 161
+/code_svn/xl_download/!svn/ver/183766/xl_embed/thunder_mobile/products/thunder_ios/branch/TDPlayerDemo/Frameworks/PlayerKit/PlayerKit/Player/PKMutilEpisodeCell.h
+END
+PKDLNASource.m
+K 25
+svn:wc:ra_dav:version-url
+V 155
+/code_svn/xl_download/!svn/ver/187624/xl_embed/thunder_mobile/products/thunder_ios/branch/TDPlayerDemo/Frameworks/PlayerKit/PlayerKit/Player/PKDLNASource.m
+END
+PKMusicPlayViewController.h
+K 25
+svn:wc:ra_dav:version-url
+V 168
+/code_svn/xl_download/!svn/ver/190198/xl_embed/thunder_mobile/products/thunder_ios/branch/TDPlayerDemo/Frameworks/PlayerKit/PlayerKit/Player/PKMusicPlayViewController.h
+END
+PKSystemVideoPlayerCore.m
+K 25
+svn:wc:ra_dav:version-url
+V 166
+/code_svn/xl_download/!svn/ver/176501/xl_embed/thunder_mobile/products/thunder_ios/branch/TDPlayerDemo/Frameworks/PlayerKit/PlayerKit/Player/PKSystemVideoPlayerCore.m
+END
+PKLoading.xib
+K 25
+svn:wc:ra_dav:version-url
+V 154
+/code_svn/xl_download/!svn/ver/185867/xl_embed/thunder_mobile/products/thunder_ios/branch/TDPlayerDemo/Frameworks/PlayerKit/PlayerKit/Player/PKLoading.xib
+END
+PKMutilEpisodeCell.m
+K 25
+svn:wc:ra_dav:version-url
+V 161
+/code_svn/xl_download/!svn/ver/181990/xl_embed/thunder_mobile/products/thunder_ios/branch/TDPlayerDemo/Frameworks/PlayerKit/PlayerKit/Player/PKMutilEpisodeCell.m
+END
+PKMusicPlayViewController.m
+K 25
+svn:wc:ra_dav:version-url
+V 168
+/code_svn/xl_download/!svn/ver/190220/xl_embed/thunder_mobile/products/thunder_ios/branch/TDPlayerDemo/Frameworks/PlayerKit/PlayerKit/Player/PKMusicPlayViewController.m
+END
+PKAudioTrackCell_i5.xib
+K 25
+svn:wc:ra_dav:version-url
+V 164
+/code_svn/xl_download/!svn/ver/192512/xl_embed/thunder_mobile/products/thunder_ios/branch/TDPlayerDemo/Frameworks/PlayerKit/PlayerKit/Player/PKAudioTrackCell_i5.xib
+END
+PKSingleEpisodeCell_i5.xib
+K 25
+svn:wc:ra_dav:version-url
+V 167
+/code_svn/xl_download/!svn/ver/192512/xl_embed/thunder_mobile/products/thunder_ios/branch/TDPlayerDemo/Frameworks/PlayerKit/PlayerKit/Player/PKSingleEpisodeCell_i5.xib
+END
+UIColor+pk.h
+K 25
+svn:wc:ra_dav:version-url
+V 153
+/code_svn/xl_download/!svn/ver/181764/xl_embed/thunder_mobile/products/thunder_ios/branch/TDPlayerDemo/Frameworks/PlayerKit/PlayerKit/Player/UIColor+pk.h
+END
+PKVideoPlayerCoreBase.h
+K 25
+svn:wc:ra_dav:version-url
+V 164
+/code_svn/xl_download/!svn/ver/189606/xl_embed/thunder_mobile/products/thunder_ios/branch/TDPlayerDemo/Frameworks/PlayerKit/PlayerKit/Player/PKVideoPlayerCoreBase.h
+END
+UIColor+pk.m
+K 25
+svn:wc:ra_dav:version-url
+V 153
+/code_svn/xl_download/!svn/ver/181764/xl_embed/thunder_mobile/products/thunder_ios/branch/TDPlayerDemo/Frameworks/PlayerKit/PlayerKit/Player/UIColor+pk.m
+END
+PKVideoPlayerCoreBase.m
+K 25
+svn:wc:ra_dav:version-url
+V 164
+/code_svn/xl_download/!svn/ver/189606/xl_embed/thunder_mobile/products/thunder_ios/branch/TDPlayerDemo/Frameworks/PlayerKit/PlayerKit/Player/PKVideoPlayerCoreBase.m
+END
+PKGuideViewController.h
+K 25
+svn:wc:ra_dav:version-url
+V 164
+/code_svn/xl_download/!svn/ver/186815/xl_embed/thunder_mobile/products/thunder_ios/branch/TDPlayerDemo/Frameworks/PlayerKit/PlayerKit/Player/PKGuideViewController.h
+END
+PKGuideViewController.m
+K 25
+svn:wc:ra_dav:version-url
+V 164
+/code_svn/xl_download/!svn/ver/186815/xl_embed/thunder_mobile/products/thunder_ios/branch/TDPlayerDemo/Frameworks/PlayerKit/PlayerKit/Player/PKGuideViewController.m
+END
+PKEpisodeSource.h
+K 25
+svn:wc:ra_dav:version-url
+V 158
+/code_svn/xl_download/!svn/ver/183766/xl_embed/thunder_mobile/products/thunder_ios/branch/TDPlayerDemo/Frameworks/PlayerKit/PlayerKit/Player/PKEpisodeSource.h
+END
+PKVideoPlayerViewController.xib
+K 25
+svn:wc:ra_dav:version-url
+V 172
+/code_svn/xl_download/!svn/ver/192282/xl_embed/thunder_mobile/products/thunder_ios/branch/TDPlayerDemo/Frameworks/PlayerKit/PlayerKit/Player/PKVideoPlayerViewController.xib
+END
+PKEpisodeSource.m
+K 25
+svn:wc:ra_dav:version-url
+V 158
+/code_svn/xl_download/!svn/ver/181990/xl_embed/thunder_mobile/products/thunder_ios/branch/TDPlayerDemo/Frameworks/PlayerKit/PlayerKit/Player/PKEpisodeSource.m
+END
+PKVideoPlayerViewController.h
+K 25
+svn:wc:ra_dav:version-url
+V 170
+/code_svn/xl_download/!svn/ver/186139/xl_embed/thunder_mobile/products/thunder_ios/branch/TDPlayerDemo/Frameworks/PlayerKit/PlayerKit/Player/PKVideoPlayerViewController.h
+END
+NSObject+pk.h
+K 25
+svn:wc:ra_dav:version-url
+V 154
+/code_svn/xl_download/!svn/ver/177697/xl_embed/thunder_mobile/products/thunder_ios/branch/TDPlayerDemo/Frameworks/PlayerKit/PlayerKit/Player/NSObject+pk.h
+END
+NSString+pk.h
+K 25
+svn:wc:ra_dav:version-url
+V 154
+/code_svn/xl_download/!svn/ver/186638/xl_embed/thunder_mobile/products/thunder_ios/branch/TDPlayerDemo/Frameworks/PlayerKit/PlayerKit/Player/NSString+pk.h
+END
+PKToolKit.h
+K 25
+svn:wc:ra_dav:version-url
+V 152
+/code_svn/xl_download/!svn/ver/180561/xl_embed/thunder_mobile/products/thunder_ios/branch/TDPlayerDemo/Frameworks/PlayerKit/PlayerKit/Player/PKToolKit.h
+END
+PKVideoPlayerViewController.m
+K 25
+svn:wc:ra_dav:version-url
+V 170
+/code_svn/xl_download/!svn/ver/200720/xl_embed/thunder_mobile/products/thunder_ios/branch/TDPlayerDemo/Frameworks/PlayerKit/PlayerKit/Player/PKVideoPlayerViewController.m
+END
+PKTip.xib
+K 25
+svn:wc:ra_dav:version-url
+V 150
+/code_svn/xl_download/!svn/ver/185867/xl_embed/thunder_mobile/products/thunder_ios/branch/TDPlayerDemo/Frameworks/PlayerKit/PlayerKit/Player/PKTip.xib
+END
+NSObject+pk.m
+K 25
+svn:wc:ra_dav:version-url
+V 154
+/code_svn/xl_download/!svn/ver/177697/xl_embed/thunder_mobile/products/thunder_ios/branch/TDPlayerDemo/Frameworks/PlayerKit/PlayerKit/Player/NSObject+pk.m
+END
+NSString+pk.m
+K 25
+svn:wc:ra_dav:version-url
+V 154
+/code_svn/xl_download/!svn/ver/186638/xl_embed/thunder_mobile/products/thunder_ios/branch/TDPlayerDemo/Frameworks/PlayerKit/PlayerKit/Player/NSString+pk.m
+END
+PKResolutionViewController~ipad.xib
+K 25
+svn:wc:ra_dav:version-url
+V 176
+/code_svn/xl_download/!svn/ver/185867/xl_embed/thunder_mobile/products/thunder_ios/branch/TDPlayerDemo/Frameworks/PlayerKit/PlayerKit/Player/PKResolutionViewController~ipad.xib
+END
+PKToolKit.m
+K 25
+svn:wc:ra_dav:version-url
+V 152
+/code_svn/xl_download/!svn/ver/184792/xl_embed/thunder_mobile/products/thunder_ios/branch/TDPlayerDemo/Frameworks/PlayerKit/PlayerKit/Player/PKToolKit.m
+END
+PKMutilEpisodeCell~ipad.xib
+K 25
+svn:wc:ra_dav:version-url
+V 168
+/code_svn/xl_download/!svn/ver/185708/xl_embed/thunder_mobile/products/thunder_ios/branch/TDPlayerDemo/Frameworks/PlayerKit/PlayerKit/Player/PKMutilEpisodeCell~ipad.xib
+END
+PKSourceManager.h
+K 25
+svn:wc:ra_dav:version-url
+V 158
+/code_svn/xl_download/!svn/ver/187624/xl_embed/thunder_mobile/products/thunder_ios/branch/TDPlayerDemo/Frameworks/PlayerKit/PlayerKit/Player/PKSourceManager.h
+END
+PKMutilEpisodeCell_i5.xib
+K 25
+svn:wc:ra_dav:version-url
+V 166
+/code_svn/xl_download/!svn/ver/192512/xl_embed/thunder_mobile/products/thunder_ios/branch/TDPlayerDemo/Frameworks/PlayerKit/PlayerKit/Player/PKMutilEpisodeCell_i5.xib
+END
+PKMutilEpisodeCell.xib
+K 25
+svn:wc:ra_dav:version-url
+V 163
+/code_svn/xl_download/!svn/ver/185867/xl_embed/thunder_mobile/products/thunder_ios/branch/TDPlayerDemo/Frameworks/PlayerKit/PlayerKit/Player/PKMutilEpisodeCell.xib
+END
+PKSourceManager.m
+K 25
+svn:wc:ra_dav:version-url
+V 158
+/code_svn/xl_download/!svn/ver/187624/xl_embed/thunder_mobile/products/thunder_ios/branch/TDPlayerDemo/Frameworks/PlayerKit/PlayerKit/Player/PKSourceManager.m
+END
+PKLoading~ipad.xib
+K 25
+svn:wc:ra_dav:version-url
+V 159
+/code_svn/xl_download/!svn/ver/185708/xl_embed/thunder_mobile/products/thunder_ios/branch/TDPlayerDemo/Frameworks/PlayerKit/PlayerKit/Player/PKLoading~ipad.xib
+END
+PKSlider.xib
+K 25
+svn:wc:ra_dav:version-url
+V 153
+/code_svn/xl_download/!svn/ver/186030/xl_embed/thunder_mobile/products/thunder_ios/branch/TDPlayerDemo/Frameworks/PlayerKit/PlayerKit/Player/PKSlider.xib
+END
+PKLoading.h
+K 25
+svn:wc:ra_dav:version-url
+V 152
+/code_svn/xl_download/!svn/ver/185474/xl_embed/thunder_mobile/products/thunder_ios/branch/TDPlayerDemo/Frameworks/PlayerKit/PlayerKit/Player/PKLoading.h
+END
+PKSubtitleViewController~ipad.xib
+K 25
+svn:wc:ra_dav:version-url
+V 174
+/code_svn/xl_download/!svn/ver/185867/xl_embed/thunder_mobile/products/thunder_ios/branch/TDPlayerDemo/Frameworks/PlayerKit/PlayerKit/Player/PKSubtitleViewController~ipad.xib
+END
+PKReachabilitySource.h
+K 25
+svn:wc:ra_dav:version-url
+V 163
+/code_svn/xl_download/!svn/ver/186591/xl_embed/thunder_mobile/products/thunder_ios/branch/TDPlayerDemo/Frameworks/PlayerKit/PlayerKit/Player/PKReachabilitySource.h
+END
+PKSlider.h
+K 25
+svn:wc:ra_dav:version-url
+V 151
+/code_svn/xl_download/!svn/ver/178665/xl_embed/thunder_mobile/products/thunder_ios/branch/TDPlayerDemo/Frameworks/PlayerKit/PlayerKit/Player/PKSlider.h
+END
+PKLoading.m
+K 25
+svn:wc:ra_dav:version-url
+V 152
+/code_svn/xl_download/!svn/ver/186030/xl_embed/thunder_mobile/products/thunder_ios/branch/TDPlayerDemo/Frameworks/PlayerKit/PlayerKit/Player/PKLoading.m
+END
+PKReachabilitySource.m
+K 25
+svn:wc:ra_dav:version-url
+V 163
+/code_svn/xl_download/!svn/ver/185474/xl_embed/thunder_mobile/products/thunder_ios/branch/TDPlayerDemo/Frameworks/PlayerKit/PlayerKit/Player/PKReachabilitySource.m
+END
+PKSlider.m
+K 25
+svn:wc:ra_dav:version-url
+V 151
+/code_svn/xl_download/!svn/ver/186266/xl_embed/thunder_mobile/products/thunder_ios/branch/TDPlayerDemo/Frameworks/PlayerKit/PlayerKit/Player/PKSlider.m
+END
+PKProgressIndicator~ipad.xib
+K 25
+svn:wc:ra_dav:version-url
+V 169
+/code_svn/xl_download/!svn/ver/185708/xl_embed/thunder_mobile/products/thunder_ios/branch/TDPlayerDemo/Frameworks/PlayerKit/PlayerKit/Player/PKProgressIndicator~ipad.xib
+END

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7702" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7701"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB" customClass="PKSlider">
+            <rect key="frame" x="0.0" y="0.0" width="300" height="30"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <subviews>
+                <imageView autoresizesSubviews="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="pk_slider_track.png" id="rv9-S5-P05" userLabel="trackView">
+                    <rect key="frame" x="11" y="13" width="278" height="3"/>
+                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                </imageView>
+                <imageView autoresizesSubviews="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="pk_slider_buffer_progress.png" id="D4X-ld-mNx" userLabel="bufferProgressView">
+                    <rect key="frame" x="11" y="13" width="200" height="3"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                </imageView>
+                <imageView autoresizesSubviews="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="pk_slider_progress.png" id="Lxd-sr-DX4" userLabel="progressView">
+                    <rect key="frame" x="11" y="13" width="140" height="3"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                </imageView>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="py9-bL-xQh" userLabel="thumbBtn">
+                    <rect key="frame" x="-4" y="0.0" width="30" height="30"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" heightSizable="YES"/>
+                    <state key="normal" image="pk_slider_thumb_btn_n.png">
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                </button>
+            </subviews>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <connections>
+                <outlet property="bufferProgressView" destination="D4X-ld-mNx" id="JoW-Uq-w4J"/>
+                <outlet property="progressView" destination="Lxd-sr-DX4" id="Jx8-ON-XIz"/>
+                <outlet property="thumbBtn" destination="py9-bL-xQh" id="6f2-6T-rtb"/>
+                <outlet property="trackView" destination="rv9-S5-P05" id="wko-St-bNd"/>
+            </connections>
+            <point key="canvasLocation" x="500" y="494"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="pk_slider_buffer_progress.png" width="8" height="6"/>
+        <image name="pk_slider_progress.png" width="8" height="6"/>
+        <image name="pk_slider_thumb_btn_n.png" width="60" height="60"/>
+        <image name="pk_slider_track.png" width="8" height="6"/>
+    </resources>
+    <simulatedMetricsContainer key="defaultSimulatedMetrics">
+        <simulatedStatusBarMetrics key="statusBar"/>
+        <simulatedOrientationMetrics key="orientation"/>
+        <simulatedScreenMetrics key="destination" type="retina4"/>
+    </simulatedMetricsContainer>
+</document>

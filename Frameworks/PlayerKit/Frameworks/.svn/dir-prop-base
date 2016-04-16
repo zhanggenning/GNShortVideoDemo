@@ -1,0 +1,6 @@
+K 13
+svn:externals
+V 104
+APlayerIOS http://10.10.16.252/bin_svn/xl_download/xl_embed/thunder_mobile/thunder_ios/trunk/APlayerIOS
+
+END
