@@ -28,7 +28,14 @@
 - (IBAction)btnAction:(UIButton *)sender
 {
     NSString *urlString = @"http://7xnusr.com1.z0.glb.clouddn.com/f65fbcaeb1f2e46d86b3ea9b5608208cbacb93eb?e=1461053078&token=8e4YkwOPAwrhUijy7FMfODl6WpNWmF9LiYknl5WH:gVyiXiJzdnxtZTkfO3nzqqR0yRw=";
-    [[PKPlayerManager sharedManager] playWithContentURLString:urlString];
+//    [[PKPlayerManager sharedManager] playWithContentURLString:urlString];
+    
+    [PKPlayerManager sharedManager].lightVideoPlayerVC.view.frame = CGRectMake(0, 0, 300, 200);
+    [PKPlayerManager sharedManager].lightVideoPlayerVC.view.center = self.view.center;
+    [self.view addSubview:[PKPlayerManager sharedManager].lightVideoPlayerVC.view];
+    [self addChildViewController:[PKPlayerManager sharedManager].lightVideoPlayerVC];
+    
+    [PKPlayerManager sharedManager].videoUrl = urlString;
 }
 
 @end

@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
 
 @class PKSourceManager;
 @class PKVideoInfo;
@@ -87,5 +88,12 @@ extern NSString *const kPKPlayerNotificationVideoInfoKey;
  *  @param localPathsArray 多个本地路径的数组，元素为NSString
  */
 - (void)switchWithLocalPathsArray:(NSArray *)localPathsArray;
+
+
+#pragma mark -- 新接口
+@property (nonatomic, copy) NSString *videoUrl;
+@property (nonatomic, strong) UIViewController *normalVideoPlayerVC;
+@property (nonatomic, strong) UIViewController *lightVideoPlayerVC;
+
 
 @end

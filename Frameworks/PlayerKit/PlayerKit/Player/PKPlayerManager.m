@@ -24,6 +24,8 @@
 #import "PKStatisticSource.h"
 #import "PKVolumeController.h"
 
+#import "PKLightVideoPlayerViewController.h"
+
 #pragma mark -
 @interface PKPlayerManager ()
 
@@ -214,6 +216,46 @@
         }
         [self.videoPlayerVC switchWithContentStreamSlices:slices];
     }];
+}
+
+
+- (UIViewController *)normalVideoPlayerVC
+{
+    _normalVideoPlayerVC = self.videoPlayerVC;
+    
+    if (!_normalVideoPlayerVC)
+    {
+        PKVideoPlayerViewController *vc = [PKVideoPlayerViewController nibInstance];
+        vc.sourceManager = self.sourceManager;
+        [self clearSources];
+        vc.videoPlayerCore = self.xmpVideoPlayerCore;
+        self.videoPlayerVC = vc;
+        _normalVideoPlayerVC = vc;
+    }
+    return _normalVideoPlayerVC;
+}
+
+- (UIViewController *)lightVideoPlayerVC
+{
+    if (!_lightVideoPlayerVC)
+    {
+        PKLightVideoPlayerViewController *vc = [PKLightVideoPlayerViewController nibInstance];
+        vc.sourceManager = self.sourceManager;
+        [self clearSources];
+        vc.videoPlayerCore = self.xmpVideoPlayerCore;
+        _lightVideoPlayerVC = vc;
+    }
+    return _lightVideoPlayerVC;
+}
+
+- (void)setVideoUrl:(NSString *)videoUrl
+{
+    if (![_videoUrl isEqualToString:videoUrl])
+    {
+        _videoUrl = videoUrl;
+        
+        [self.xmpVideoPlayerCore switchVideoWithContentURLString:videoUrl];
+    }
 }
 
 #pragma mark - Private

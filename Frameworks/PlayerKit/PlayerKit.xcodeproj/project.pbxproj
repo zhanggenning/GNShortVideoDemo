@@ -216,6 +216,11 @@
 		11F04F061B04A90F00C1FA28 /* pk_next_btn_d.png in Resources */ = {isa = PBXBuildFile; fileRef = 11F04F021B04A90F00C1FA28 /* pk_next_btn_d.png */; };
 		11F85E211A636F8100E95974 /* PKProgressIndicator~ipad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 11E573301A5FD2BD006463F4 /* PKProgressIndicator~ipad.xib */; };
 		11FC24041A68BD0100FC369E /* NSString+pk.m in Sources */ = {isa = PBXBuildFile; fileRef = 11FC24031A68BD0100FC369E /* NSString+pk.m */; };
+		2F421D711CC481760017E332 /* PKLightVideoPlayerViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 2F421D6E1CC481760017E332 /* PKLightVideoPlayerViewController.h */; };
+		2F421D721CC481760017E332 /* PKLightVideoPlayerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F421D6F1CC481760017E332 /* PKLightVideoPlayerViewController.m */; };
+		2F421D9F1CC4C9510017E332 /* PKLightVideoPlayerViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2F421D701CC481760017E332 /* PKLightVideoPlayerViewController.xib */; };
+		2F421DDD1CC506340017E332 /* PKLightVideoPlayerSlider.h in Headers */ = {isa = PBXBuildFile; fileRef = 2F421DDB1CC506340017E332 /* PKLightVideoPlayerSlider.h */; };
+		2F421DDE1CC506340017E332 /* PKLightVideoPlayerSlider.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F421DDC1CC506340017E332 /* PKLightVideoPlayerSlider.m */; };
 		44ABB3AE1B732D6C00E5FB62 /* libbz2.1.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 44ABB3AB1B732D6C00E5FB62 /* libbz2.1.0.dylib */; };
 		44ABB3AF1B732D6C00E5FB62 /* libiconv.2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 44ABB3AC1B732D6C00E5FB62 /* libiconv.2.dylib */; };
 		44ABB3B01B732D6C00E5FB62 /* libz.1.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 44ABB3AD1B732D6C00E5FB62 /* libz.1.dylib */; };
@@ -499,6 +504,11 @@
 		11F04F021B04A90F00C1FA28 /* pk_next_btn_d.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pk_next_btn_d.png; sourceTree = "<group>"; };
 		11FC24021A68BD0100FC369E /* NSString+pk.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+pk.h"; sourceTree = "<group>"; };
 		11FC24031A68BD0100FC369E /* NSString+pk.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+pk.m"; sourceTree = "<group>"; };
+		2F421D6E1CC481760017E332 /* PKLightVideoPlayerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PKLightVideoPlayerViewController.h; sourceTree = "<group>"; };
+		2F421D6F1CC481760017E332 /* PKLightVideoPlayerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PKLightVideoPlayerViewController.m; sourceTree = "<group>"; };
+		2F421D701CC481760017E332 /* PKLightVideoPlayerViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PKLightVideoPlayerViewController.xib; sourceTree = "<group>"; };
+		2F421DDB1CC506340017E332 /* PKLightVideoPlayerSlider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PKLightVideoPlayerSlider.h; sourceTree = "<group>"; };
+		2F421DDC1CC506340017E332 /* PKLightVideoPlayerSlider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PKLightVideoPlayerSlider.m; sourceTree = "<group>"; };
 		44ABB3AB1B732D6C00E5FB62 /* libbz2.1.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libbz2.1.0.dylib; path = /usr/lib/libbz2.1.0.dylib; sourceTree = "<absolute>"; };
 		44ABB3AC1B732D6C00E5FB62 /* libiconv.2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libiconv.2.dylib; path = /usr/lib/libiconv.2.dylib; sourceTree = "<absolute>"; };
 		44ABB3AD1B732D6C00E5FB62 /* libz.1.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.1.dylib; path = /usr/lib/libz.1.dylib; sourceTree = "<absolute>"; };
@@ -796,6 +806,11 @@
 				11C9E7A11A595B12001F7338 /* PKXMPVideoPlayerCore.m */,
 				11C9E7941A595B12001F7338 /* PKSystemVideoPlayerCore.h */,
 				11C9E7951A595B12001F7338 /* PKSystemVideoPlayerCore.m */,
+				2F421DDB1CC506340017E332 /* PKLightVideoPlayerSlider.h */,
+				2F421DDC1CC506340017E332 /* PKLightVideoPlayerSlider.m */,
+				2F421D6E1CC481760017E332 /* PKLightVideoPlayerViewController.h */,
+				2F421D6F1CC481760017E332 /* PKLightVideoPlayerViewController.m */,
+				2F421D701CC481760017E332 /* PKLightVideoPlayerViewController.xib */,
 				11C9E79C1A595B12001F7338 /* PKVideoPlayerViewController.h */,
 				11C9E79D1A595B12001F7338 /* PKVideoPlayerViewController.m */,
 				11317F5E1B05FDE20061C95C /* PKVideoPlayerViewController_i5.xib */,
@@ -951,6 +966,8 @@
 				11CAAE511A78BA50004C7484 /* PlayerKit.h in Headers */,
 				1129E7C91ABBF33B00CB83D7 /* PKRecordSource.h in Headers */,
 				113DA0961B00945E0075FF82 /* PKReachabilitySource.h in Headers */,
+				2F421DDD1CC506340017E332 /* PKLightVideoPlayerSlider.h in Headers */,
+				2F421D711CC481760017E332 /* PKLightVideoPlayerViewController.h in Headers */,
 				11CAAE521A78BA50004C7484 /* PKPlayerManager.h in Headers */,
 				11CAAE531A78BA50004C7484 /* PKStreamSlice.h in Headers */,
 				11CAAE541A78BA50004C7484 /* PKVideoInfo.h in Headers */,
@@ -1110,6 +1127,7 @@
 				11C9E7B01A595E65001F7338 /* PKVideoPlayerViewController.xib in Resources */,
 				11C9E7B11A595E65001F7338 /* PKVideoPlayerViewController~ipad.xib in Resources */,
 				113F8F6E1B256EC700BD1D3C /* pk_brightness_logo.png in Resources */,
+				2F421D9F1CC4C9510017E332 /* PKLightVideoPlayerViewController.xib in Resources */,
 				11C9E7841A595AE7001F7338 /* pk_next_btn_n.png in Resources */,
 				1165A1201B4393470030B641 /* PKAudioTrackViewController~ipad.xib in Resources */,
 				11C9E7731A595AE7001F7338 /* pk_pause_btn_n~ipad.png in Resources */,
@@ -1264,11 +1282,13 @@
 				11C9E7A61A595B12001F7338 /* PKVideoPlayerCoreBase.m in Sources */,
 				11AE24071A67670900425928 /* PKVolumeController.m in Sources */,
 				11D36BAC1A5A865C002B7CC4 /* UIApplication+pk.m in Sources */,
+				2F421D721CC481760017E332 /* PKLightVideoPlayerViewController.m in Sources */,
 				11D36B961A5A2EFB002B7CC4 /* PKSlider.m in Sources */,
 				11AE240E1A67B68300425928 /* PKProgressDescriptionView.m in Sources */,
 				11C9E7A51A595B12001F7338 /* PKVideoInfo.m in Sources */,
 				112426F01AB12F40007E5BE3 /* PKToolKit.m in Sources */,
 				932581761B4DB4B200C39EF4 /* PKMusicPlayViewController.m in Sources */,
+				2F421DDE1CC506340017E332 /* PKLightVideoPlayerSlider.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
