@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9531" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
+        <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB" customClass="PKLightVideoControlBar">
+            <rect key="frame" x="0.0" y="0.0" width="667" height="375"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="p7y-ce-elH">
+                    <rect key="frame" x="0.0" y="307" width="667" height="68"/>
+                    <subviews>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="00:00" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QLa-Sh-d8L">
+                            <rect key="frame" x="8" y="0.0" width="39" height="68"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="39" id="BXj-44-jpO"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                            <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tXy-R6-NtV">
+                            <rect key="frame" x="617" y="0.0" width="50" height="68"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="50" id="FKp-lg-QsC"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                            <state key="normal" title="全屏"/>
+                            <connections>
+                                <action selector="fullScreenBtnAction:" destination="iN0-l3-epB" eventType="touchUpInside" id="0Sw-S4-Rc6"/>
+                            </connections>
+                        </button>
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bxk-3f-car" customClass="PKLightVideoPlayerSlider">
+                            <rect key="frame" x="47" y="0.0" width="523" height="68"/>
+                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        </view>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="00:00" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DID-ae-WCY">
+                            <rect key="frame" x="570" y="0.0" width="39" height="68"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="39" id="K45-bg-Zf8"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                            <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                    </subviews>
+                    <color key="backgroundColor" cocoaTouchSystemColor="scrollViewTexturedBackgroundColor"/>
+                    <constraints>
+                        <constraint firstItem="QLa-Sh-d8L" firstAttribute="leading" secondItem="p7y-ce-elH" secondAttribute="leading" constant="8" id="9X8-Pk-Re8"/>
+                        <constraint firstItem="QLa-Sh-d8L" firstAttribute="top" secondItem="p7y-ce-elH" secondAttribute="top" id="HJo-N0-FDx"/>
+                        <constraint firstAttribute="bottom" secondItem="tXy-R6-NtV" secondAttribute="bottom" id="HzZ-0E-ZfQ"/>
+                        <constraint firstItem="bxk-3f-car" firstAttribute="top" secondItem="p7y-ce-elH" secondAttribute="top" id="K2G-yn-HQ3"/>
+                        <constraint firstItem="bxk-3f-car" firstAttribute="leading" secondItem="QLa-Sh-d8L" secondAttribute="trailing" id="L34-0p-21y"/>
+                        <constraint firstItem="tXy-R6-NtV" firstAttribute="leading" secondItem="DID-ae-WCY" secondAttribute="trailing" constant="8" id="TWI-W6-YDv"/>
+                        <constraint firstAttribute="bottom" secondItem="QLa-Sh-d8L" secondAttribute="bottom" id="UM8-sm-vbd"/>
+                        <constraint firstItem="DID-ae-WCY" firstAttribute="top" secondItem="p7y-ce-elH" secondAttribute="top" id="Vid-Bt-qV2"/>
+                        <constraint firstAttribute="trailing" secondItem="tXy-R6-NtV" secondAttribute="trailing" id="W3k-Xk-pFd"/>
+                        <constraint firstAttribute="bottom" secondItem="bxk-3f-car" secondAttribute="bottom" id="gYA-5n-NPc"/>
+                        <constraint firstAttribute="bottom" secondItem="DID-ae-WCY" secondAttribute="bottom" id="vYo-ID-nND"/>
+                        <constraint firstItem="DID-ae-WCY" firstAttribute="leading" secondItem="bxk-3f-car" secondAttribute="trailing" id="wf7-8t-hcJ"/>
+                        <constraint firstItem="tXy-R6-NtV" firstAttribute="top" secondItem="p7y-ce-elH" secondAttribute="top" id="x6h-Ps-dsU"/>
+                    </constraints>
+                </view>
+                <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="white" translatesAutoresizingMaskIntoConstraints="NO" id="PxY-Bc-fzq">
+                    <rect key="frame" x="323" y="178" width="20" height="20"/>
+                </activityIndicatorView>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="oHX-A6-iCx">
+                    <rect key="frame" x="313" y="168" width="40" height="40"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="40" id="iCN-oI-4Aw"/>
+                        <constraint firstAttribute="width" constant="40" id="xoK-Ks-89m"/>
+                    </constraints>
+                    <state key="normal" backgroundImage="pk_play_btn_n.png"/>
+                    <connections>
+                        <action selector="playBtnAction:" destination="iN0-l3-epB" eventType="touchUpInside" id="qvL-nq-gwa"/>
+                    </connections>
+                </button>
+            </subviews>
+            <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstAttribute="trailing" secondItem="p7y-ce-elH" secondAttribute="trailing" id="0eI-hq-Zcf"/>
+                <constraint firstItem="oHX-A6-iCx" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" id="Kjz-Xf-elV"/>
+                <constraint firstItem="oHX-A6-iCx" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="MLI-y6-GI3"/>
+                <constraint firstItem="PxY-Bc-fzq" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" id="Yil-iF-UPu"/>
+                <constraint firstAttribute="bottom" secondItem="p7y-ce-elH" secondAttribute="bottom" id="aPZ-NA-JaY"/>
+                <constraint firstItem="p7y-ce-elH" firstAttribute="height" secondItem="iN0-l3-epB" secondAttribute="height" multiplier="1:5.5" id="eOb-Ag-mkb"/>
+                <constraint firstItem="PxY-Bc-fzq" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="m9k-Sc-UAT"/>
+                <constraint firstItem="p7y-ce-elH" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="unc-vM-caq"/>
+            </constraints>
+            <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
+            <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
+            <connections>
+                <outlet property="durationTimeLab" destination="DID-ae-WCY" id="r9q-JR-WEf"/>
+                <outlet property="fullScreenBtn" destination="tXy-R6-NtV" id="as2-Q1-b21"/>
+                <outlet property="indicatorView" destination="PxY-Bc-fzq" id="6Hx-2u-xUd"/>
+                <outlet property="playBtn" destination="oHX-A6-iCx" id="mzx-gm-5PN"/>
+                <outlet property="playTimeLab" destination="QLa-Sh-d8L" id="nt0-EE-RF3"/>
+                <outlet property="processSlider" destination="bxk-3f-car" id="huE-RQ-Wdq"/>
+            </connections>
+        </view>
+    </objects>
+    <resources>
+        <image name="pk_play_btn_n.png" width="80" height="80"/>
+    </resources>
+</document>

@@ -13,8 +13,8 @@
 
 @interface PKLightVideoPlayerViewController : UIViewController
 
-@property (strong, nonatomic) PKVideoPlayerCoreBase *videoPlayerCore;
-@property (strong, nonatomic) PKSourceManager *sourceManager;
+@property (weak, nonatomic) PKVideoPlayerCoreBase *videoPlayerCore;
+@property (weak, nonatomic) PKSourceManager *sourceManager;
 
 + (instancetype)nibInstance;
 

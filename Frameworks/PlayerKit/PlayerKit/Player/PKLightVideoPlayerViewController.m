@@ -9,41 +9,63 @@
 #import "PKLightVideoPlayerViewController.h"
 #import "NSBundle+pk.h"
 #import "UIImage+pk.h"
+#import "NSObject+pk.h"
 #import "PKVideoPlayerCoreBase.h"
 #import "PKVideoInfo.h"
 #import "PKSourceManager.h"
 #import "PKLightVideoPlayerSlider.h"
 
-@interface PKLightVideoPlayerViewController () <PKVideoPlayerCoreDelegate>
+#import "PKLightVideoControlBar.h"
+
+@interface PKLightVideoPlayerViewController () <PKVideoPlayerCoreDelegate, PKControlBarEventProtocol>
 {
     BOOL _isPlayerCoreLoaded; //播放核加载
-    BOOL _isVideoLoaded; //视频加载
-    PKVideoInfo *_videoInfo;
+    BOOL _isContorlBarLoaded; //控制条加载
+    BOOL _isProcessChangeing; //进度改变中
 }
 
-@property (unsafe_unretained, nonatomic) IBOutlet UIView *controlWrapView;
-@property (weak, nonatomic) IBOutlet UIButton *playBtn;
-@property (weak, nonatomic) IBOutlet PKLightVideoPlayerSlider *playerSlider;
-@property (weak, nonatomic) IBOutlet UILabel *playTimeLab;
-@property (weak, nonatomic) IBOutlet UILabel *durationLab;
+@property (weak, nonatomic) id <PKControlBarProtocol> controlBar;
+@property (weak, nonatomic) IBOutlet UIButton *closeBtn;
 
 @end
 
 @implementation PKLightVideoPlayerViewController
 
+- (void)dealloc
+{
+    [self unloadVideoControlBar];
+    
+    [self unloadVideoPlayerCore];
+    
+    [self.videoPlayerCore close];
+    
+    NSLog(@"页面释放.....");
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
 
+    //装载播放核
     [self loadVideoPlayerCore];
+    
+    //装载控制条
+    [self loadVideoControlBar];
+    
+    //同步状态
+    if (!_videoPlayerCore.isReadyForPlaying)
+    {
+        if ([_controlBar respondsToSelector:@selector(setControlBarPlayState:)])
+        {
+            [_controlBar setControlBarPlayState:kVideoControlBarBuffering];
+        }
+    }
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-
-#pragma mark -- 私有API
 
 #pragma mark -- 公共API
 + (instancetype)nibInstance {
@@ -60,22 +82,11 @@
     if (!_isPlayerCoreLoaded && _videoPlayerCore)
     {
         _videoPlayerCore.videoView.translatesAutoresizingMaskIntoConstraints = NO;
-        
-        UIView *videoView = _videoPlayerCore.videoView;
-        
+
         //添加videoView
-        [self.view insertSubview:_videoPlayerCore.videoView belowSubview:_controlWrapView];
+        [self.view insertSubview:_videoPlayerCore.videoView atIndex:0];
         
-        NSArray *contraints1 = [NSLayoutConstraint  constraintsWithVisualFormat:@"H:|-0-[videoView]-0-|"
-                                                                        options:0
-                                                                        metrics:nil
-                                                                          views:NSDictionaryOfVariableBindings(videoView)];
-        NSArray *contraints2 = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|-0-[videoView]-0-|"
-                                                                       options:0
-                                                                       metrics:nil
-                                                                         views:NSDictionaryOfVariableBindings(videoView)];
-        [self.view addConstraints:contraints1];
-        [self.view addConstraints:contraints2];
+        [self addContraintsOnView:_videoPlayerCore.videoView];
         
         //设置delegate
         _videoPlayerCore.delegate = self;
@@ -99,103 +110,60 @@
 }
 
 #pragma mark -- 私有API
-- (void)updatePlayBtnImage:(BOOL)isSwitchToPlayImage
+- (void)loadVideoControlBar
 {
-    if (isSwitchToPlayImage) //切换成播放的图片
+    if (!_isContorlBarLoaded)
     {
-        [self.playBtn setBackgroundImage:[UIImage imageInPKBundleWithName:@"pk_play_btn_n.png"]
-                                    forState:UIControlStateNormal];
-        [self.playBtn setBackgroundImage:[UIImage imageInPKBundleWithName:@"pk_play_btn_n.png"]
-                                    forState:UIControlStateHighlighted];
-    }
-    else //切换成暂停的图片
-    {
-        [self.playBtn setBackgroundImage:[UIImage imageInPKBundleWithName:@"pk_pause_btn_n.png"]
-                                    forState:UIControlStateNormal];
-        [self.playBtn setBackgroundImage:[UIImage imageInPKBundleWithName:@"pk_pause_btn_n.png"]
-                                    forState:UIControlStateHighlighted];
+        [self.controlBar setControlBarDelegate:self];
+        
+        [self.view insertSubview:(UIView *)self.controlBar atIndex:1];
+        
+        [self addContraintsOnView:(UIView *)self.controlBar];
+        
+        _isContorlBarLoaded = YES;
     }
 }
 
-//重置控制视图
-- (void)resetControlView
+- (void)unloadVideoControlBar
 {
-    self.playerSlider.process = 0.0;
-    self.playerSlider.bufferProcess = 0.0;
-    self.playTimeLab.text = @"00:00";
-    
-    [self updatePlayBtnImage:YES];
+    if (_isContorlBarLoaded)
+    {
+        [self.controlBar setControlBarDelegate:nil];
+        
+        [(UIView *)self.controlBar removeFromSuperview];
+        
+        _isContorlBarLoaded = NO;
+    }
 }
 
-//转换时间格式
-- (NSString *)formatTimeWithSecond:(CGFloat)second
+- (void)addContraintsOnView:(UIView *)view
 {
-    static NSDateFormatter *dateFormatter = nil;
-    NSDate *d = [NSDate dateWithTimeIntervalSince1970:second];
+    NSArray *contraints1 = [NSLayoutConstraint  constraintsWithVisualFormat:@"H:|-0-[view]-0-|"
+                                                                    options:0
+                                                                    metrics:nil
+                                                                      views:NSDictionaryOfVariableBindings(view)];
+    NSArray *contraints2 = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|-0-[view]-0-|"
+                                                                   options:0
+                                                                   metrics:nil
+                                                                     views:NSDictionaryOfVariableBindings(view)];
     
-    if (!dateFormatter)
+    if (view.superview)
     {
-        dateFormatter = [[NSDateFormatter alloc] init];
+        [view.superview addConstraints:contraints1];
+        [view.superview addConstraints:contraints2];
     }
-    
-    if (second/3600 >= 1)
-    {
-        [dateFormatter setDateFormat:@"HH:mm:ss"];
-    }
-    else
-    {
-        [dateFormatter setDateFormat:@"mm:ss"];
-    }
-    NSString *showtimeNew = [dateFormatter stringFromDate:d];
-    
-    return showtimeNew;
 }
+
 
 #pragma mark -- 属性
-- (PKLightVideoPlayerSlider *)playerSlider
+- (id<PKControlBarProtocol>)controlBar
 {
-    if (_playerSlider == nil)
+    if (!_controlBar)
     {
-        return nil;
+        _controlBar = [PKLightVideoControlBar nibInstance];
     }
-    
-    //值变化完成回调
-    if (_playerSlider.valuedChangedBlock == nil)
-    {
-        __weak typeof(self) weakSelf = self;
-        _playerSlider.valuedChangedBlock = ^(CGFloat process){
-            __strong typeof(weakSelf) self = weakSelf;
-            [self.videoPlayerCore seekWithProgress:process];
-        };
-    }
-    return _playerSlider;
+    return _controlBar;
 }
-
-#pragma mark -- 动作
-- (IBAction)playBtnAction:(UIButton *)sender
-{
-    if (!_videoPlayerCore.isPaused)
-    {
-        [self.videoPlayerCore pauseWithExecutionHandler:^(BOOL executed) {
-            if (executed) {
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    [self updatePlayBtnImage:YES]; //暂停后，换成播放的图片
-                });
-            }
-        }];
-    }
-    else
-    {
-        [self.videoPlayerCore playWithExecutionHandler:^(BOOL executed) {
-            if (executed) {
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    [self updatePlayBtnImage:NO]; //暂停后，换成播放的图片
-                });
-            }
-        }];
-    }
-}
-
 
 #pragma mark -- 代理
 #pragma mark ---- <PKVideoPlayerCoreDelegate>
@@ -206,16 +174,96 @@ openCompletedWithResult:(BOOL)isReadyForPlaying
 {
     NSLog(@"轻量级播放器>>>>>>>>>>>>> 加载完成");
     
-    _isVideoLoaded = YES;
-    _videoInfo = videoInfo;
+    if (isReadyForPlaying)
+    {
+        [videoPlayerCore playWithExecutionHandler:^(BOOL executed) {
+            if (executed) {
+                [NSObject asyncTaskOnMainWithBlock:^{
+                    if ([self.controlBar respondsToSelector:@selector(setControlBarPlayState:)])
+                    {
+                        [self.controlBar setControlBarPlayState:kVideoControlBarPause]; //播放时，换成暂停的图片
+                    }
+                    if ([self.controlBar respondsToSelector:@selector(setControlBarDurationTime:)])
+                    {
+                        [self.controlBar setControlBarDurationTime:videoInfo.videoDurationInMS / 1000]; //设置文件时长
+                    }
+                }];
+            }
+        }];
+    }
+    else
+    {
+        NSLog(@"文件打开错误");
+    }
+}
+
+
+- (void)videoPlayerCore:(PKVideoPlayerCoreBase *)videoPlayerCore
+  playCompletedWithType:(PKVideoPlayCompletionType)type
+                  error:(NSError *)error
+{
+    //播放完成可能需要另外一套UI,这里先重置，等需求
+    if ([_controlBar respondsToSelector:@selector(resetControlBar)])
+    {
+        [_controlBar resetControlBar];
+    }
     
-    [videoPlayerCore playWithExecutionHandler:^(BOOL executed) {
-        if (executed) {
-            
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [self updatePlayBtnImage:NO]; //播放时，换成暂停的图片
-                _durationLab.text = [self formatTimeWithSecond:videoInfo.videoDurationInMS / 1000]; //设置文件时长
-            });
+    NSLog(@"轻量级播放器>>>>>>>>>>>>> 播放完成");
+}
+
+- (void)videoPlayerCore:(PKVideoPlayerCoreBase *)videoPlayerCore
+     playPositionUpdate:(NSInteger)timeInMS
+{
+    if (_isProcessChangeing) //seek过程中，停止更新UI
+    {
+        return;
+    }
+    
+    [NSObject asyncTaskOnMainWithBlock:^{
+        NSInteger durationInMS = self.videoPlayerCore.videoInfo.videoDurationInMS;
+        CGFloat process = (durationInMS == 0.0) ?: (CGFloat)timeInMS/durationInMS;
+        if ([_controlBar respondsToSelector:@selector(setControlBarPlayProcess:)])
+        {
+            [_controlBar setControlBarPlayProcess:process];
+        }
+        if ([_controlBar respondsToSelector:@selector(setControlBarPlayTime:)])
+        {
+            [_controlBar setControlBarPlayTime:timeInMS / 1000];
+        }
+    }];
+}
+
+- (void)videoPlayerCore:(PKVideoPlayerCoreBase *)videoPlayerCore
+   bufferPositionUpdate:(NSInteger)timeInMS
+{
+    [NSObject asyncTaskOnMainWithBlock:^{
+        NSInteger durationInMS = self.videoPlayerCore.videoInfo.videoDurationInMS;
+        CGFloat bufferProcess = (durationInMS == 0.0) ?: (CGFloat)timeInMS/durationInMS;
+        if ([_controlBar respondsToSelector:@selector(setControlBarBufferProcess:)])
+        {
+            [_controlBar setControlBarBufferProcess:bufferProcess];
+        }
+    } delay:.3];
+}
+
+- (void)videoPlayerCore:(PKVideoPlayerCoreBase *)videoPlayerCore
+   bufferProgressUpdate:(CGFloat)progressInPercent
+{
+    NSInteger state = kVideoControlBarPlay;
+    
+    if (progressInPercent < 1.0)
+    {
+        state = (self.videoPlayerCore.isPaused ? kVideoControlBarPlay : kVideoControlBarBuffering);
+    }
+    else
+    {
+        state = (self.videoPlayerCore.isPaused ?  kVideoControlBarPlay : kVideoControlBarPause);
+    }
+    
+    [NSObject asyncTaskOnMainWithBlock:^{
+        if ([_controlBar respondsToSelector:@selector(setControlBarPlayState:)])
+        {
+            [_controlBar setControlBarPlayState:state];
         }
     }];
 }
@@ -224,46 +272,7 @@ openCompletedWithResult:(BOOL)isReadyForPlaying
  seekCompletedWithError:(NSError *)error
 {
     NSLog(@"轻量级播放器>>>>>>>>>>>>> seek完成");
-}
-
-- (void)videoPlayerCore:(PKVideoPlayerCoreBase *)videoPlayerCore
-  playCompletedWithType:(PKVideoPlayCompletionType)type
-                  error:(NSError *)error
-{
-    switch (type)
-    {
-        case kVideoPlayCompletionTypeEOF:
-        case kVideoPlayCompletionTypeClosed:
-        case kVideoPlayCompletionTypeError:
-            break;
-        default:
-            break;
-    }
-    
-    //播放完成可能需要另外一套UI,这里先重置，等需求
-    [self resetControlView];
-    
-    NSLog(@"轻量级播放器>>>>>>>>>>>>> 播放完成");
-}
-
-- (void)videoPlayerCore:(PKVideoPlayerCoreBase *)videoPlayerCore
-     playPositionUpdate:(NSInteger)timeInMS
-{
-    if (_isVideoLoaded)
-    {
-        dispatch_async(dispatch_get_main_queue(), ^{
-            _playTimeLab.text = [self formatTimeWithSecond:timeInMS / 1000];
-            self.playerSlider.process = (CGFloat)timeInMS / _videoInfo.videoDurationInMS;
-        });
-    }
-}
-
-- (void)videoPlayerCore:(PKVideoPlayerCoreBase *)videoPlayerCore
-   bufferProgressUpdate:(CGFloat)progressInPercent
-{
-    dispatch_async(dispatch_get_main_queue(), ^{
-        self.playerSlider.bufferProcess = progressInPercent;
-    });
+    _isProcessChangeing = NO;
 }
 
 - (void)videoPlayerCore:(PKVideoPlayerCoreBase *)videoPlayerCore
@@ -272,11 +281,54 @@ openCompletedWithResult:(BOOL)isReadyForPlaying
 
 }
 
-- (void)videoPlayerCore:(PKVideoPlayerCoreBase *)videoPlayerCore
-   bufferPositionUpdate:(NSInteger)timeInMS
+#pragma mark -- <PKControlBarEventProtocol>
+//播放按键点击事件
+- (void)videoControlBarPlayBtnClicked:(id<PKControlBarProtocol>) controlBar
+{
+    if (!_videoPlayerCore.isPaused)
+    {
+        [self.videoPlayerCore pauseWithExecutionHandler:^(BOOL executed) {
+            if (executed)
+            {
+                [NSObject asyncTaskOnMainWithBlock:^{
+                    if ([controlBar respondsToSelector:@selector(setControlBarPlayState:)])
+                    {
+                        [controlBar setControlBarPlayState:kVideoControlBarPlay]; //暂停后，换成播放的图片
+                    }
+                }];
+            }
+        }];
+    }
+    else
+    {
+        [self.videoPlayerCore playWithExecutionHandler:^(BOOL executed) {
+            if (executed)
+            {
+                [NSObject asyncTaskOnMainWithBlock:^{
+                    if ([controlBar respondsToSelector:@selector(setControlBarPlayState:)])
+                    {
+                        [controlBar setControlBarPlayState:kVideoControlBarPause]; //暂停后，换成播放的图片
+                    }
+                }];
+            }
+        }];
+    }
+}
+
+//进度值改变完成
+- (void)videoControlBar:(id<PKControlBarProtocol>)controlBar processValueChanged:(CGFloat)process
+{
+    //停止更新UI
+    _isProcessChangeing = YES;
+    
+    //播放核执行操作
+    [self.videoPlayerCore seekWithProgress:process];
+}
+
+//全屏按键点击事件
+- (void)videoControlBarFullScreenBtnClicked:(id<PKControlBarProtocol>)controlBar
 {
     
 }
-
 
 @end

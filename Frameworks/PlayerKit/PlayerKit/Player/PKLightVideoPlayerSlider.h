@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
+@protocol PKLightVideoPlayerSliderProtocol;
+
 typedef void(^SliderValueChangeBlock)(CGFloat process);
 
 @interface PKLightVideoPlayerSlider : UIView
@@ -16,6 +18,12 @@ typedef void(^SliderValueChangeBlock)(CGFloat process);
 
 @property (nonatomic, assign) CGFloat bufferProcess;
 
-@property (nonatomic, strong) SliderValueChangeBlock valuedChangedBlock ;
+@property (nonatomic, weak) id<PKLightVideoPlayerSliderProtocol> delegate;
+
+@end
+
+@protocol PKLightVideoPlayerSliderProtocol <NSObject>
+
+- (void)PKLightPlayerSlider:(PKLightVideoPlayerSlider *)slider progressChanged:(CGFloat)process;
 
 @end

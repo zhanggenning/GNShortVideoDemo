@@ -27,11 +27,24 @@
                         <action selector="btnAction:" destination="-1" eventType="touchUpInside" id="7eP-UV-j13"/>
                     </connections>
                 </button>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cen-uy-rma">
+                    <rect key="frame" x="550" y="550" width="50" height="50"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="50" id="RAZ-ei-Ssj"/>
+                        <constraint firstAttribute="width" constant="50" id="u0R-or-kmQ"/>
+                    </constraints>
+                    <state key="normal" title="移除"/>
+                    <connections>
+                        <action selector="removeAction:" destination="-1" eventType="touchUpInside" id="0Nv-RY-Dmj"/>
+                    </connections>
+                </button>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <constraints>
                 <constraint firstItem="X5v-ev-PzU" firstAttribute="centerY" secondItem="i5M-Pr-FkT" secondAttribute="centerY" id="7LP-mT-zUO"/>
                 <constraint firstItem="X5v-ev-PzU" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="CgT-A1-jz5"/>
+                <constraint firstAttribute="bottom" secondItem="cen-uy-rma" secondAttribute="bottom" id="F8g-KC-Jed"/>
+                <constraint firstAttribute="trailing" secondItem="cen-uy-rma" secondAttribute="trailing" id="b8S-fW-E5m"/>
             </constraints>
         </view>
     </objects>

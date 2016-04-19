@@ -63,8 +63,7 @@ static const CGFloat kSliderThumbHeight = 26; //正方形滑块边长
         self.bufferProcessLayer.frame = [self dstRectWithSrcRect:_sliderView.bounds withProcess:_bufferProcess];
         
         //滑块
-        self.thumbView.frame = CGRectMake(0, 0, kSliderThumbHeight, kSliderThumbHeight);
-        self.thumbView.center = CGPointMake(self.sliderView.frame.origin.x, self.sliderView.center.y);
+        self.thumbView.center = CGPointMake(_sliderView.bounds.size.width * _process + kSliderThumbHeight/2, self.sliderView.center.y);
         
         _currentBounds = layer.bounds;
     }
@@ -82,6 +81,7 @@ static const CGFloat kSliderThumbHeight = 26; //正方形滑块边长
     
     //滑块
     [self addSubview:self.thumbView];
+    self.thumbView.frame = CGRectMake(0, 0, kSliderThumbHeight, kSliderThumbHeight);
     
     //手势
     UIPanGestureRecognizer *pan = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(panGestureAction:)];
@@ -145,7 +145,7 @@ static const CGFloat kSliderThumbHeight = 26; //正方形滑块边长
     _process = process;
     
     _thumbView.center = CGPointMake(_sliderView.bounds.size.width * process + kSliderThumbHeight/2, _thumbView.center.y);
-    
+
     [CATransaction begin];
     [CATransaction setDisableActions:YES];
     _processLayer.frame = [self dstRectWithSrcRect:_sliderView.bounds withProcess:process];
@@ -168,7 +168,6 @@ static const CGFloat kSliderThumbHeight = 26; //正方形滑块边长
     {
         case UIGestureRecognizerStateBegan:
         {
-            //手势开始
             break;
         }
         case UIGestureRecognizerStateChanged:
@@ -180,11 +179,9 @@ static const CGFloat kSliderThumbHeight = 26; //正方形滑块边长
         case UIGestureRecognizerStateCancelled:
         case UIGestureRecognizerStateFailed:
         {
-            NSLog(@"%f", _process);
-            
-            if (_valuedChangedBlock)
+            if (_delegate && [_delegate respondsToSelector:@selector(PKLightPlayerSlider:progressChanged:)])
             {
-                _valuedChangedBlock(_process);
+                [_delegate PKLightPlayerSlider:self progressChanged:_process];
             }
             
             break;
@@ -209,9 +206,9 @@ static const CGFloat kSliderThumbHeight = 26; //正方形滑块边长
     
     self.process = (locationInSlider.x - kSliderThumbHeight/2) / _sliderView.bounds.size.width;
     
-    if (_valuedChangedBlock)
+    if (_delegate && [_delegate respondsToSelector:@selector(PKLightPlayerSlider:progressChanged:)])
     {
-        _valuedChangedBlock(_process);
+        [_delegate PKLightPlayerSlider:self progressChanged:_process];
     }
 }
 
