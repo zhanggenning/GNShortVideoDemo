@@ -10,15 +10,18 @@
 #import "PKLightVideoPlayerSlider.h"
 #import "NSBundle+pk.h"
 #import "UIImage+pk.h"
-@interface PKLightVideoControlBar() <PKLightVideoPlayerSliderProtocol>
+#import "TWeakTimer.h"
 
-@property (nonatomic, strong) UIView *contentView;
+@interface PKLightVideoControlBar() <PKLightVideoPlayerSliderProtocol, UIGestureRecognizerDelegate>
+
+@property (weak, nonatomic) IBOutlet UIView *controlBarWrapView;
 @property (weak, nonatomic) IBOutlet UIButton *playBtn;
 @property (weak, nonatomic) IBOutlet UILabel *playTimeLab;
 @property (weak, nonatomic) IBOutlet UILabel *durationTimeLab;
 @property (weak, nonatomic) IBOutlet PKLightVideoPlayerSlider *processSlider;
-@property (weak, nonatomic) IBOutlet UIButton *fullScreenBtn;
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *indicatorView;
+@property (weak, nonatomic) IBOutlet PKLightVideoPlayerSlider *bottomProcessSlider;
+@property (weak, nonatomic) IBOutlet UILabel *mainTitle;
 
 @end
 
@@ -29,20 +32,14 @@
 {
     [super awakeFromNib];
     
+    self.controlBarWrapView.backgroundColor = [UIColor clearColor];
     self.processSlider.delegate = self;
-}
-
-#pragma mark -- 公共
-+ (id<PKControlBarProtocol>)nibInstance
-{
-    NSBundle *bundle = [NSBundle pkBundle];
+    self.bottomProcessSlider.thumbHidden = YES;
     
-    PKLightVideoControlBar *controlBar = [[bundle loadNibNamed:NSStringFromClass([self class])
-                                                         owner:nil
-                                                       options:nil] firstObject];
-    controlBar.backgroundColor = [UIColor clearColor];
-    
-    return controlBar;
+    //点击手势
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapAction:)];
+    tap.delegate = self;
+    [self addGestureRecognizer:tap];
 }
 
 #pragma mark -- 私有
@@ -85,21 +82,43 @@
     }
 }
 
+- (void)tapAction:(UIGestureRecognizer *)tap
+{
+    if (_delegate && [_delegate respondsToSelector:@selector(videoControlBarTapClicked:)]) {
+        [_delegate videoControlBarTapClicked:self];
+    }
+}
+
 #pragma mark -- 协议
 #pragma mark ---- <PKControlBarProtocol>
++ (id<PKControlBarProtocol>)nibInstance
+{
+    NSBundle *bundle = [NSBundle pkBundle];
+    
+    PKLightVideoControlBar *controlBar = [[bundle loadNibNamed:NSStringFromClass([self class])
+                                                         owner:nil
+                                                       options:nil] firstObject];
+
+    return controlBar;
+}
+
 - (void)setControlBarDelegate:(id)vc
 {
     self.delegate = vc;
 }
 
-- (void)resetControlBar
+- (void)setControlBarHidden:(BOOL)isHidden
 {
-    [self setControlBarPlayState:kVideoControlBarPlay];
-    self.playTimeLab.text = @"00:00";
-    self.processSlider.process = 0.0;
-    self.processSlider.bufferProcess = 0.0;
-    self.durationTimeLab.text = @"00:00";
-    [self setControlBarFullState:kVideoControlBarFullScreen];
+    if (isHidden)
+    {
+        self.controlBarWrapView.hidden = YES;
+        self.bottomProcessSlider.hidden = NO;
+    }
+    else
+    {
+        self.controlBarWrapView.hidden = NO;
+        self.bottomProcessSlider.hidden = YES;
+    }
 }
 
 - (void)setControlBarPlayState:(PKVideoControlBarPlayState)state
@@ -115,6 +134,7 @@
                                     forState:UIControlStateNormal];
             [self.playBtn setBackgroundImage:[UIImage imageInPKBundleWithName:@"pk_play_btn_n.png"]
                                     forState:UIControlStateHighlighted];
+
             break;
         }
         case kVideoControlBarPause:
@@ -126,13 +146,14 @@
                                     forState:UIControlStateNormal];
             [self.playBtn setBackgroundImage:[UIImage imageInPKBundleWithName:@"pk_pause_btn_n.png"]
                                     forState:UIControlStateHighlighted];
+
             break;
         }
         case kVideoControlBarBuffering:
         {
             self.playBtn.hidden = YES;
             [_indicatorView startAnimating];
-            
+
             break;
         }
             
@@ -144,11 +165,13 @@
 - (void)setControlBarPlayProcess:(CGFloat)process
 {
     self.processSlider.process = process;
+    self.bottomProcessSlider.process = process;
 }
 
 - (void)setControlBarBufferProcess:(CGFloat)bufferProcess
 {
     self.processSlider.bufferProcess = bufferProcess;
+    self.bottomProcessSlider.bufferProcess = bufferProcess;
 }
 
 - (void)setControlBarPlayTime:(NSInteger)time
@@ -161,31 +184,38 @@
     self.durationTimeLab.text = [self formatTimeWithSecond:time];
 }
 
-- (void)setControlBarFullState:(PKVideoControlFullScreenState)state
+- (void)setControlBarMainTitle:(NSString *)title
 {
-    switch (state)
-    {
-        case kVideoControlBarFullScreen:
-        {
-            [_fullScreenBtn setTitle:@"全屏" forState:UIControlStateNormal];
-            break;
-        }
-        case kVideoControlBarNormal:
-        {
-            [_fullScreenBtn setTitle:@"普通" forState:UIControlStateNormal];
-            break;
-        }
-        default:
-            break;
-    }
+    self.mainTitle.text = title ?: @"";
 }
 
 #pragma mark -- <PKLightVideoPlayerSliderProtocol>
-- (void)PKLightPlayerSlider:(PKLightVideoPlayerSlider *)slider progressChanged:(CGFloat)process
+- (void)PKLightPlayerSlider:(PKLightVideoPlayerSlider *)slider progressWillChange:(CGFloat)process
 {
-    if (_delegate && [_delegate respondsToSelector:@selector(videoControlBar:processValueChanged:)])
+    if (_delegate && [_delegate respondsToSelector:@selector(videoControlBarProcessWillChange:)])
     {
-        [_delegate videoControlBar:self processValueChanged:process];
+        [_delegate videoControlBarProcessWillChange:self];
+    }
+}
+
+- (void)PKLightPlayerSlider:(PKLightVideoPlayerSlider *)slider progressDidChange:(CGFloat)process
+{
+    if (_delegate && [_delegate respondsToSelector:@selector(videoControlBar:processValueDidChange:)])
+    {
+        [_delegate videoControlBar:self processValueDidChange:process];
+    }
+}
+
+#pragma mark -- <UIGestureRecognizerDelegate>
+- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch
+{
+    if (touch.view != self.controlBarWrapView && touch.view != self)
+    {
+        return NO;
+    }
+    else
+    {
+        return YES;
     }
 }
 

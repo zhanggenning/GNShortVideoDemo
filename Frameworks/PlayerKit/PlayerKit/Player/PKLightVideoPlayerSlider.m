@@ -12,15 +12,23 @@
 static const CGFloat kSliderHeight = 4; //进度条宽度
 static const CGFloat kSliderThumbHeight = 26; //正方形滑块边长
 
+typedef NS_ENUM(NSInteger, PKLightVideoSliderDirection)
+{
+    kVideoSliderLandscapeRight = 0, //横向向右
+    kVideoSliderVertaicalDown, //竖向向下
+    kVideoSliderVertaicalUp,   //竖向向上
+};
+
 @interface PKLightVideoPlayerSlider ()
 {
     CGRect _currentBounds;
 }
-
 @property (nonatomic, strong) UIView *sliderView; //进度条
 @property (nonatomic, strong) CALayer *processLayer; //播放进度层
 @property (nonatomic, strong) CALayer *bufferProcessLayer; //缓冲进度层
 @property (nonatomic, strong) UIImageView *thumbView; //滑块
+
+@property (nonatomic, assign) PKLightVideoSliderDirection sliderDirection; //布局方向
 
 @end
 
@@ -52,19 +60,16 @@ static const CGFloat kSliderThumbHeight = 26; //正方形滑块边长
     
     if (!CGRectEqualToRect(_currentBounds, layer.bounds))
     {
-        //背景view
-        self.sliderView.frame = CGRectMake(layer.bounds.origin.x + kSliderThumbHeight / 2,
-                                           layer.bounds.size.height / 2 - kSliderHeight / 2,
-                                           layer.bounds.size.width - kSliderThumbHeight,
-                                           kSliderHeight);
-        
-        //进度layer
-        self.processLayer.frame = [self dstRectWithSrcRect:_sliderView.bounds withProcess:_process];
-        self.bufferProcessLayer.frame = [self dstRectWithSrcRect:_sliderView.bounds withProcess:_bufferProcess];
-        
-        //滑块
-        self.thumbView.center = CGPointMake(_sliderView.bounds.size.width * _process + kSliderThumbHeight/2, self.sliderView.center.y);
-        
+        if (layer.bounds.size.width >= layer.bounds.size.height) //宽大于等于高：横向布局
+        {
+            [self layoutSubviewsOnLandscapeRight];
+            self.sliderDirection = kVideoSliderLandscapeRight;
+        }
+        else //宽小于高：竖向向下
+        {
+            [self layoutSubviewsOnVerticalUp];
+            self.sliderDirection = kVideoSliderVertaicalUp;
+        }
         _currentBounds = layer.bounds;
     }
 }
@@ -73,7 +78,7 @@ static const CGFloat kSliderThumbHeight = 26; //正方形滑块边长
 - (void)commonInit
 {
     self.backgroundColor = [UIColor clearColor];
-    
+    self.sliderView.backgroundColor = [UIColor greenColor];
     //进度条
     [self.sliderView.layer addSublayer:self.bufferProcessLayer];
     [self.sliderView.layer addSublayer:self.processLayer];
@@ -91,11 +96,91 @@ static const CGFloat kSliderThumbHeight = 26; //正方形滑块边长
     [self addGestureRecognizer:tap];
 }
 
-- (CGRect)dstRectWithSrcRect:(CGRect)rect withProcess:(CGFloat)process
+- (void)layoutSubviewsOnLandscapeRight
 {
-    CGRect tmp = rect;
-    tmp.size.width = rect.size.width * process;
-    return tmp;
+    CGRect tempRect = CGRectZero;
+    
+    //背景view
+    if (_thumbHidden)
+    {
+        self.sliderView.frame = self.bounds;
+    }
+    else
+    {
+        self.sliderView.frame = CGRectMake(self.bounds.origin.x + kSliderThumbHeight / 2,
+                                           self.bounds.size.height / 2 - kSliderHeight / 2,
+                                           self.bounds.size.width - kSliderThumbHeight,
+                                           kSliderHeight);
+    }
+    
+    tempRect = self.sliderView.bounds;
+    tempRect.size.width = _process * _sliderView.bounds.size.width;
+    self.processLayer.frame = tempRect;
+    
+    tempRect = self.sliderView.bounds;
+    tempRect.size.width = _process * _sliderView.bounds.size.width;
+    self.bufferProcessLayer.frame = tempRect;
+    
+    self.thumbView.center = CGPointMake(self.sliderView.bounds.size.width * _process + kSliderThumbHeight/2,
+                                        self.sliderView.center.y);
+}
+
+- (void)layoutSubviewsOnVerticalDown
+{
+    CGRect tempRect = CGRectZero;
+    
+    //背景view
+    if (_thumbHidden)
+    {
+        self.sliderView.frame = self.bounds;
+    }
+    else
+    {
+        self.sliderView.frame = CGRectMake(self.bounds.size.width / 2 - kSliderHeight / 2,
+                                           self.bounds.origin.y + kSliderThumbHeight / 2,
+                                           kSliderHeight,
+                                           self.bounds.size.height - kSliderThumbHeight);
+    }
+    
+    tempRect = self.sliderView.bounds;
+    tempRect.size.height = _process * _sliderView.bounds.size.height;
+    self.processLayer.frame = tempRect;
+    
+    tempRect = self.sliderView.bounds;
+    tempRect.size.height = _process * _sliderView.bounds.size.height;
+    self.bufferProcessLayer.frame = tempRect;
+    
+    self.thumbView.center = CGPointMake(self.sliderView.center.x,
+                                        self.sliderView.bounds.size.height * _process + kSliderThumbHeight/2);
+}
+
+- (void)layoutSubviewsOnVerticalUp
+{
+    CGRect tempRect = CGRectZero;
+    
+    //背景view
+    if (_thumbHidden)
+    {
+        self.sliderView.frame = self.bounds;
+    }
+    else
+    {
+        self.sliderView.frame = CGRectMake(self.bounds.size.width / 2 - kSliderHeight / 2,
+                                           self.bounds.origin.y + kSliderThumbHeight / 2,
+                                           kSliderHeight,
+                                           self.bounds.size.height - kSliderThumbHeight);
+    }
+    
+    tempRect = self.sliderView.bounds;
+    tempRect.size.height = _process * _sliderView.bounds.size.height;
+    self.processLayer.frame = tempRect;
+    
+    tempRect = self.sliderView.bounds;
+    tempRect.size.height = _process * _sliderView.bounds.size.height;
+    self.bufferProcessLayer.frame = tempRect;
+    
+    self.thumbView.center = CGPointMake(_sliderView.center.x,
+                                        _sliderView.frame.origin.y + _sliderView.frame.size.height - _sliderView.frame.size.height * _process);
 }
 
 #pragma mark -- 属性
@@ -142,24 +227,111 @@ static const CGFloat kSliderThumbHeight = 26; //正方形滑块边长
 
 - (void)setProcess:(CGFloat)process
 {
-    _process = process;
+    process = (process < 1.0 ? process : 1.0);
+    process = (process > 0.0 ? process : 0.0);
+    CGRect tempRect = CGRectZero;
     
-    _thumbView.center = CGPointMake(_sliderView.bounds.size.width * process + kSliderThumbHeight/2, _thumbView.center.y);
-
-    [CATransaction begin];
-    [CATransaction setDisableActions:YES];
-    _processLayer.frame = [self dstRectWithSrcRect:_sliderView.bounds withProcess:process];
-    [CATransaction commit];
+    NSLog(@"%f, %f", _process, process);
+    
+    switch (_sliderDirection)
+    {
+        case kVideoSliderLandscapeRight:
+        {
+            _thumbView.center = CGPointMake(_sliderView.bounds.size.width * process + kSliderThumbHeight/2,
+                                            _sliderView.center.y);
+            
+            [CATransaction begin];
+            [CATransaction setDisableActions:YES];
+            tempRect = self.sliderView.bounds;
+            tempRect.size.width = process * _sliderView.bounds.size.width;
+            _processLayer.frame = tempRect;
+            [CATransaction commit];
+            break;
+        }
+        case kVideoSliderVertaicalDown:
+        {
+            _thumbView.center = CGPointMake(_sliderView.center.x,
+                                            _sliderView.bounds.size.height * process + kSliderThumbHeight/2);
+            [CATransaction begin];
+            [CATransaction setDisableActions:YES];
+            tempRect = self.sliderView.bounds;
+            tempRect.size.height = process * _sliderView.bounds.size.height;
+            _processLayer.frame = tempRect;
+            [CATransaction commit];
+            break;
+        }
+        case kVideoSliderVertaicalUp:
+        {
+            _thumbView.center = CGPointMake(_sliderView.center.x,
+                                            _sliderView.frame.origin.y + _sliderView.frame.size.height - _sliderView.frame.size.height * _process);
+            [CATransaction begin];
+            [CATransaction setDisableActions:YES];
+            tempRect = self.sliderView.bounds;
+            tempRect.size.height = process * _sliderView.bounds.size.height;
+            tempRect.origin.y = _sliderView.bounds.size.height - tempRect.size.height;
+            _processLayer.frame = tempRect;
+            [CATransaction commit];
+        }
+            
+        default:
+            break;
+    }
+    
+    _process = process;
 }
 
 - (void)setBufferProcess:(CGFloat)bufferProcess
 {
-    _bufferProcess = bufferProcess;
+    bufferProcess = (bufferProcess < 1.0 ? bufferProcess : 1.0);
+    bufferProcess = (bufferProcess > 0.0 ? bufferProcess : 0.0);
+    CGRect tempRect = CGRectZero;
     
-    [CATransaction begin];
-    [CATransaction setDisableActions:YES];
-    _bufferProcessLayer.frame = [self dstRectWithSrcRect:_sliderView.bounds withProcess:bufferProcess];
-    [CATransaction commit];
+    switch (_sliderDirection)
+    {
+        case kVideoSliderLandscapeRight:
+        {
+            [CATransaction begin];
+            [CATransaction setDisableActions:YES];
+            tempRect = self.sliderView.bounds;
+            tempRect.size.width = bufferProcess * _sliderView.bounds.size.width;
+            _bufferProcessLayer.frame = tempRect;
+            [CATransaction commit];
+            break;
+        }
+        case kVideoSliderVertaicalDown:
+        {
+            [CATransaction begin];
+            [CATransaction setDisableActions:YES];
+            tempRect = self.sliderView.bounds;
+            tempRect.size.height = bufferProcess * _sliderView.bounds.size.height;
+            _bufferProcessLayer.frame = tempRect;
+            [CATransaction commit];
+            break;
+        }
+        case kVideoSliderVertaicalUp:
+        {
+            [CATransaction begin];
+            [CATransaction setDisableActions:YES];
+            tempRect = self.sliderView.bounds;
+            tempRect.size.height = bufferProcess * _sliderView.bounds.size.height;
+            tempRect.origin.y = _sliderView.bounds.size.height - tempRect.size.height;
+            _bufferProcessLayer.frame = tempRect;
+            [CATransaction commit];
+            break;
+        }
+        default:
+            break;
+    }
+    
+    _bufferProcess = bufferProcess;
+}
+
+- (void)setThumbHidden:(CGFloat)thumbHidden
+{
+    _thumbHidden = thumbHidden;
+    
+    self.thumbView.hidden = thumbHidden;
+    self.userInteractionEnabled = !thumbHidden;
 }
 
 #pragma mark -- 事件
@@ -168,22 +340,26 @@ static const CGFloat kSliderThumbHeight = 26; //正方形滑块边长
     {
         case UIGestureRecognizerStateBegan:
         {
+            if (_delegate && [_delegate respondsToSelector:@selector(PKLightPlayerSlider:progressWillChange:)])
+            {
+                [_delegate PKLightPlayerSlider:self progressWillChange:_process];
+            }
+            
             break;
         }
         case UIGestureRecognizerStateChanged:
         {
-            [self updateProgressWithGestureReconizer:pan];
+            self.process = [self processWithGestureReconizer:pan];
             break;
         }
         case UIGestureRecognizerStateEnded:
         case UIGestureRecognizerStateCancelled:
         case UIGestureRecognizerStateFailed:
         {
-            if (_delegate && [_delegate respondsToSelector:@selector(PKLightPlayerSlider:progressChanged:)])
+            if (_delegate && [_delegate respondsToSelector:@selector(PKLightPlayerSlider:progressDidChange:)])
             {
-                [_delegate PKLightPlayerSlider:self progressChanged:_process];
+                [_delegate PKLightPlayerSlider:self progressDidChange:_process];
             }
-            
             break;
         }
         default:
@@ -193,39 +369,68 @@ static const CGFloat kSliderThumbHeight = 26; //正方形滑块边长
 
 - (void)tapGestureAction:(UITapGestureRecognizer *)tap
 {
-    CGPoint locationInSlider = [tap locationInView:self];
+    self.process = [self processWithGestureReconizer:tap];
     
-    if (locationInSlider.x < _sliderView.bounds.origin.x + kSliderThumbHeight/2)
+    if (_delegate && [_delegate respondsToSelector:@selector(PKLightPlayerSlider:progressDidChange:)])
     {
-        locationInSlider.x = _sliderView.bounds.origin.x + kSliderThumbHeight/2;
-    }
-    else if (locationInSlider.x > _sliderView.bounds.origin.x + _sliderView.bounds.size.width + kSliderThumbHeight/2)
-    {
-        locationInSlider.x = (_sliderView.bounds.origin.x + _sliderView.bounds.size.width + kSliderThumbHeight/2);
-    }
-    
-    self.process = (locationInSlider.x - kSliderThumbHeight/2) / _sliderView.bounds.size.width;
-    
-    if (_delegate && [_delegate respondsToSelector:@selector(PKLightPlayerSlider:progressChanged:)])
-    {
-        [_delegate PKLightPlayerSlider:self progressChanged:_process];
+        [_delegate PKLightPlayerSlider:self progressDidChange:_process];
     }
 }
 
-- (void)updateProgressWithGestureReconizer:(UIGestureRecognizer *)gesture
+- (CGFloat)processWithGestureReconizer:(UIGestureRecognizer *)gesture
 {
-    CGPoint locationInSlider =  [gesture locationInView:self];
-  
-    if (locationInSlider.x < _sliderView.bounds.origin.x + kSliderThumbHeight/2)
+    CGFloat process = 0.0;
+    
+    CGPoint locationInSlider = [gesture locationInView:self];
+    
+    switch (_sliderDirection)
     {
-        locationInSlider.x = _sliderView.bounds.origin.x + kSliderThumbHeight/2;
-    }
-    else if (locationInSlider.x > (_sliderView.bounds.origin.x + _sliderView.bounds.size.width + kSliderThumbHeight/2))
-    {
-        locationInSlider.x = _sliderView.bounds.origin.x + _sliderView.bounds.size.width + kSliderThumbHeight/2;
+        case kVideoSliderLandscapeRight:
+        {
+            if (locationInSlider.x < _sliderView.bounds.origin.x + kSliderThumbHeight/2)
+            {
+                locationInSlider.x = _sliderView.bounds.origin.x + kSliderThumbHeight/2;
+            }
+            else if (locationInSlider.x > _sliderView.bounds.origin.x + _sliderView.bounds.size.width + kSliderThumbHeight/2)
+            {
+                locationInSlider.x = (_sliderView.bounds.origin.x + _sliderView.bounds.size.width + kSliderThumbHeight/2);
+            }
+            process = (locationInSlider.x - kSliderThumbHeight/2) / _sliderView.bounds.size.width;
+            break;
+        }
+        case kVideoSliderVertaicalDown:
+        {
+            if (locationInSlider.y < _sliderView.bounds.origin.y + kSliderThumbHeight/2)
+            {
+                locationInSlider.y = _sliderView.bounds.origin.y + kSliderThumbHeight/2;
+            }
+            else if (locationInSlider.y > _sliderView.bounds.origin.y + _sliderView.bounds.size.height + kSliderThumbHeight/2)
+            {
+                locationInSlider.y = (_sliderView.bounds.origin.y + _sliderView.bounds.size.height + kSliderThumbHeight/2);
+            }
+            process = (locationInSlider.y - kSliderThumbHeight/2) / _sliderView.bounds.size.height;
+            
+            break;
+        }
+        case kVideoSliderVertaicalUp:
+        {
+            if (locationInSlider.y < _sliderView.bounds.origin.y + kSliderThumbHeight/2)
+            {
+                locationInSlider.y = _sliderView.bounds.origin.y + kSliderThumbHeight/2;
+            }
+            else if (locationInSlider.y > _sliderView.bounds.origin.y + _sliderView.bounds.size.height + kSliderThumbHeight/2)
+            {
+                locationInSlider.y = (_sliderView.bounds.origin.y + _sliderView.bounds.size.height + kSliderThumbHeight/2);
+            }
+            
+            process = 1 - (locationInSlider.y - kSliderThumbHeight/2) / _sliderView.bounds.size.height;
+            break;
+        }
+        default:
+            break;
     }
     
-    self.process = (locationInSlider.x - kSliderThumbHeight/2) / _sliderView.bounds.size.width;
+    return process;
 }
 
 @end

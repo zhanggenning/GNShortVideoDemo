@@ -13,9 +13,9 @@
 #import "PKVideoPlayerCoreBase.h"
 #import "PKVideoInfo.h"
 #import "PKSourceManager.h"
-#import "PKLightVideoPlayerSlider.h"
-
-#import "PKLightVideoControlBar.h"
+#import "PKLightVideoControlBarModel.h"
+#import "PKTitleSource.h"
+#import "TWeakTimer.h"
 
 @interface PKLightVideoPlayerViewController () <PKVideoPlayerCoreDelegate, PKControlBarEventProtocol>
 {
@@ -24,8 +24,8 @@
     BOOL _isProcessChangeing; //进度改变中
 }
 
-@property (weak, nonatomic) id <PKControlBarProtocol> controlBar;
-@property (weak, nonatomic) IBOutlet UIButton *closeBtn;
+@property (strong, nonatomic) TWeakTimer *autoHideControlTimer;
+@property (strong, nonatomic) PKLightVideoControlBarModel *controlBarModel;
 
 @end
 
@@ -38,7 +38,7 @@
     [self unloadVideoPlayerCore];
     
     [self.videoPlayerCore close];
-    
+
     NSLog(@"页面释放.....");
 }
 
@@ -55,10 +55,7 @@
     //同步状态
     if (!_videoPlayerCore.isReadyForPlaying)
     {
-        if ([_controlBar respondsToSelector:@selector(setControlBarPlayState:)])
-        {
-            [_controlBar setControlBarPlayState:kVideoControlBarBuffering];
-        }
+        self.controlBarModel.playState = kVideoControlBarBuffering;
     }
 }
 
@@ -114,11 +111,16 @@
 {
     if (!_isContorlBarLoaded)
     {
-        [self.controlBar setControlBarDelegate:self];
+        [self.view addSubview:self.controlBarModel.controlBarView];
         
-        [self.view insertSubview:(UIView *)self.controlBar atIndex:1];
+        [self addContraintsOnView:self.controlBarModel.controlBarView];
         
-        [self addContraintsOnView:(UIView *)self.controlBar];
+        self.controlBarModel.delegate = self;
+  
+        if (_sourceManager.titleSource.titleBlock)
+        {
+            self.controlBarModel.mainTitle = _sourceManager.titleSource.titleBlock();
+        }
         
         _isContorlBarLoaded = YES;
     }
@@ -128,9 +130,9 @@
 {
     if (_isContorlBarLoaded)
     {
-        [self.controlBar setControlBarDelegate:nil];
-        
-        [(UIView *)self.controlBar removeFromSuperview];
+        [self.controlBarModel.controlBarView removeFromSuperview];
+
+        self.controlBarModel.delegate = nil;
         
         _isContorlBarLoaded = NO;
     }
@@ -138,6 +140,8 @@
 
 - (void)addContraintsOnView:(UIView *)view
 {
+    view.translatesAutoresizingMaskIntoConstraints = NO;
+    
     NSArray *contraints1 = [NSLayoutConstraint  constraintsWithVisualFormat:@"H:|-0-[view]-0-|"
                                                                     options:0
                                                                     metrics:nil
@@ -154,15 +158,41 @@
     }
 }
 
+- (void)startAutoHideControlTimer
+{
+    [NSObject asyncTaskOnMainWithBlock:^{
+            self.autoHideControlTimer =
+            [[TWeakTimer alloc] initWithTimeInterval:2.0
+                                              target:self
+                                            selector:@selector(autoHideControlBar:)
+                                            userInfo:nil
+                                             repeats:NO];
+    }];
+}
+
+- (void)stopAutoHideControlTimer
+{
+    self.autoHideControlTimer = nil;
+}
+
+#pragma mark -- 事件
+- (void)autoHideControlBar:(TWeakTimer *)timer
+{
+    if (!_videoPlayerCore.isPaused && !_controlBarModel.controlBarHidden)
+    {
+        _controlBarModel.controlBarHidden = YES;
+    }
+}
 
 #pragma mark -- 属性
-- (id<PKControlBarProtocol>)controlBar
+- (PKLightVideoControlBarModel *)controlBarModel
 {
-    if (!_controlBar)
+    if (!_controlBarModel)
     {
-        _controlBar = [PKLightVideoControlBar nibInstance];
+        _controlBarModel = [[PKLightVideoControlBarModel alloc] init];
+        _controlBarModel.delegate = self;
     }
-    return _controlBar;
+    return _controlBarModel;
 }
 
 #pragma mark -- 代理
@@ -176,18 +206,20 @@ openCompletedWithResult:(BOOL)isReadyForPlaying
     
     if (isReadyForPlaying)
     {
+        __weak typeof(self) weakSelf = self;
+        
         [videoPlayerCore playWithExecutionHandler:^(BOOL executed) {
+            
+            __strong typeof(weakSelf) self = weakSelf;
+            
             if (executed) {
                 [NSObject asyncTaskOnMainWithBlock:^{
-                    if ([self.controlBar respondsToSelector:@selector(setControlBarPlayState:)])
-                    {
-                        [self.controlBar setControlBarPlayState:kVideoControlBarPause]; //播放时，换成暂停的图片
-                    }
-                    if ([self.controlBar respondsToSelector:@selector(setControlBarDurationTime:)])
-                    {
-                        [self.controlBar setControlBarDurationTime:videoInfo.videoDurationInMS / 1000]; //设置文件时长
-                    }
+                    self.controlBarModel.playState = kVideoControlBarPause; //播放时，换成暂停的图片
+                    self.controlBarModel.durationTime = videoInfo.videoDurationInMS / 1000; //设置文件时长
                 }];
+                
+                //自动隐藏
+                [self startAutoHideControlTimer];
             }
         }];
     }
@@ -197,16 +229,16 @@ openCompletedWithResult:(BOOL)isReadyForPlaying
     }
 }
 
-
 - (void)videoPlayerCore:(PKVideoPlayerCoreBase *)videoPlayerCore
   playCompletedWithType:(PKVideoPlayCompletionType)type
                   error:(NSError *)error
 {
     //播放完成可能需要另外一套UI,这里先重置，等需求
-    if ([_controlBar respondsToSelector:@selector(resetControlBar)])
-    {
-        [_controlBar resetControlBar];
-    }
+    self.controlBarModel.playState = kVideoControlBarPlay;
+    self.controlBarModel.playProcess = 0.0;
+    self.controlBarModel.bufferProcess = 0.0;
+    self.controlBarModel.playTime = 0;
+    self.controlBarModel.durationTime = 0;
     
     NSLog(@"轻量级播放器>>>>>>>>>>>>> 播放完成");
 }
@@ -222,14 +254,8 @@ openCompletedWithResult:(BOOL)isReadyForPlaying
     [NSObject asyncTaskOnMainWithBlock:^{
         NSInteger durationInMS = self.videoPlayerCore.videoInfo.videoDurationInMS;
         CGFloat process = (durationInMS == 0.0) ?: (CGFloat)timeInMS/durationInMS;
-        if ([_controlBar respondsToSelector:@selector(setControlBarPlayProcess:)])
-        {
-            [_controlBar setControlBarPlayProcess:process];
-        }
-        if ([_controlBar respondsToSelector:@selector(setControlBarPlayTime:)])
-        {
-            [_controlBar setControlBarPlayTime:timeInMS / 1000];
-        }
+        self.controlBarModel.playProcess = process;
+        self.controlBarModel.playTime = timeInMS / 1000;
     }];
 }
 
@@ -239,10 +265,7 @@ openCompletedWithResult:(BOOL)isReadyForPlaying
     [NSObject asyncTaskOnMainWithBlock:^{
         NSInteger durationInMS = self.videoPlayerCore.videoInfo.videoDurationInMS;
         CGFloat bufferProcess = (durationInMS == 0.0) ?: (CGFloat)timeInMS/durationInMS;
-        if ([_controlBar respondsToSelector:@selector(setControlBarBufferProcess:)])
-        {
-            [_controlBar setControlBarBufferProcess:bufferProcess];
-        }
+        self.controlBarModel.bufferProcess = bufferProcess;
     } delay:.3];
 }
 
@@ -261,10 +284,7 @@ openCompletedWithResult:(BOOL)isReadyForPlaying
     }
     
     [NSObject asyncTaskOnMainWithBlock:^{
-        if ([_controlBar respondsToSelector:@selector(setControlBarPlayState:)])
-        {
-            [_controlBar setControlBarPlayState:state];
-        }
+        self.controlBarModel.playState = state;
     }];
 }
 
@@ -273,6 +293,9 @@ openCompletedWithResult:(BOOL)isReadyForPlaying
 {
     NSLog(@"轻量级播放器>>>>>>>>>>>>> seek完成");
     _isProcessChangeing = NO;
+
+    //开始自动隐藏
+    [self startAutoHideControlTimer];
 }
 
 - (void)videoPlayerCore:(PKVideoPlayerCoreBase *)videoPlayerCore
@@ -285,11 +308,19 @@ openCompletedWithResult:(BOOL)isReadyForPlaying
 //播放按键点击事件
 - (void)videoControlBarPlayBtnClicked:(id<PKControlBarProtocol>) controlBar
 {
+    __weak typeof(self) weakSelf = self;
+    
     if (!_videoPlayerCore.isPaused)
     {
         [self.videoPlayerCore pauseWithExecutionHandler:^(BOOL executed) {
+            
+            __strong typeof(weakSelf) self = weakSelf;
+            
             if (executed)
             {
+                //停止自动隐藏
+                [self stopAutoHideControlTimer];
+                
                 [NSObject asyncTaskOnMainWithBlock:^{
                     if ([controlBar respondsToSelector:@selector(setControlBarPlayState:)])
                     {
@@ -302,8 +333,14 @@ openCompletedWithResult:(BOOL)isReadyForPlaying
     else
     {
         [self.videoPlayerCore playWithExecutionHandler:^(BOOL executed) {
+            
+            __strong typeof(weakSelf) self = weakSelf;
+            
             if (executed)
             {
+                //重置自动隐藏
+                [self startAutoHideControlTimer];
+                
                 [NSObject asyncTaskOnMainWithBlock:^{
                     if ([controlBar respondsToSelector:@selector(setControlBarPlayState:)])
                     {
@@ -315,12 +352,19 @@ openCompletedWithResult:(BOOL)isReadyForPlaying
     }
 }
 
-//进度值改变完成
-- (void)videoControlBar:(id<PKControlBarProtocol>)controlBar processValueChanged:(CGFloat)process
+//进度值开始改变
+- (void)videoControlBarProcessWillChange:(id<PKControlBarProtocol>)controlBar
 {
     //停止更新UI
     _isProcessChangeing = YES;
     
+    //停止自动隐藏
+    [self stopAutoHideControlTimer];
+}
+
+//进度值改变完成
+- (void)videoControlBar:(id<PKControlBarProtocol>)controlBar processValueDidChange:(CGFloat)process
+{
     //播放核执行操作
     [self.videoPlayerCore seekWithProgress:process];
 }
@@ -328,7 +372,36 @@ openCompletedWithResult:(BOOL)isReadyForPlaying
 //全屏按键点击事件
 - (void)videoControlBarFullScreenBtnClicked:(id<PKControlBarProtocol>)controlBar
 {
+    self.view.transform = CGAffineTransformMakeRotation(M_PI_2);
+    self.view.frame = [UIScreen mainScreen].bounds;
     
+    //换controlBar
+    [self unloadVideoControlBar];
+    
+    self.controlBarModel.controlBarStyle = kVideoControlBarFull;
+    
+    [self loadVideoControlBar];
+    
+    //重置自动隐藏
+    self.controlBarModel.controlBarHidden = NO;
+    [self startAutoHideControlTimer];
+    
+    NSLog(@"控制栏更换完毕");
+}
+
+//屏幕点击事件
+- (void)videoControlBarTapClicked:(id<PKControlBarProtocol>)controlBar
+{
+    self.controlBarModel.controlBarHidden = !_controlBarModel.controlBarHidden;
+    
+    if (_controlBarModel.controlBarHidden) //隐藏后停止自动隐藏计时器
+    {
+        [self stopAutoHideControlTimer];
+    }
+    else //显示时开始自动隐藏计时器
+    {
+        [self startAutoHideControlTimer];
+    }
 }
 
 @end

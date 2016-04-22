@@ -220,11 +220,16 @@
 		2F191C541CC5F098003D7367 /* PKLightVideoControlBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F191C521CC5F098003D7367 /* PKLightVideoControlBar.m */; };
 		2F191C571CC5F0E1003D7367 /* PKLightVideoControlBar.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2F191C561CC5F0D8003D7367 /* PKLightVideoControlBar.xib */; };
 		2F191C5F1CC61536003D7367 /* PKControlBarProtocol.h in Headers */ = {isa = PBXBuildFile; fileRef = 2F191C5E1CC61536003D7367 /* PKControlBarProtocol.h */; };
+		2F382F501CC8BBC3001479EF /* PKLightVideoFullScreenControlBar.h in Headers */ = {isa = PBXBuildFile; fileRef = 2F382F4E1CC8BBC3001479EF /* PKLightVideoFullScreenControlBar.h */; };
+		2F382F511CC8BBC3001479EF /* PKLightVideoFullScreenControlBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F382F4F1CC8BBC3001479EF /* PKLightVideoFullScreenControlBar.m */; };
+		2F382F531CC8BBFB001479EF /* PKLightVideoFullScreenControlBar.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2F382F521CC8BBF6001479EF /* PKLightVideoFullScreenControlBar.xib */; };
 		2F421D711CC481760017E332 /* PKLightVideoPlayerViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 2F421D6E1CC481760017E332 /* PKLightVideoPlayerViewController.h */; };
 		2F421D721CC481760017E332 /* PKLightVideoPlayerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F421D6F1CC481760017E332 /* PKLightVideoPlayerViewController.m */; };
 		2F421D9F1CC4C9510017E332 /* PKLightVideoPlayerViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2F421D701CC481760017E332 /* PKLightVideoPlayerViewController.xib */; };
 		2F421DDD1CC506340017E332 /* PKLightVideoPlayerSlider.h in Headers */ = {isa = PBXBuildFile; fileRef = 2F421DDB1CC506340017E332 /* PKLightVideoPlayerSlider.h */; };
 		2F421DDE1CC506340017E332 /* PKLightVideoPlayerSlider.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F421DDC1CC506340017E332 /* PKLightVideoPlayerSlider.m */; };
+		2F5A16261CC753D000F9EAAB /* PKLightVideoControlBarModel.h in Headers */ = {isa = PBXBuildFile; fileRef = 2F5A16241CC753D000F9EAAB /* PKLightVideoControlBarModel.h */; };
+		2F5A16271CC753D000F9EAAB /* PKLightVideoControlBarModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F5A16251CC753D000F9EAAB /* PKLightVideoControlBarModel.m */; };
 		44ABB3AE1B732D6C00E5FB62 /* libbz2.1.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 44ABB3AB1B732D6C00E5FB62 /* libbz2.1.0.dylib */; };
 		44ABB3AF1B732D6C00E5FB62 /* libiconv.2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 44ABB3AC1B732D6C00E5FB62 /* libiconv.2.dylib */; };
 		44ABB3B01B732D6C00E5FB62 /* libz.1.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 44ABB3AD1B732D6C00E5FB62 /* libz.1.dylib */; };
@@ -513,11 +518,16 @@
 		2F191C561CC5F0D8003D7367 /* PKLightVideoControlBar.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PKLightVideoControlBar.xib; sourceTree = "<group>"; };
 		2F191C5E1CC61536003D7367 /* PKControlBarProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PKControlBarProtocol.h; sourceTree = "<group>"; };
 		2F191C6B1CC623A0003D7367 /* PKControlBarDefine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PKControlBarDefine.h; sourceTree = "<group>"; };
+		2F382F4E1CC8BBC3001479EF /* PKLightVideoFullScreenControlBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PKLightVideoFullScreenControlBar.h; sourceTree = "<group>"; };
+		2F382F4F1CC8BBC3001479EF /* PKLightVideoFullScreenControlBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PKLightVideoFullScreenControlBar.m; sourceTree = "<group>"; };
+		2F382F521CC8BBF6001479EF /* PKLightVideoFullScreenControlBar.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PKLightVideoFullScreenControlBar.xib; sourceTree = "<group>"; };
 		2F421D6E1CC481760017E332 /* PKLightVideoPlayerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PKLightVideoPlayerViewController.h; sourceTree = "<group>"; };
 		2F421D6F1CC481760017E332 /* PKLightVideoPlayerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PKLightVideoPlayerViewController.m; sourceTree = "<group>"; };
 		2F421D701CC481760017E332 /* PKLightVideoPlayerViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PKLightVideoPlayerViewController.xib; sourceTree = "<group>"; };
 		2F421DDB1CC506340017E332 /* PKLightVideoPlayerSlider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PKLightVideoPlayerSlider.h; sourceTree = "<group>"; };
 		2F421DDC1CC506340017E332 /* PKLightVideoPlayerSlider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PKLightVideoPlayerSlider.m; sourceTree = "<group>"; };
+		2F5A16241CC753D000F9EAAB /* PKLightVideoControlBarModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PKLightVideoControlBarModel.h; sourceTree = "<group>"; };
+		2F5A16251CC753D000F9EAAB /* PKLightVideoControlBarModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PKLightVideoControlBarModel.m; sourceTree = "<group>"; };
 		44ABB3AB1B732D6C00E5FB62 /* libbz2.1.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libbz2.1.0.dylib; path = /usr/lib/libbz2.1.0.dylib; sourceTree = "<absolute>"; };
 		44ABB3AC1B732D6C00E5FB62 /* libiconv.2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libiconv.2.dylib; path = /usr/lib/libiconv.2.dylib; sourceTree = "<absolute>"; };
 		44ABB3AD1B732D6C00E5FB62 /* libz.1.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.1.dylib; path = /usr/lib/libz.1.dylib; sourceTree = "<absolute>"; };
@@ -959,11 +969,16 @@
 			children = (
 				2F191C6B1CC623A0003D7367 /* PKControlBarDefine.h */,
 				2F191C5E1CC61536003D7367 /* PKControlBarProtocol.h */,
+				2F5A16241CC753D000F9EAAB /* PKLightVideoControlBarModel.h */,
+				2F5A16251CC753D000F9EAAB /* PKLightVideoControlBarModel.m */,
 				2F421DDB1CC506340017E332 /* PKLightVideoPlayerSlider.h */,
 				2F421DDC1CC506340017E332 /* PKLightVideoPlayerSlider.m */,
 				2F191C511CC5F098003D7367 /* PKLightVideoControlBar.h */,
 				2F191C521CC5F098003D7367 /* PKLightVideoControlBar.m */,
 				2F191C561CC5F0D8003D7367 /* PKLightVideoControlBar.xib */,
+				2F382F4E1CC8BBC3001479EF /* PKLightVideoFullScreenControlBar.h */,
+				2F382F4F1CC8BBC3001479EF /* PKLightVideoFullScreenControlBar.m */,
+				2F382F521CC8BBF6001479EF /* PKLightVideoFullScreenControlBar.xib */,
 				2F421D6E1CC481760017E332 /* PKLightVideoPlayerViewController.h */,
 				2F421D6F1CC481760017E332 /* PKLightVideoPlayerViewController.m */,
 				2F421D701CC481760017E332 /* PKLightVideoPlayerViewController.xib */,
@@ -1000,10 +1015,12 @@
 				111F22E01AE9E53400EA118B /* WEPopoverController.h in Headers */,
 				111F22E31AE9E55A00EA118B /* PKSubtitleSource.h in Headers */,
 				1165A1241B4393A50030B641 /* PKAudioTrackCell.h in Headers */,
+				2F5A16261CC753D000F9EAAB /* PKLightVideoControlBarModel.h in Headers */,
 				111F22E41AE9E55F00EA118B /* PKPlayerStatusSource.h in Headers */,
 				112426EF1AB12F40007E5BE3 /* PKToolKit.h in Headers */,
 				111F22DF1AE9E52900EA118B /* TWeakTimer.h in Headers */,
 				111F22E51AE9E56600EA118B /* PKVolumeController.h in Headers */,
+				2F382F501CC8BBC3001479EF /* PKLightVideoFullScreenControlBar.h in Headers */,
 				1165A11D1B4393470030B641 /* PKAudioTrackViewController.h in Headers */,
 				2F191C531CC5F098003D7367 /* PKLightVideoControlBar.h in Headers */,
 				932581911B4E7F5800C39EF4 /* MusicPlayerBgView.h in Headers */,
@@ -1162,6 +1179,7 @@
 				1137355A1B74AED800AD87F6 /* pk_volume_bg_i5@2x.png in Resources */,
 				11409A871B09C27600543C8F /* pk_rewind_logo_i5.png in Resources */,
 				11D36B9F1A5A62EE002B7CC4 /* pk_slider_progress@2x.png in Resources */,
+				2F382F531CC8BBFB001479EF /* PKLightVideoFullScreenControlBar.xib in Resources */,
 				11F04EED1B04899300C1FA28 /* pk_tip_no_network.png in Resources */,
 				11411B901AC9228D00D08FAD /* pk_episode_btn_n.png in Resources */,
 				114C8A571B132508007271CC /* pk_guide_i4.png in Resources */,
@@ -1285,6 +1303,7 @@
 				114C8A5F1B13254C007271CC /* PKGuideViewController.m in Sources */,
 				113140B01AC29389007E3C14 /* UIColor+pk.m in Sources */,
 				11411BA51AC94BCA00D08FAD /* PKEpisodeSource.m in Sources */,
+				2F5A16271CC753D000F9EAAB /* PKLightVideoControlBarModel.m in Sources */,
 				112818051ACE81B200A43FAF /* PKSubtitleCell.m in Sources */,
 				112FE39F1AC14AE100C7CCA2 /* WEPopoverContainerView.m in Sources */,
 				11D36BA91A5A863E002B7CC4 /* UIDevice+pk.m in Sources */,
@@ -1304,6 +1323,7 @@
 				11C9E7A21A595B12001F7338 /* NSBundle+pk.m in Sources */,
 				112F50C01ADE4BC2003EA3B0 /* PKPlayerStatusSource.m in Sources */,
 				11C9E7A31A595B12001F7338 /* PKStreamSlice.m in Sources */,
+				2F382F511CC8BBC3001479EF /* PKLightVideoFullScreenControlBar.m in Sources */,
 				112FE3B21AC15DC100C7CCA2 /* PKPopoverController.m in Sources */,
 				11C9E7A61A595B12001F7338 /* PKVideoPlayerCoreBase.m in Sources */,
 				11AE24071A67670900425928 /* PKVolumeController.m in Sources */,

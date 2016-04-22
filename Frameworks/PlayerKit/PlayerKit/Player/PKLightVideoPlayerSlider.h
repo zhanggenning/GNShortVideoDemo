@@ -14,8 +14,13 @@ typedef void(^SliderValueChangeBlock)(CGFloat process);
 
 @interface PKLightVideoPlayerSlider : UIView
 
+//隐藏滑块
+@property (nonatomic, assign) CGFloat thumbHidden;
+
+//进度
 @property (nonatomic, assign) CGFloat process;
 
+//缓冲进度
 @property (nonatomic, assign) CGFloat bufferProcess;
 
 @property (nonatomic, weak) id<PKLightVideoPlayerSliderProtocol> delegate;
@@ -24,6 +29,10 @@ typedef void(^SliderValueChangeBlock)(CGFloat process);
 
 @protocol PKLightVideoPlayerSliderProtocol <NSObject>
 
-- (void)PKLightPlayerSlider:(PKLightVideoPlayerSlider *)slider progressChanged:(CGFloat)process;
+@optional
+
+- (void)PKLightPlayerSlider:(PKLightVideoPlayerSlider *)slider progressWillChange:(CGFloat)process;
+
+- (void)PKLightPlayerSlider:(PKLightVideoPlayerSlider *)slider progressDidChange:(CGFloat)process;
 
 @end

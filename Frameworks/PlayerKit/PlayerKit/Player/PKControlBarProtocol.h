@@ -14,7 +14,13 @@
  */
 @protocol PKControlBarProtocol <NSObject>
 
++ (id<PKControlBarProtocol>)nibInstance;
+
+@optional
+
 - (void)setControlBarDelegate: (id)vc;
+
+- (void)setControlBarHidden:(BOOL)isHidden;
 
 - (void)setControlBarPlayState:(PKVideoControlBarPlayState)state;
 
@@ -26,9 +32,7 @@
 
 - (void)setControlBarDurationTime:(NSInteger)time;
 
-- (void)setControlBarFullState:(PKVideoControlFullScreenState)state;
-
-- (void)resetControlBar;
+- (void)setControlBarMainTitle:(NSString *)title;
 
 @end
 
@@ -46,7 +50,13 @@
 //全屏按键点击事件
 - (void)videoControlBarFullScreenBtnClicked:(id<PKControlBarProtocol>)controlBar;
 
+//进度值开始改变
+- (void)videoControlBarProcessWillChange:(id<PKControlBarProtocol>)controlBar;
+
 //进度值改变完成
-- (void)videoControlBar:(id<PKControlBarProtocol>)controlBar processValueChanged:(CGFloat)process;
+- (void)videoControlBar:(id<PKControlBarProtocol>)controlBar processValueDidChange:(CGFloat)process;
+
+//控制栏点击事件
+- (void)videoControlBarTapClicked:(id<PKControlBarProtocol>)controlBar;
 
 @end
