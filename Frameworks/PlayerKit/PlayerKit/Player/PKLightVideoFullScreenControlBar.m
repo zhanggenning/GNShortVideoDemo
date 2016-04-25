@@ -11,7 +11,8 @@
 #import "UIImage+pk.h"
 #import "UIScreen+pk.h"
 #import "PKLightVideoPlayerSlider.h"
-#import "PKProgressIndicator.h"
+#import "PKLightVideoProcessIndicator.h"
+#import "PKVolumeController.h"
 #import "TWeakTimer.h"
 #import "NSObject+pk.h"
 
@@ -38,7 +39,6 @@ static const CGFloat kMinTimeForHSeekingInSec = 0.5;
 @interface PKLightVideoFullScreenControlBar () <PKLightVideoPlayerSliderProtocol, UIGestureRecognizerDelegate>
 {
     CGPoint _preLocationForPanGesture;
-    NSInteger _playTime;
     NSInteger _durationTime;
 }
 
@@ -54,8 +54,7 @@ static const CGFloat kMinTimeForHSeekingInSec = 0.5;
 @property (weak, nonatomic) IBOutlet PKLightVideoPlayerSlider *bottomProcessSlider; //缓冲进度控件
 @property (weak, nonatomic) IBOutlet PKLightVideoPlayerSlider *leftProcessSlider;   //声音进度控件
 @property (weak, nonatomic) IBOutlet PKLightVideoPlayerSlider *rightProcessSlider;  //亮度进度控件
-@property (weak, nonatomic) PKProgressIndicator *progressIndicatorView; //手势快进显示控件
-@property (weak, nonatomic) IBOutlet UIView *progressIndicatorWrapView;
+@property (weak, nonatomic) IBOutlet PKLightVideoProcessIndicator *progressIndicatorView; //手势快进显示控件
 
 @end
 
@@ -81,26 +80,6 @@ static const CGFloat kMinTimeForHSeekingInSec = 0.5;
 }
 
 #pragma mark -- 私有
-- (void)addContraintsOnView:(UIView *)view
-{
-    view.translatesAutoresizingMaskIntoConstraints = NO;
-    
-    NSArray *contraints1 = [NSLayoutConstraint  constraintsWithVisualFormat:@"H:|-0-[view]-0-|"
-                                                                    options:0
-                                                                    metrics:nil
-                                                                      views:NSDictionaryOfVariableBindings(view)];
-    NSArray *contraints2 = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|-0-[view]-0-|"
-                                                                   options:0
-                                                                   metrics:nil
-                                                                     views:NSDictionaryOfVariableBindings(view)];
-    
-    if (view.superview)
-    {
-        [view.superview addConstraints:contraints1];
-        [view.superview addConstraints:contraints2];
-    }
-}
-
 //转换时间格式
 - (NSString *)formatTimeWithSecond:(NSInteger)second
 {
@@ -165,32 +144,34 @@ static const CGFloat kMinTimeForHSeekingInSec = 0.5;
     self.autoHideControlTimer = nil;
 }
 
-//左侧进度条改变
+//左侧进度条改变（音量）
 - (void)changeLeftSliderProcess:(BOOL)isIncrease
 {
     //显示
     self.leftProcessSlider.hidden = NO;
     self.rightProcessSlider.hidden = YES;
-    self.progressIndicatorWrapView.hidden = YES;
+    self.progressIndicatorView.hidden = YES;
     
     //进度
     if (isIncrease)
     {
         self.leftProcessSlider.process += kLeftSliderMinStep;
+        [PKVolumeController increaseVolume:kLeftSliderMinStep];
     }
     else
     {
         self.leftProcessSlider.process -= kLeftSliderMinStep;
+        [PKVolumeController decreaseVolume:kLeftSliderMinStep];
     }
 }
 
-//右侧进度条改变
+//右侧进度条改变（亮度）
 - (void)changeRightSliderProcess:(BOOL)isIncrease
 {
     //显示
     self.leftProcessSlider.hidden = YES;
     self.rightProcessSlider.hidden = NO;
-    self.progressIndicatorWrapView.hidden = YES;
+    self.progressIndicatorView.hidden = YES;
     
     //进度
     if (isIncrease)
@@ -212,7 +193,7 @@ static const CGFloat kMinTimeForHSeekingInSec = 0.5;
     
     self.leftProcessSlider.hidden = YES;
     self.rightProcessSlider.hidden = YES;
-    self.progressIndicatorWrapView.hidden = NO;
+    self.progressIndicatorView.hidden = NO;
     
     if (isIncrement)
     {
@@ -238,19 +219,6 @@ static const CGFloat kMinTimeForHSeekingInSec = 0.5;
     //同步主控制栏
     self.processSlider.process = (displayProgressInSec == 0) ? 0.0 : (double)displayProgressInSec / _durationTime;
     self.playTimeLab.text = [self formatTimeWithSecond:displayProgressInSec];
-}
-
-#pragma mark -- 属性
-- (PKProgressIndicator *)progressIndicatorView
-{
-    if (!_progressIndicatorView)
-    {
-        _progressIndicatorView = [PKProgressIndicator nibInstance];
-        _progressIndicatorWrapView.backgroundColor = [UIColor clearColor];
-        [_progressIndicatorWrapView addSubview:_progressIndicatorView];
-        [self addContraintsOnView:_progressIndicatorView];
-    }
-    return _progressIndicatorView;
 }
 
 #pragma mark -- 事件
@@ -283,8 +251,8 @@ static const CGFloat kMinTimeForHSeekingInSec = 0.5;
     if (!self.rightProcessSlider.isHidden) {
         self.rightProcessSlider.hidden = YES;
     }
-    if (!self.progressIndicatorWrapView.isHidden) {
-        self.progressIndicatorWrapView.hidden = YES;
+    if (!self.progressIndicatorView.isHidden) {
+        self.progressIndicatorView.hidden = YES;
     }
 }
 
@@ -305,9 +273,9 @@ static const CGFloat kMinTimeForHSeekingInSec = 0.5;
         {
             self.rightProcessSlider.hidden = YES;
         }
-        else if (!self.progressIndicatorWrapView.isHidden)
+        else if (!self.progressIndicatorView.isHidden)
         {
-            self.progressIndicatorWrapView.hidden = YES;
+            self.progressIndicatorView.hidden = YES;
         }
         [self stopAutoHideControlTimer];
     }
@@ -513,7 +481,6 @@ static const CGFloat kMinTimeForHSeekingInSec = 0.5;
 - (void)setControlBarPlayTime:(NSInteger)time
 {
     self.playTimeLab.text = [self formatTimeWithSecond:time];
-    _playTime = time;
 }
 
 - (void)setControlBarDurationTime:(NSInteger)time
@@ -556,5 +523,4 @@ static const CGFloat kMinTimeForHSeekingInSec = 0.5;
         return YES;
     }
 }
-
 @end

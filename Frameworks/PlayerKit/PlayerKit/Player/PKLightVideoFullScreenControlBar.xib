@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9531" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10116" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
     </dependencies>
@@ -168,7 +168,7 @@
                         <constraint firstAttribute="bottom" secondItem="1qI-8y-CbU" secondAttribute="bottom" constant="8" id="wvR-qG-rKd"/>
                     </constraints>
                 </view>
-                <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Toa-V5-suC">
+                <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Toa-V5-suC" customClass="PKLightVideoProcessIndicator">
                     <rect key="frame" x="259" y="81" width="150" height="90"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <constraints>
@@ -215,7 +215,7 @@
                 <outlet property="playBtn" destination="S5P-ZY-5me" id="4wc-ws-8Uh"/>
                 <outlet property="playTimeLab" destination="wld-4j-A8c" id="YpU-lL-I69"/>
                 <outlet property="processSlider" destination="QLF-6Z-SmD" id="xL7-35-M12"/>
-                <outlet property="progressIndicatorWrapView" destination="Toa-V5-suC" id="eZk-ak-Oxx"/>
+                <outlet property="progressIndicatorView" destination="Toa-V5-suC" id="NIf-u7-E4Q"/>
                 <outlet property="rightProcessSlider" destination="Nwl-D2-Guc" id="k44-aC-Ddg"/>
             </connections>
             <point key="canvasLocation" x="614.5" y="456.5"/>
