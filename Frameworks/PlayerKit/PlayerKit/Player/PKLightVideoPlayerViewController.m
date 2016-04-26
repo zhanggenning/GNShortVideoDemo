@@ -46,29 +46,36 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
-
+    
     //装载播放核
     [self loadVideoPlayerCore];
     
     //装载控制条
     [self loadVideoControlBar];
-    
-    //同步状态
-    if (!_videoPlayerCore.isReadyForPlaying)
-    {
-        self.controlBarModel.playState = kVideoControlBarBuffering;
-    }
 }
 
-- (void)viewWillAppear:(BOOL)animated
+- (void)viewDidAppear:(BOOL)animated
 {
-    [super viewWillAppear:animated];
+    [super viewDidAppear:animated];
     
     //刷新标题
     if (_sourceManager.titleSource.titleBlock)
     {
         self.controlBarModel.mainTitle = _sourceManager.titleSource.titleBlock();
     }
+    
+    //同步状态
+    if (!_videoPlayerCore.isReadyForPlaying)
+    {
+        self.controlBarModel.playState = kVideoControlBarBuffering;
+    }
+
+    self.controlBarModel.playProcess = 0.0;
+    self.controlBarModel.bufferProcess = 0.0;
+    self.controlBarModel.playTime = 0;
+    self.controlBarModel.durationTime = 0;
+    self.controlBarModel.controlBarHidden = NO;
+    [self stopAutoHideControlTimer];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -257,13 +264,6 @@ openCompletedWithResult:(BOOL)isReadyForPlaying
   playCompletedWithType:(PKVideoPlayCompletionType)type
                   error:(NSError *)error
 {
-    //播放完成可能需要另外一套UI,这里先重置，等需求
-    self.controlBarModel.playState = kVideoControlBarPlay;
-    self.controlBarModel.playProcess = 0.0;
-    self.controlBarModel.bufferProcess = 0.0;
-    self.controlBarModel.playTime = 0;
-    self.controlBarModel.durationTime = 0;
-    
     NSLog(@"轻量级播放器>>>>>>>>>>>>> 播放完成");
 }
 

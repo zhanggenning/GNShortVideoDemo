@@ -25,6 +25,9 @@ typedef NS_ENUM(NSInteger, PKVideoPlayerOrientation)
     CGRect _initRect;
     PKVideoPlayerOrientation _playerOrientation;
 }
+
+@property (nonatomic, weak) UIView *playerSuperView;
+
 @end
 
 @implementation ShortVideoPlayerManger
@@ -74,15 +77,23 @@ typedef NS_ENUM(NSInteger, PKVideoPlayerOrientation)
 
 - (void)switchToFullScreen
 {
-    _initRect = self.playerVC.view.frame;
-    
     if (_videoIsVertical) //竖屏视频直接全屏
     {
+        if (_delegate && [_delegate respondsToSelector:@selector(shortVideoPlayerWillSwitchToFullScreen)])
+        {
+            [_delegate shortVideoPlayerWillSwitchToFullScreen];
+        }
+        
+        _initRect = self.playerVC.view.frame;
         [UIView animateWithDuration:0.3 animations:^{
             self.playerVC.view.frame = [UIScreen mainScreen].bounds;
         } completion:^(BOOL finished) {
             [PKPlayerManager sharedManager].isFullScreen = YES;
             _playerOrientation = kVideoPlayerPortrait;
+            
+            if (_delegate && [_delegate respondsToSelector:@selector(shortVideoPlayerDidSwitchToFullScreen)]) {
+                [_delegate shortVideoPlayerDidSwitchToFullScreen];
+            }
         }];
     }
     else //横屏视频需要旋转
@@ -92,34 +103,62 @@ typedef NS_ENUM(NSInteger, PKVideoPlayerOrientation)
             case UIDeviceOrientationPortrait:
             case UIDeviceOrientationPortraitUpsideDown:
             {
+                if (_delegate && [_delegate respondsToSelector:@selector(shortVideoPlayerWillSwitchToFullScreen)])
+                {
+                    [_delegate shortVideoPlayerWillSwitchToFullScreen];
+                }
+                
+                _initRect = self.playerVC.view.frame;
                 [UIView animateWithDuration:0.3 animations:^{
                     self.playerVC.view.transform = CGAffineTransformMakeRotation(M_PI_2);
                     self.playerVC.view.frame = [UIScreen mainScreen].bounds;
                 } completion:^(BOOL finished) {
                     [PKPlayerManager sharedManager].isFullScreen = YES;
                     _playerOrientation = kVideoPlayerLandscapeRight;
+                    
+                    if (_delegate && [_delegate respondsToSelector:@selector(shortVideoPlayerDidSwitchToFullScreen)]) {
+                        [_delegate shortVideoPlayerDidSwitchToFullScreen];
+                    }
                 }];
                 break;
             }
             case UIDeviceOrientationLandscapeLeft:
             {
+                if (_delegate && [_delegate respondsToSelector:@selector(shortVideoPlayerWillSwitchToFullScreen)])
+                {
+                    [_delegate shortVideoPlayerWillSwitchToFullScreen];
+                }
+                
+                _initRect = self.playerVC.view.frame;
                 [UIView animateWithDuration:0.3 animations:^{
                     self.playerVC.view.frame = [UIScreen mainScreen].bounds; //设备方向为横屏方向直接全屏
                 } completion:^(BOOL finished) {
                     [PKPlayerManager sharedManager].isFullScreen = YES;
                     _playerOrientation = kVideoPlayerLandscapeRight;
                     
+                    if (_delegate && [_delegate respondsToSelector:@selector(shortVideoPlayerDidSwitchToFullScreen)]) {
+                        [_delegate shortVideoPlayerDidSwitchToFullScreen];
+                    }
                 }];
                 break;
             }
             case UIDeviceOrientationLandscapeRight:
             {
+                if (_delegate && [_delegate respondsToSelector:@selector(shortVideoPlayerWillSwitchToFullScreen)])
+                {
+                    [_delegate shortVideoPlayerWillSwitchToFullScreen];
+                }
+                
+                _initRect = self.playerVC.view.frame;
                 [UIView animateWithDuration:0.3 animations:^{
                     self.playerVC.view.frame = [UIScreen mainScreen].bounds; //设备方向为横屏方向直接全屏
                 } completion:^(BOOL finished) {
                     [PKPlayerManager sharedManager].isFullScreen = YES;
                     _playerOrientation = kVideoPlayerLandscapeLeft;
          
+                    if (_delegate && [_delegate respondsToSelector:@selector(shortVideoPlayerDidSwitchToFullScreen)]) {
+                        [_delegate shortVideoPlayerDidSwitchToFullScreen];
+                    }
                 }];
                 break;
             }
@@ -131,6 +170,10 @@ typedef NS_ENUM(NSInteger, PKVideoPlayerOrientation)
 
 - (void)switchToNormal
 {
+    if (_delegate && [_delegate respondsToSelector:@selector(shortVideoPlayerWillSwitchToNormalScreen)]) {
+        [_delegate shortVideoPlayerWillSwitchToNormalScreen];
+    }
+    
     [UIView animateWithDuration:0.3 animations:^{
         
         self.playerVC.view.transform = CGAffineTransformIdentity;
@@ -139,6 +182,10 @@ typedef NS_ENUM(NSInteger, PKVideoPlayerOrientation)
     } completion:^(BOOL finished) {
         [PKPlayerManager sharedManager].isFullScreen = NO;
         _playerOrientation = kVideoPlayerPortrait;
+        
+        if (_delegate && [_delegate respondsToSelector:@selector(shortVideoPlayerDidSwitchToNormalScreen)]) {
+            [_delegate shortVideoPlayerDidSwitchToNormalScreen];
+        }
     }];
 
 }
@@ -211,6 +258,11 @@ typedef NS_ENUM(NSInteger, PKVideoPlayerOrientation)
                 }
                 else //半屏状态，切换成全屏
                 {
+                    if (_delegate && [_delegate respondsToSelector:@selector(shortVideoPlayerWillSwitchToFullScreen)])
+                    {
+                        [_delegate shortVideoPlayerWillSwitchToFullScreen];
+                    }
+                    
                     _initRect = self.playerVC.view.frame;
                     [UIView animateWithDuration:0.3 animations:^{
                         self.playerVC.view.transform = CGAffineTransformMakeRotation(M_PI_2);
@@ -218,6 +270,11 @@ typedef NS_ENUM(NSInteger, PKVideoPlayerOrientation)
                     } completion:^(BOOL finished) {
                         [PKPlayerManager sharedManager].isFullScreen = YES;
                         _playerOrientation = kVideoPlayerLandscapeRight;
+                        
+                        if (_delegate && [_delegate respondsToSelector:@selector(shortVideoPlayerDidSwitchToFullScreen)])
+                        {
+                            [_delegate shortVideoPlayerDidSwitchToFullScreen];
+                        }
                     }];
                 }
             }
@@ -248,6 +305,11 @@ typedef NS_ENUM(NSInteger, PKVideoPlayerOrientation)
                 }
                 else //半屏状态，切换成全屏
                 {
+                    if (_delegate && [_delegate respondsToSelector:@selector(shortVideoPlayerWillSwitchToFullScreen)])
+                    {
+                        [_delegate shortVideoPlayerWillSwitchToFullScreen];
+                    }
+                    
                     _initRect = self.playerVC.view.frame;
                     [UIView animateWithDuration:0.3 animations:^{
                         self.playerVC.view.transform = CGAffineTransformMakeRotation(-M_PI_2);
@@ -255,6 +317,11 @@ typedef NS_ENUM(NSInteger, PKVideoPlayerOrientation)
                     } completion:^(BOOL finished) {
                         [PKPlayerManager sharedManager].isFullScreen = YES;
                         _playerOrientation = kVideoPlayerLandscapeLeft;
+                        
+                        if (_delegate && [_delegate respondsToSelector:@selector(shortVideoPlayerDidSwitchToFullScreen)])
+                        {
+                            [_delegate shortVideoPlayerDidSwitchToFullScreen];
+                        }
                     }];
                 }
             }

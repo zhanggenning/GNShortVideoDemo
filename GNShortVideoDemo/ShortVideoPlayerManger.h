@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 
+@protocol ShortVideoPlayerProtocol;
 
 @interface ShortVideoPlayerManger : NSObject
 
@@ -20,6 +21,23 @@
 
 @property (nonatomic, strong) UIViewController *playerVC;
 
+@property (nonatomic, weak) id<ShortVideoPlayerProtocol> delegate;
+
 + (instancetype)shareInstance;
+
+@end
+
+
+@protocol ShortVideoPlayerProtocol <NSObject>
+
+@optional
+
+- (void)shortVideoPlayerWillSwitchToFullScreen;
+
+- (void)shortVideoPlayerDidSwitchToFullScreen;
+
+- (void)shortVideoPlayerWillSwitchToNormalScreen;
+
+- (void)shortVideoPlayerDidSwitchToNormalScreen;
 
 @end

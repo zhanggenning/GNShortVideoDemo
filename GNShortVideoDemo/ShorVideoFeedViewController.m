@@ -11,7 +11,7 @@
 #import "ShortVideoFeedCellModel.h"
 #import "ShortVideoPlayerManger.h"
 
-@interface ShorVideoFeedViewController () <UITableViewDelegate, UITableViewDataSource, ShortVideoFeedCellProtocol>
+@interface ShorVideoFeedViewController () <UITableViewDelegate, UITableViewDataSource, ShortVideoFeedCellProtocol, ShortVideoPlayerProtocol>
 
 @property (nonatomic, strong) ShortVideoFeedCellModel *cellModel;
 @property (strong, nonatomic) ShortVideoFeedCell *heightCell;
@@ -28,6 +28,7 @@
     [_shortVideoFeedTab registerNib:[UINib nibWithNibName:NSStringFromClass([ShortVideoFeedCell class]) bundle:nil] forCellReuseIdentifier:@"cell"];
     
     [self addChildViewController:[ShortVideoPlayerManger shareInstance].playerVC];
+    [ShortVideoPlayerManger shareInstance].delegate = self;
 }
 
 - (void)didReceiveMemoryWarning {
@@ -112,10 +113,28 @@
 {
     [ShortVideoPlayerManger shareInstance].videoUrl =cell.cellModel.videoUrl;
     [ShortVideoPlayerManger shareInstance].videoTitle = cell.cellModel.mainTitle;
-    [ShortVideoPlayerManger shareInstance].videoIsVertical = YES;
+    [ShortVideoPlayerManger shareInstance].videoIsVertical = cell.cellModel.videoIsVertical;
     [ShortVideoPlayerManger shareInstance].playerVC.view.frame = [cell convertRect:imageFrame toView:_shortVideoFeedTab];
     [[ShortVideoPlayerManger shareInstance].playerVC.view removeFromSuperview];
     [_shortVideoFeedTab addSubview:[ShortVideoPlayerManger shareInstance].playerVC.view];
 }
 
+#pragma mark -- <ShortVideoPlayerProtocol>
+- (void)shortVideoPlayerWillSwitchToFullScreen
+{
+    CGRect rect = [_shortVideoFeedTab convertRect:[ShortVideoPlayerManger shareInstance].playerVC.view.frame
+                                           toView:self.view];
+    [[ShortVideoPlayerManger shareInstance].playerVC.view removeFromSuperview];
+    [ShortVideoPlayerManger shareInstance].playerVC.view.frame = rect;
+    [self.view addSubview:[ShortVideoPlayerManger shareInstance].playerVC.view];
+}
+
+- (void)shortVideoPlayerDidSwitchToNormalScreen
+{
+    CGRect rect = [self.view convertRect:[ShortVideoPlayerManger shareInstance].playerVC.view.frame
+                                           toView:_shortVideoFeedTab];
+    [[ShortVideoPlayerManger shareInstance].playerVC.view removeFromSuperview];
+    [ShortVideoPlayerManger shareInstance].playerVC.view.frame = rect;
+    [_shortVideoFeedTab addSubview:[ShortVideoPlayerManger shareInstance].playerVC.view];
+}
 @end
