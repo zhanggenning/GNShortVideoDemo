@@ -11,6 +11,8 @@
 #import "PKTitleSource.h"
 #import "PKPlayerStatusSource.h"
 #import "PKSourceManager.h"
+#import "ShortVideoPlayerShareView.h"
+#import "ShortVideoPlayerErrorView.h"
 
 //播放器当前方向
 typedef NS_ENUM(NSInteger, PKVideoPlayerOrientation)
@@ -25,8 +27,8 @@ typedef NS_ENUM(NSInteger, PKVideoPlayerOrientation)
     CGRect _initRect;
     PKVideoPlayerOrientation _playerOrientation;
 }
-
-@property (nonatomic, weak) UIView *playerSuperView;
+@property (nonatomic, strong) ShortVideoPlayerShareView *shareView;
+@property (nonatomic, strong) ShortVideoPlayerErrorView *errorView;
 
 @end
 
@@ -36,7 +38,9 @@ typedef NS_ENUM(NSInteger, PKVideoPlayerOrientation)
 {
     if (self = [super init])
     {
-        [self initFullScreenSwitchBlcok];
+        [self initPlayer];
+        
+        [self initPlayStateSource];
         
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(orientChange:) name:UIDeviceOrientationDidChangeNotification object:nil];
     }
@@ -54,7 +58,13 @@ typedef NS_ENUM(NSInteger, PKVideoPlayerOrientation)
 }
 
 #pragma mark -- 私有
-- (void)initFullScreenSwitchBlcok
+- (void)initPlayer
+{
+    [PKPlayerManager sharedManager].externalCompleteView = self.shareView;
+    [PKPlayerManager sharedManager].externalErrorView = self.errorView;
+}
+
+- (void)initPlayStateSource
 {
     PKPlayerStatusSource *playerStateSource = [[PKPlayerStatusSource alloc] init];
 
@@ -70,7 +80,7 @@ typedef NS_ENUM(NSInteger, PKVideoPlayerOrientation)
             [self switchToFullScreen];
         }
     }];
-    
+
     PKSourceManager *sourceManager = [[PKPlayerManager sharedManager] currentSourceManager];
     sourceManager.playerStatusSource = playerStateSource;
 }
@@ -221,6 +231,41 @@ typedef NS_ENUM(NSInteger, PKVideoPlayerOrientation)
     if (playerVC == nil) {
         [[PKPlayerManager sharedManager] releasePlayerVC];
     }
+}
+
+-  (ShortVideoPlayerShareView *)shareView
+{
+    if (!_shareView)
+    {
+        _shareView = [ShortVideoPlayerShareView instance];
+        
+        __weak typeof(self) weakSelf = self;
+        _shareView.replayClickedBlock = ^(){
+        
+            __strong typeof(weakSelf) self = weakSelf;
+            [self.shareView removeFromSuperview];
+            self.videoUrl = self.videoUrl;
+        };
+    }
+    return _shareView;
+}
+
+- (ShortVideoPlayerErrorView *)errorView
+{
+    if (!_errorView)
+    {
+        _errorView = [ShortVideoPlayerErrorView instance];
+        
+        __weak typeof(self) weakSelf = self;
+        _errorView.replayClickedBlock = ^(){
+            
+            __strong typeof(weakSelf) self = weakSelf;
+            [self.errorView removeFromSuperview];
+            self.videoUrl = self.videoUrl;
+        };
+    }
+    
+    return _errorView;
 }
 
 #pragma mark -- 事件

@@ -94,8 +94,13 @@ extern NSString *const kPKPlayerNotificationVideoInfoKey;
 
 - (void)releasePlayerVC;
 
+@property (nonatomic, weak) UIView *externalCompleteView;
+@property (nonatomic, weak) UIView *externalErrorView;
+
 @property (nonatomic, assign) BOOL isFullScreen;
+
 @property (nonatomic, copy) NSString *videoUrl;
+
 @property (nonatomic, strong, readonly) UIViewController *playerVC;
 
 @end

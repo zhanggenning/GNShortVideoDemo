@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10116" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB" customClass="ShortVideoPlayerErrorView">
+            <rect key="frame" x="0.0" y="0.0" width="383" height="211"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="41d-RW-gyf">
+                    <rect key="frame" x="0.0" y="0.0" width="383" height="211"/>
+                    <connections>
+                        <action selector="replayBtnAction:" destination="iN0-l3-epB" eventType="touchUpInside" id="Bfl-Aq-iPl"/>
+                    </connections>
+                </button>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="iRj-Cw-ubH">
+                    <rect key="frame" x="124" y="67" width="135" height="78"/>
+                    <subviews>
+                        <imageView contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="SaE-Gu-hP6">
+                            <rect key="frame" x="43" y="0.0" width="50" height="50"/>
+                            <constraints>
+                                <constraint firstAttribute="width" secondItem="SaE-Gu-hP6" secondAttribute="height" multiplier="1:1" id="q6d-j1-heI"/>
+                                <constraint firstAttribute="height" constant="50" id="wJf-4i-YTd"/>
+                            </constraints>
+                        </imageView>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="加载失败，点击重试" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EH7-Jq-uRZ">
+                            <rect key="frame" x="0.0" y="60" width="135" height="18"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                            <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                    </subviews>
+                    <constraints>
+                        <constraint firstItem="EH7-Jq-uRZ" firstAttribute="leading" secondItem="iRj-Cw-ubH" secondAttribute="leading" id="A0n-7j-GPv"/>
+                        <constraint firstItem="SaE-Gu-hP6" firstAttribute="top" secondItem="iRj-Cw-ubH" secondAttribute="top" id="HVy-iF-owe"/>
+                        <constraint firstItem="EH7-Jq-uRZ" firstAttribute="top" secondItem="SaE-Gu-hP6" secondAttribute="bottom" constant="10" id="izR-Gr-vde"/>
+                        <constraint firstItem="SaE-Gu-hP6" firstAttribute="centerX" secondItem="EH7-Jq-uRZ" secondAttribute="centerX" id="p05-L8-gMe"/>
+                        <constraint firstAttribute="bottom" secondItem="EH7-Jq-uRZ" secondAttribute="bottom" id="rEM-4K-E2a"/>
+                        <constraint firstAttribute="trailing" secondItem="EH7-Jq-uRZ" secondAttribute="trailing" id="rKh-5x-0lW"/>
+                    </constraints>
+                </view>
+            </subviews>
+            <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstItem="iRj-Cw-ubH" firstAttribute="centerY" secondItem="41d-RW-gyf" secondAttribute="centerY" id="5vS-KR-fJA"/>
+                <constraint firstItem="iRj-Cw-ubH" firstAttribute="centerX" secondItem="41d-RW-gyf" secondAttribute="centerX" id="XoG-me-eyr"/>
+                <constraint firstItem="41d-RW-gyf" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="YZf-yF-mYV"/>
+                <constraint firstAttribute="trailing" secondItem="41d-RW-gyf" secondAttribute="trailing" id="g6M-kT-Sxh"/>
+                <constraint firstItem="41d-RW-gyf" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="jtT-mq-IOg"/>
+                <constraint firstAttribute="bottom" secondItem="41d-RW-gyf" secondAttribute="bottom" id="q3v-GE-tww"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <point key="canvasLocation" x="772.5" y="228.5"/>
+        </view>
+    </objects>
+</document>

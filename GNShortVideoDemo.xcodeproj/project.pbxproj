@@ -39,6 +39,10 @@
 		2FECF5CE1CCF0143008628E1 /* ShortVideoControlFlagView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2FECF5C71CCF0143008628E1 /* ShortVideoControlFlagView.m */; };
 		2FECF5CF1CCF0143008628E1 /* ShortVideoControlFlagView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2FECF5C81CCF0143008628E1 /* ShortVideoControlFlagView.xib */; };
 		2FECF5D41CCF1032008628E1 /* ShortVideoPlayerManger.m in Sources */ = {isa = PBXBuildFile; fileRef = 2FECF5D31CCF1032008628E1 /* ShortVideoPlayerManger.m */; };
+		2FECF5DE1CCF955D008628E1 /* ShortVideoPlayerShareView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2FECF5DD1CCF955D008628E1 /* ShortVideoPlayerShareView.m */; };
+		2FECF5E21CCF9571008628E1 /* ShortVideoPlayerShareView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2FECF5E11CCF9571008628E1 /* ShortVideoPlayerShareView.xib */; };
+		2FECF5E61CCFA3C1008628E1 /* ShortVideoPlayerErrorView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2FECF5E51CCFA3C1008628E1 /* ShortVideoPlayerErrorView.m */; };
+		2FECF5EA1CCFA3E1008628E1 /* ShortVideoPlayerErrorView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2FECF5E91CCFA3E1008628E1 /* ShortVideoPlayerErrorView.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -120,6 +124,12 @@
 		2FECF5C81CCF0143008628E1 /* ShortVideoControlFlagView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ShortVideoControlFlagView.xib; sourceTree = "<group>"; };
 		2FECF5D21CCF1032008628E1 /* ShortVideoPlayerManger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShortVideoPlayerManger.h; sourceTree = "<group>"; };
 		2FECF5D31CCF1032008628E1 /* ShortVideoPlayerManger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShortVideoPlayerManger.m; sourceTree = "<group>"; };
+		2FECF5DC1CCF955D008628E1 /* ShortVideoPlayerShareView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShortVideoPlayerShareView.h; sourceTree = "<group>"; };
+		2FECF5DD1CCF955D008628E1 /* ShortVideoPlayerShareView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShortVideoPlayerShareView.m; sourceTree = "<group>"; };
+		2FECF5E11CCF9571008628E1 /* ShortVideoPlayerShareView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ShortVideoPlayerShareView.xib; sourceTree = "<group>"; };
+		2FECF5E41CCFA3C1008628E1 /* ShortVideoPlayerErrorView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShortVideoPlayerErrorView.h; sourceTree = "<group>"; };
+		2FECF5E51CCFA3C1008628E1 /* ShortVideoPlayerErrorView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShortVideoPlayerErrorView.m; sourceTree = "<group>"; };
+		2FECF5E91CCFA3E1008628E1 /* ShortVideoPlayerErrorView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ShortVideoPlayerErrorView.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -266,6 +276,12 @@
 				2FECF5C81CCF0143008628E1 /* ShortVideoControlFlagView.xib */,
 				2FECF5D21CCF1032008628E1 /* ShortVideoPlayerManger.h */,
 				2FECF5D31CCF1032008628E1 /* ShortVideoPlayerManger.m */,
+				2FECF5DC1CCF955D008628E1 /* ShortVideoPlayerShareView.h */,
+				2FECF5DD1CCF955D008628E1 /* ShortVideoPlayerShareView.m */,
+				2FECF5E11CCF9571008628E1 /* ShortVideoPlayerShareView.xib */,
+				2FECF5E41CCFA3C1008628E1 /* ShortVideoPlayerErrorView.h */,
+				2FECF5E51CCFA3C1008628E1 /* ShortVideoPlayerErrorView.m */,
+				2FECF5E91CCFA3E1008628E1 /* ShortVideoPlayerErrorView.xib */,
 			);
 			name = ShortVideoFeed;
 			sourceTree = "<group>";
@@ -359,6 +375,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2FECF5EA1CCFA3E1008628E1 /* ShortVideoPlayerErrorView.xib in Resources */,
+				2FECF5E21CCF9571008628E1 /* ShortVideoPlayerShareView.xib in Resources */,
 				2F261E511CC1FC3F00325A82 /* LaunchScreen.storyboard in Resources */,
 				2F261E4E1CC1FC3F00325A82 /* Assets.xcassets in Resources */,
 				2FECF5CD1CCF0143008628E1 /* ShortVideoFeedCell.xib in Resources */,
@@ -377,11 +395,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				2F261E461CC1FC3F00325A82 /* AppDelegate.m in Sources */,
+				2FECF5E61CCFA3C1008628E1 /* ShortVideoPlayerErrorView.m in Sources */,
 				2FECF5D41CCF1032008628E1 /* ShortVideoPlayerManger.m in Sources */,
 				2F261ECA1CC2187E00325A82 /* MainViewController.m in Sources */,
 				2FECF5CB1CCF0143008628E1 /* ShortVideoFeedCellModel.m in Sources */,
 				2FECF5C91CCF0143008628E1 /* ShorVideoFeedViewController.m in Sources */,
 				2FECF5CC1CCF0143008628E1 /* ShortVideoFeedCell.m in Sources */,
+				2FECF5DE1CCF955D008628E1 /* ShortVideoPlayerShareView.m in Sources */,
 				2FECF5CE1CCF0143008628E1 /* ShortVideoControlFlagView.m in Sources */,
 				2F261E431CC1FC3F00325A82 /* main.m in Sources */,
 			);

@@ -242,7 +242,9 @@
 - (void)setVideoUrl:(NSString *)videoUrl
 {
     _videoUrl = videoUrl;
-        
+
+    [self.lightVideoPlayerVC resetPlayerUI];
+    
     [self.xmpVideoPlayerCore switchVideoWithContentURLString:videoUrl];
 }
 
@@ -274,6 +276,20 @@
     if (self.lightVideoPlayerVC) {
         self.lightVideoPlayerVC = nil;
     }
+}
+
+- (void)setExternalCompleteView:(UIView *)externalCompleteView
+{
+    _externalErrorView = externalCompleteView;
+    
+    self.lightVideoPlayerVC.externalCompleteView = externalCompleteView;
+}
+
+- (void)setExternalErrorView:(UIView *)externalErrorView
+{
+    _externalErrorView = externalErrorView;
+    
+    self.lightVideoPlayerVC.externalErrorView = externalErrorView;
 }
 
 #pragma mark - Private

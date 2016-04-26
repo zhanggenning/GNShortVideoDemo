@@ -23,6 +23,7 @@
     BOOL _isPlayerCoreLoaded; //播放核加载
     BOOL _isContorlBarLoaded; //控制条加载
     BOOL _isProcessChangeing; //进度改变中
+    BOOL _isPlayerUIInited;   //界面初始化
 }
 
 @property (strong, nonatomic) TWeakTimer *autoHideControlTimer;
@@ -39,6 +40,8 @@
     [self unloadVideoPlayerCore];
     
     [self.videoPlayerCore close];
+    
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 
     NSLog(@"页面释放.....");
 }
@@ -52,30 +55,18 @@
     
     //装载控制条
     [self loadVideoControlBar];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(resignActiveNotification:)
+                                                 name:UIApplicationWillResignActiveNotification
+                                               object:nil];
 }
 
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
     
-    //刷新标题
-    if (_sourceManager.titleSource.titleBlock)
-    {
-        self.controlBarModel.mainTitle = _sourceManager.titleSource.titleBlock();
-    }
-    
-    //同步状态
-    if (!_videoPlayerCore.isReadyForPlaying)
-    {
-        self.controlBarModel.playState = kVideoControlBarBuffering;
-    }
-
-    self.controlBarModel.playProcess = 0.0;
-    self.controlBarModel.bufferProcess = 0.0;
-    self.controlBarModel.playTime = 0;
-    self.controlBarModel.durationTime = 0;
-    self.controlBarModel.controlBarHidden = NO;
-    [self stopAutoHideControlTimer];
+    [self resetPlayerUI];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -93,12 +84,44 @@
     return instance;
 }
 
+- (void)resetPlayerUI
+{
+    //刷新标题
+    if (_sourceManager.titleSource.titleBlock)
+    {
+        self.controlBarModel.mainTitle = _sourceManager.titleSource.titleBlock();
+    }
+        
+    //同步状态
+    if (!_videoPlayerCore.isReadyForPlaying)
+    {
+        self.controlBarModel.playState = kVideoControlBarBuffering;
+    }
+        
+    self.controlBarModel.playProcess = 0.0;
+    self.controlBarModel.bufferProcess = 0.0;
+    self.controlBarModel.playTime = 0;
+    self.controlBarModel.durationTime = 0;
+    self.controlBarModel.controlBarHidden = NO;
+    [self stopAutoHideControlTimer];
+        
+    //移除外部视图
+    if (_externalErrorView && _externalErrorView.superview) {
+        [_externalErrorView removeFromSuperview];
+    }
+        
+    if (_externalCompleteView && _externalCompleteView.superview) {
+        [_externalCompleteView removeFromSuperview];
+    }
+}
+
+#pragma mark -- 私有API
 - (void)loadVideoPlayerCore
 {
     if (!_isPlayerCoreLoaded && _videoPlayerCore)
     {
         _videoPlayerCore.videoView.translatesAutoresizingMaskIntoConstraints = NO;
-
+        
         //添加videoView
         [self.view insertSubview:_videoPlayerCore.videoView atIndex:0];
         
@@ -125,7 +148,6 @@
     }
 }
 
-#pragma mark -- 私有API
 - (void)loadVideoControlBar
 {
     if (!_isContorlBarLoaded)
@@ -189,12 +211,43 @@
     self.autoHideControlTimer = nil;
 }
 
+//- (void)postStartPlayingNotification {
+//    NSDictionary *userInfo = @{kPKPlayerNotificationVideoInfoKey:self.videoPlayerCore.videoInfo};
+//    [[NSNotificationCenter defaultCenter] postNotificationName:kPKPlayerStartPlayingNotification
+//                                                        object:nil
+//                                                      userInfo:userInfo];
+//}
+//
+//- (void)postFinishPlayingNotification {
+//    NSDictionary *userInfo = @{kPKPlayerNotificationVideoInfoKey:self.videoPlayerCore.videoInfo};
+//    [[NSNotificationCenter defaultCenter] postNotificationName:kPKPlayerFinishPlayingNotification
+//                                                        object:nil
+//                                                      userInfo:userInfo];
+//}
+
 #pragma mark -- 事件
 - (void)autoHideControlBar:(TWeakTimer *)timer
 {
     if (!_videoPlayerCore.isPaused && !_controlBarModel.controlBarHidden)
     {
         _controlBarModel.controlBarHidden = YES;
+    }
+}
+
+//进入后台，停止播放
+- (void)resignActiveNotification:(NSNotification *)notification
+{
+    if (!self.videoPlayerCore.isPaused)
+    {
+        //停止自动隐藏
+        [self stopAutoHideControlTimer];
+        
+        [self.videoPlayerCore pauseWithExecutionHandler:^(BOOL executed) {
+            [NSObject asyncTaskOnMainWithBlock:^{
+                self.controlBarModel.playState = kVideoControlBarPlay;
+                self.controlBarModel.controlBarHidden = NO;
+            }];
+        }];
     }
 }
 
@@ -234,7 +287,7 @@ openCompletedWithResult:(BOOL)isReadyForPlaying
                   error:(NSError *)error
 {
     NSLog(@"轻量级播放器>>>>>>>>>>>>> 加载完成");
-    
+
     if (isReadyForPlaying)
     {
         __weak typeof(self) weakSelf = self;
@@ -264,6 +317,34 @@ openCompletedWithResult:(BOOL)isReadyForPlaying
   playCompletedWithType:(PKVideoPlayCompletionType)type
                   error:(NSError *)error
 {
+    switch (type)
+    {
+        case kVideoPlayCompletionTypeEOF:
+        {
+            if (_externalCompleteView)
+            {
+                [_externalCompleteView removeFromSuperview];
+                [self.view addSubview:_externalCompleteView];
+                [self addContraintsOnView:_externalCompleteView];
+            }
+            break;
+        }
+        case kVideoPlayCompletionTypeClosed:
+        case kVideoPlayCompletionTypeError:
+        {
+            if (_externalErrorView) {
+                [_externalErrorView removeFromSuperview];
+                [self.view addSubview:_externalErrorView];
+                [self addContraintsOnView:_externalErrorView];
+            }
+            
+            break;
+        }
+            
+        default:
+            break;
+    }
+    
     NSLog(@"轻量级播放器>>>>>>>>>>>>> 播放完成");
 }
 
@@ -346,10 +427,8 @@ openCompletedWithResult:(BOOL)isReadyForPlaying
                 [self stopAutoHideControlTimer];
                 
                 [NSObject asyncTaskOnMainWithBlock:^{
-                    if ([controlBar respondsToSelector:@selector(setControlBarPlayState:)])
-                    {
-                        [controlBar setControlBarPlayState:kVideoControlBarPlay]; //暂停后，换成播放的图片
-                    }
+                    self.controlBarModel.playState = kVideoControlBarPlay;
+                    self.controlBarModel.controlBarHidden = NO;
                 }];
             }
         }];
@@ -366,10 +445,7 @@ openCompletedWithResult:(BOOL)isReadyForPlaying
                 [self startAutoHideControlTimer];
                 
                 [NSObject asyncTaskOnMainWithBlock:^{
-                    if ([controlBar respondsToSelector:@selector(setControlBarPlayState:)])
-                    {
-                        [controlBar setControlBarPlayState:kVideoControlBarPause]; //暂停后，换成播放的图片
-                    }
+                    self.controlBarModel.playState = kVideoControlBarPause;
                 }];
             }
         }];

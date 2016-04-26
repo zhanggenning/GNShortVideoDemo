@@ -19,6 +19,11 @@
 
 @property (assign, nonatomic) PKVideoControlBarStyle controlBarStyle;
 
+@property (nonatomic, weak) UIView *externalCompleteView;
+@property (nonatomic, weak) UIView *externalErrorView;
+
 + (instancetype)nibInstance;
+
+- (void)resetPlayerUI;
 
 @end
