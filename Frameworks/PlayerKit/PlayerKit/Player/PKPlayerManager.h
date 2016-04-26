@@ -91,9 +91,11 @@ extern NSString *const kPKPlayerNotificationVideoInfoKey;
 
 
 #pragma mark -- 新接口
-@property (nonatomic, copy) NSString *videoUrl;
-@property (nonatomic, strong) UIViewController *normalVideoPlayerVC;
-@property (nonatomic, strong) UIViewController *lightVideoPlayerVC;
 
+- (void)releasePlayerVC;
+
+@property (nonatomic, assign) BOOL isFullScreen;
+@property (nonatomic, copy) NSString *videoUrl;
+@property (nonatomic, strong, readonly) UIViewController *playerVC;
 
 @end

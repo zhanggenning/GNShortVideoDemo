@@ -30,20 +30,20 @@ static NSString * const kTestUrl4 = @"http://v4.pstatp.com/1728e034de89476b50e0d
 {
 //    [[PKPlayerManager sharedManager] playWithContentURLString:urlString];
     
-    [PKPlayerManager sharedManager].lightVideoPlayerVC.view.frame = CGRectMake(0, 0, 300, 200);
-    [PKPlayerManager sharedManager].lightVideoPlayerVC.view.center = self.view.center;
-    [self.view addSubview:[PKPlayerManager sharedManager].lightVideoPlayerVC.view];
-    [self addChildViewController:[PKPlayerManager sharedManager].lightVideoPlayerVC];
+    [PKPlayerManager sharedManager].playerVC.view.frame = CGRectMake(0, 0, 300, 200);
+    [PKPlayerManager sharedManager].playerVC.view.center = self.view.center;
+    [self.view addSubview:[PKPlayerManager sharedManager].playerVC.view];
+    [self addChildViewController:[PKPlayerManager sharedManager].playerVC];
     
     [PKPlayerManager sharedManager].videoUrl = kTestUrl2;
 }
 - (IBAction)removeAction:(id)sender
 {
-    [[PKPlayerManager sharedManager].lightVideoPlayerVC removeFromParentViewController];
+    [[PKPlayerManager sharedManager].playerVC removeFromParentViewController];
     
-    [[PKPlayerManager sharedManager].lightVideoPlayerVC.view removeFromSuperview];
+    [[PKPlayerManager sharedManager].playerVC.view removeFromSuperview];
     
-    [PKPlayerManager sharedManager].lightVideoPlayerVC = nil;
+    [[PKPlayerManager sharedManager] releasePlayerVC];
 }
 
 @end

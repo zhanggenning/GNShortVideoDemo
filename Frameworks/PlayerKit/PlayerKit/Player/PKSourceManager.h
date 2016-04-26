@@ -35,7 +35,7 @@
 /// 字幕源
 @property (strong, nonatomic) PKSubtitleSource *subtitleSource;
 
-/// 播放器状态源（播放／暂停）
+/// 播放器状态源（播放／暂停／屏幕尺寸）
 @property (strong, nonatomic) PKPlayerStatusSource *playerStatusSource;
 
 /// 统计源

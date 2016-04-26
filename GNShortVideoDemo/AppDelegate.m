@@ -8,6 +8,7 @@
 
 #import "AppDelegate.h"
 #import "MainViewController.h"
+#import "ShorVideoFeedViewController.h"
 
 @interface AppDelegate ()
 
@@ -22,7 +23,8 @@
     self.window.backgroundColor = [UIColor whiteColor];
     [self.window makeKeyAndVisible];
     
-    self.window.rootViewController = [MainViewController new];
+//    self.window.rootViewController = [MainViewController new];
+    self.window.rootViewController = [ShorVideoFeedViewController new];
 
     return YES;
 }

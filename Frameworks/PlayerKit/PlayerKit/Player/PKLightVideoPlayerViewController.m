@@ -15,6 +15,7 @@
 #import "PKSourceManager.h"
 #import "PKLightVideoControlBarModel.h"
 #import "PKTitleSource.h"
+#import "PKPlayerStatusSource.h"
 #import "TWeakTimer.h"
 
 @interface PKLightVideoPlayerViewController () <PKVideoPlayerCoreDelegate, PKControlBarEventProtocol>
@@ -56,6 +57,17 @@
     if (!_videoPlayerCore.isReadyForPlaying)
     {
         self.controlBarModel.playState = kVideoControlBarBuffering;
+    }
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    
+    //刷新标题
+    if (_sourceManager.titleSource.titleBlock)
+    {
+        self.controlBarModel.mainTitle = _sourceManager.titleSource.titleBlock();
     }
 }
 
@@ -117,11 +129,6 @@
         
         self.controlBarModel.delegate = self;
   
-        if (_sourceManager.titleSource.titleBlock)
-        {
-            self.controlBarModel.mainTitle = _sourceManager.titleSource.titleBlock();
-        }
-        
         _isContorlBarLoaded = YES;
     }
 }
@@ -193,6 +200,23 @@
         _controlBarModel.delegate = self;
     }
     return _controlBarModel;
+}
+
+- (void)setControlBarStyle:(PKVideoControlBarStyle)controlBarStyle
+{
+    if (_controlBarStyle != controlBarStyle)
+    {
+        //更换控制栏
+        [self unloadVideoControlBar];
+         self.controlBarModel.controlBarStyle = controlBarStyle;
+        [self loadVideoControlBar];
+        
+        //重置自动隐藏
+        self.controlBarModel.controlBarHidden = NO;
+        [self startAutoHideControlTimer];
+        
+        _controlBarStyle = controlBarStyle;
+    }
 }
 
 #pragma mark -- 代理
@@ -372,19 +396,10 @@ openCompletedWithResult:(BOOL)isReadyForPlaying
 //全屏按键点击事件
 - (void)videoControlBarFullScreenBtnClicked:(id<PKControlBarProtocol>)controlBar
 {
-    self.view.transform = CGAffineTransformMakeRotation(M_PI_2);
-    self.view.frame = [UIScreen mainScreen].bounds;
-    
-    //换controlBar
-    [self unloadVideoControlBar];
-    
-    self.controlBarModel.controlBarStyle = kVideoControlBarFull;
-    
-    [self loadVideoControlBar];
-    
-    //重置自动隐藏
-    self.controlBarModel.controlBarHidden = NO;
-    [self startAutoHideControlTimer];
+    if (_sourceManager.playerStatusSource.screenSizeSwitchBlock)
+    {
+        _sourceManager.playerStatusSource.screenSizeSwitchBlock();
+    }
     
     NSLog(@"控制栏更换完毕");
 }

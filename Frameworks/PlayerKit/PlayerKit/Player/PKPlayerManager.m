@@ -33,6 +33,7 @@
 @property (strong, nonatomic) PKXMPVideoPlayerCore *xmpVideoPlayerCore;
 @property (strong, nonatomic) PKSystemVideoPlayerCore *systemVideoPlayerCore;
 @property (weak, nonatomic) PKVideoPlayerViewController *videoPlayerVC;
+@property (strong, nonatomic) PKLightVideoPlayerViewController *lightVideoPlayerVC;
 
 - (void)initSourceManager;
 
@@ -77,9 +78,13 @@
 }
 
 - (PKSourceManager *)currentSourceManager {
-    if (self.videoPlayerVC) {
+    if (self.videoPlayerVC){
         return self.videoPlayerVC.sourceManager;
-    } else {
+    }
+    else if (_lightVideoPlayerVC.sourceManager) {
+        return _lightVideoPlayerVC.sourceManager;
+    }
+    else {
         [self initSourceManager];
         return self.sourceManager;
     }
@@ -219,22 +224,7 @@
 }
 
 
-- (UIViewController *)normalVideoPlayerVC
-{
-    _normalVideoPlayerVC = self.videoPlayerVC;
-    
-    if (!_normalVideoPlayerVC)
-    {
-        PKVideoPlayerViewController *vc = [PKVideoPlayerViewController nibInstance];
-        vc.sourceManager = self.sourceManager;
-        [self clearSources];
-        vc.videoPlayerCore = self.xmpVideoPlayerCore;
-        self.videoPlayerVC = vc;
-        _normalVideoPlayerVC = vc;
-    }
-    return _normalVideoPlayerVC;
-}
-
+#pragma mark -- 新增
 - (UIViewController *)lightVideoPlayerVC
 {
     if (!_lightVideoPlayerVC)
@@ -245,16 +235,44 @@
         vc.videoPlayerCore = self.xmpVideoPlayerCore;
         _lightVideoPlayerVC = vc;
     }
+
     return _lightVideoPlayerVC;
 }
 
 - (void)setVideoUrl:(NSString *)videoUrl
 {
-    if (![_videoUrl isEqualToString:videoUrl])
-    {
-        _videoUrl = videoUrl;
+    _videoUrl = videoUrl;
         
-        [self.xmpVideoPlayerCore switchVideoWithContentURLString:videoUrl];
+    [self.xmpVideoPlayerCore switchVideoWithContentURLString:videoUrl];
+}
+
+- (void)setIsFullScreen:(BOOL)isFullScreen
+{
+    if (_isFullScreen != isFullScreen)
+    {
+        if (isFullScreen)
+        {
+            self.lightVideoPlayerVC.controlBarStyle = kVideoControlBarFull;
+        }
+        else
+        {
+            self.lightVideoPlayerVC.controlBarStyle = kVideoControlBarBase;
+        }
+        
+        _isFullScreen = isFullScreen;
+    }
+    _isFullScreen = isFullScreen;
+}
+
+- (UIViewController *)playerVC
+{
+    return self.lightVideoPlayerVC;
+}
+
+- (void)releasePlayerVC
+{
+    if (self.lightVideoPlayerVC) {
+        self.lightVideoPlayerVC = nil;
     }
 }
 
@@ -263,6 +281,10 @@
 - (void)initSourceManager {
     if (!self.sourceManager) {
         self.sourceManager = [[PKSourceManager alloc] init];
+    }
+    
+    if (_lightVideoPlayerVC) {
+        self.lightVideoPlayerVC.sourceManager = self.sourceManager;
     }
 }
 

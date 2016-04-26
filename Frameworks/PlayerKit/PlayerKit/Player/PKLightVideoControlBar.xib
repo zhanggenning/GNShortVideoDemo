@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9531" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10116" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
     </dependencies>
@@ -82,10 +82,10 @@
                             </constraints>
                         </view>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="AHS-EB-uor" userLabel="TopBar">
-                            <rect key="frame" x="0.0" y="0.0" width="667" height="68"/>
+                            <rect key="frame" x="0.0" y="8" width="667" height="21"/>
                             <subviews>
-                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hwH-xM-g6a">
-                                    <rect key="frame" x="16" y="0.0" width="635" height="68"/>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="title" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hwH-xM-g6a">
+                                    <rect key="frame" x="16" y="0.0" width="635" height="21"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     <nil key="highlightedColor"/>
@@ -93,23 +93,22 @@
                             </subviews>
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             <constraints>
-                                <constraint firstAttribute="trailing" secondItem="hwH-xM-g6a" secondAttribute="trailing" constant="16" id="GLX-Ae-BpM"/>
-                                <constraint firstAttribute="bottom" secondItem="hwH-xM-g6a" secondAttribute="bottom" id="Kkk-2H-Q74"/>
-                                <constraint firstItem="hwH-xM-g6a" firstAttribute="top" secondItem="AHS-EB-uor" secondAttribute="top" id="agn-nm-tg4"/>
-                                <constraint firstItem="hwH-xM-g6a" firstAttribute="leading" secondItem="AHS-EB-uor" secondAttribute="leading" constant="16" id="azZ-wk-Bav"/>
+                                <constraint firstAttribute="trailing" secondItem="hwH-xM-g6a" secondAttribute="trailing" constant="16" id="FPc-gD-mF1"/>
+                                <constraint firstItem="hwH-xM-g6a" firstAttribute="top" secondItem="AHS-EB-uor" secondAttribute="top" id="NnR-Ze-VCy"/>
+                                <constraint firstItem="hwH-xM-g6a" firstAttribute="leading" secondItem="AHS-EB-uor" secondAttribute="leading" constant="16" id="juX-az-JA1"/>
+                                <constraint firstItem="hwH-xM-g6a" firstAttribute="height" secondItem="AHS-EB-uor" secondAttribute="height" id="qAW-n0-fB8"/>
                             </constraints>
                         </view>
                     </subviews>
                     <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                     <gestureRecognizers/>
                     <constraints>
-                        <constraint firstAttribute="trailing" secondItem="AHS-EB-uor" secondAttribute="trailing" id="1jc-aP-EOt"/>
-                        <constraint firstItem="p7y-ce-elH" firstAttribute="height" secondItem="AHS-EB-uor" secondAttribute="height" id="4ul-aq-Bmo"/>
+                        <constraint firstItem="AHS-EB-uor" firstAttribute="leading" secondItem="Z4Y-Sx-1Bf" secondAttribute="leading" id="6fS-7O-7Lx"/>
                         <constraint firstItem="oHX-A6-iCx" firstAttribute="centerX" secondItem="Z4Y-Sx-1Bf" secondAttribute="centerX" id="7sC-p1-A2s"/>
                         <constraint firstItem="p7y-ce-elH" firstAttribute="height" secondItem="Z4Y-Sx-1Bf" secondAttribute="height" multiplier="1:5.5" id="C1C-w4-eAG"/>
-                        <constraint firstItem="AHS-EB-uor" firstAttribute="leading" secondItem="Z4Y-Sx-1Bf" secondAttribute="leading" id="NNT-Vh-HOu"/>
-                        <constraint firstItem="AHS-EB-uor" firstAttribute="top" secondItem="Z4Y-Sx-1Bf" secondAttribute="top" id="Oq2-Ll-5Ll"/>
                         <constraint firstItem="oHX-A6-iCx" firstAttribute="centerY" secondItem="Z4Y-Sx-1Bf" secondAttribute="centerY" id="PGP-pR-2CI"/>
+                        <constraint firstItem="AHS-EB-uor" firstAttribute="top" secondItem="Z4Y-Sx-1Bf" secondAttribute="top" constant="8" id="Qif-mD-gLm"/>
+                        <constraint firstAttribute="trailing" secondItem="AHS-EB-uor" secondAttribute="trailing" id="REO-1m-b9D"/>
                         <constraint firstAttribute="trailing" secondItem="p7y-ce-elH" secondAttribute="trailing" id="SFq-ei-3Re"/>
                         <constraint firstAttribute="bottom" secondItem="p7y-ce-elH" secondAttribute="bottom" id="aw9-gT-WgA"/>
                         <constraint firstItem="p7y-ce-elH" firstAttribute="leading" secondItem="Z4Y-Sx-1Bf" secondAttribute="leading" id="vuu-Gn-ZLA"/>
@@ -149,6 +148,7 @@
                 <outlet property="playTimeLab" destination="QLa-Sh-d8L" id="nt0-EE-RF3"/>
                 <outlet property="processSlider" destination="bxk-3f-car" id="huE-RQ-Wdq"/>
             </connections>
+            <point key="canvasLocation" x="526.5" y="456.5"/>
         </view>
     </objects>
     <resources>
