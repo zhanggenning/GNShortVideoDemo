@@ -13,17 +13,22 @@
 
 @interface ShortVideoPlayerManger : NSObject
 
-@property (nonatomic, copy) NSString *videoUrl;
-
-@property (nonatomic, copy) NSString *videoTitle;
-
-@property (nonatomic, assign) BOOL videoIsVertical; //视频是否为竖屏
-
-@property (nonatomic, strong) UIViewController *playerVC;
+@property (nonatomic, strong, readonly) UIViewController *playerVC;
 
 @property (nonatomic, weak) id<ShortVideoPlayerProtocol> delegate;
 
 + (instancetype)shareInstance;
+
+- (UIViewController *)playerWithVideoUrl:(NSString *)videoUrl
+                              videoTitle:(NSString *)title
+                              isVertical:(BOOL)isVertical;
+
+- (void)resetPlayerWithVideoUrl:(NSString *)videoUrl
+                     videoTitle:(NSString *)title
+                     isVertical:(BOOL)isVertical;
+
+
+- (void)releasePlayer;
 
 @end
 

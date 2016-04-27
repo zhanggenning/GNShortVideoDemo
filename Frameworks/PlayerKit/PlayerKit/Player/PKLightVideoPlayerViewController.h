@@ -15,12 +15,14 @@
 @interface PKLightVideoPlayerViewController : UIViewController
 
 @property (strong, nonatomic) PKVideoPlayerCoreBase *videoPlayerCore;
+
 @property (strong, nonatomic) PKSourceManager *sourceManager;
 
 @property (assign, nonatomic) PKVideoControlBarStyle controlBarStyle;
 
-@property (nonatomic, weak) UIView *externalCompleteView;
-@property (nonatomic, weak) UIView *externalErrorView;
+@property (weak, nonatomic) UIView *externalCompleteView;
+
+@property (weak, nonatomic) UIView *externalErrorView;
 
 + (instancetype)nibInstance;
 

@@ -16,7 +16,7 @@
 @property (nonatomic, strong) ShortVideoFeedCellModel *cellModel;
 @property (strong, nonatomic) ShortVideoFeedCell *heightCell;
 @property (weak, nonatomic) IBOutlet UITableView *shortVideoFeedTab;
-
+@property (weak, nonatomic) UIViewController *playerVC;
 @end
 
 @implementation ShorVideoFeedViewController
@@ -27,7 +27,6 @@
 
     [_shortVideoFeedTab registerNib:[UINib nibWithNibName:NSStringFromClass([ShortVideoFeedCell class]) bundle:nil] forCellReuseIdentifier:@"cell"];
     
-    [self addChildViewController:[ShortVideoPlayerManger shareInstance].playerVC];
     [ShortVideoPlayerManger shareInstance].delegate = self;
 }
 
@@ -111,30 +110,52 @@
 //点击图片
 - (void)shortVideoFeedCellClickedImage:(ShortVideoFeedCell *)cell indexPath:(NSIndexPath *)indexPath imageFrame:(CGRect)imageFrame
 {
-    [ShortVideoPlayerManger shareInstance].videoUrl =cell.cellModel.videoUrl;
-    [ShortVideoPlayerManger shareInstance].videoTitle = cell.cellModel.mainTitle;
-    [ShortVideoPlayerManger shareInstance].videoIsVertical = cell.cellModel.videoIsVertical;
-    [ShortVideoPlayerManger shareInstance].playerVC.view.frame = [cell convertRect:imageFrame toView:_shortVideoFeedTab];
-    [[ShortVideoPlayerManger shareInstance].playerVC.view removeFromSuperview];
-    [_shortVideoFeedTab addSubview:[ShortVideoPlayerManger shareInstance].playerVC.view];
+    //更新配置
+    if (!_playerVC)
+    {
+        _playerVC = [[ShortVideoPlayerManger shareInstance] playerWithVideoUrl:cell.cellModel.videoUrl
+                                                                    videoTitle:cell.cellModel.mainTitle
+                                                                    isVertical:cell.cellModel.videoIsVertical];
+    }
+    else
+    {
+        [[ShortVideoPlayerManger shareInstance] resetPlayerWithVideoUrl:cell.cellModel.videoUrl
+                                                             videoTitle:cell.cellModel.mainTitle
+                                                             isVertical:cell.cellModel.videoIsVertical];
+    }
+    
+    //移除
+    if (_playerVC.parentViewController) {
+        [_playerVC removeFromParentViewController];
+    }
+    if (_playerVC.view.superview) {
+        [_playerVC.view removeFromSuperview];
+    }
+    
+    //添加
+    _playerVC.view.frame = [cell convertRect:imageFrame toView:_shortVideoFeedTab];
+    [self addChildViewController:_playerVC];
+    [_shortVideoFeedTab addSubview:_playerVC.view];
 }
 
 #pragma mark -- <ShortVideoPlayerProtocol>
 - (void)shortVideoPlayerWillSwitchToFullScreen
 {
-    CGRect rect = [_shortVideoFeedTab convertRect:[ShortVideoPlayerManger shareInstance].playerVC.view.frame
-                                           toView:self.view];
-    [[ShortVideoPlayerManger shareInstance].playerVC.view removeFromSuperview];
-    [ShortVideoPlayerManger shareInstance].playerVC.view.frame = rect;
-    [self.view addSubview:[ShortVideoPlayerManger shareInstance].playerVC.view];
+    if (_playerVC)
+    {
+        [_playerVC.view removeFromSuperview];
+        _playerVC.view.frame = [_shortVideoFeedTab convertRect:_playerVC.view.frame toView:self.view];
+        [self.view addSubview:[ShortVideoPlayerManger shareInstance].playerVC.view];
+    }
 }
 
 - (void)shortVideoPlayerDidSwitchToNormalScreen
 {
-    CGRect rect = [self.view convertRect:[ShortVideoPlayerManger shareInstance].playerVC.view.frame
-                                           toView:_shortVideoFeedTab];
-    [[ShortVideoPlayerManger shareInstance].playerVC.view removeFromSuperview];
-    [ShortVideoPlayerManger shareInstance].playerVC.view.frame = rect;
-    [_shortVideoFeedTab addSubview:[ShortVideoPlayerManger shareInstance].playerVC.view];
+    if (_playerVC)
+    {
+        [_playerVC.view removeFromSuperview];
+        _playerVC.view.frame = [self.view convertRect:_playerVC.view.frame toView:_shortVideoFeedTab];;
+        [_shortVideoFeedTab addSubview:_playerVC.view];
+    }
 }
 @end

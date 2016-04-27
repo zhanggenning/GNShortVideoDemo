@@ -6,7 +6,7 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.ExceptionBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "No"
+            shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             scope = "0"
@@ -91,54 +91,6 @@
             endingLineNumber = "273"
             landmarkName = "-setProcess:"
             landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Frameworks/PlayerKit/PlayerKit/Player/PKLightVideoPlayerViewController.m"
-            timestampString = "483369665.69351"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "199"
-            endingLineNumber = "199"
-            landmarkName = "-startAutoHideControlTimer"
-            landmarkType = "5">
-            <Locations>
-               <Location
-                  shouldBeEnabled = "No"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "-[PKLightVideoPlayerViewController startAutoHideControlTimer]"
-                  moduleName = "GNShortVideoDemo"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/genning/Desktop/MyGit/GNShortVideoDemo/Frameworks/PlayerKit/PlayerKit/Player/PKLightVideoPlayerViewController.m"
-                  timestampString = "483369408.666044"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "198"
-                  endingLineNumber = "198"
-                  offsetFromSymbolStart = "60">
-               </Location>
-               <Location
-                  shouldBeEnabled = "No"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "__61-[PKLightVideoPlayerViewController startAutoHideControlTimer]_block_invoke"
-                  moduleName = "GNShortVideoDemo"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/genning/Desktop/MyGit/GNShortVideoDemo/Frameworks/PlayerKit/PlayerKit/Player/PKLightVideoPlayerViewController.m"
-                  timestampString = "483369408.666303"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "198"
-                  endingLineNumber = "198"
-                  offsetFromSymbolStart = "32">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy

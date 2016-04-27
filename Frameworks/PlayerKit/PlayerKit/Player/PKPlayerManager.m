@@ -33,7 +33,7 @@
 @property (strong, nonatomic) PKXMPVideoPlayerCore *xmpVideoPlayerCore;
 @property (strong, nonatomic) PKSystemVideoPlayerCore *systemVideoPlayerCore;
 @property (weak, nonatomic) PKVideoPlayerViewController *videoPlayerVC;
-@property (strong, nonatomic) PKLightVideoPlayerViewController *lightVideoPlayerVC;
+@property (weak, nonatomic) PKLightVideoPlayerViewController *lightVideoPlayerVC;
 
 - (void)initSourceManager;
 
@@ -225,71 +225,52 @@
 
 
 #pragma mark -- 新增
-- (UIViewController *)lightVideoPlayerVC
-{
-    if (!_lightVideoPlayerVC)
-    {
-        PKLightVideoPlayerViewController *vc = [PKLightVideoPlayerViewController nibInstance];
-        vc.sourceManager = self.sourceManager;
-        [self clearSources];
-        vc.videoPlayerCore = self.xmpVideoPlayerCore;
-        _lightVideoPlayerVC = vc;
-    }
-
-    return _lightVideoPlayerVC;
-}
-
 - (void)setVideoUrl:(NSString *)videoUrl
 {
     _videoUrl = videoUrl;
 
-    [self.lightVideoPlayerVC resetPlayerUI];
-    
     [self.xmpVideoPlayerCore switchVideoWithContentURLString:videoUrl];
 }
 
-- (void)setIsFullScreen:(BOOL)isFullScreen
+- (void)setPlayerStyle:(PKVideoControlBarStyle)playerStyle
 {
-    if (_isFullScreen != isFullScreen)
+    if (_playerStyle != playerStyle)
     {
-        if (isFullScreen)
-        {
-            self.lightVideoPlayerVC.controlBarStyle = kVideoControlBarFull;
-        }
-        else
-        {
-            self.lightVideoPlayerVC.controlBarStyle = kVideoControlBarBase;
-        }
+        self.lightVideoPlayerVC.controlBarStyle = playerStyle;
         
-        _isFullScreen = isFullScreen;
-    }
-    _isFullScreen = isFullScreen;
-}
-
-- (UIViewController *)playerVC
-{
-    return self.lightVideoPlayerVC;
-}
-
-- (void)releasePlayerVC
-{
-    if (self.lightVideoPlayerVC) {
-        self.lightVideoPlayerVC = nil;
+        _playerStyle = playerStyle;
     }
 }
 
-- (void)setExternalCompleteView:(UIView *)externalCompleteView
+- (UIViewController *)lightPlayerWithVideoUrl:(NSString *)videoUrl
+                                 completeView:(UIView *)completeView
+                                    errorView:(UIView *)errorView
 {
-    _externalErrorView = externalCompleteView;
+    if (_lightVideoPlayerVC) {
+        NSAssert(NO, @"[ERROR]: Play when is playing!");
+        [self clearSources];
+        return _lightVideoPlayerVC;
+    }
     
-    self.lightVideoPlayerVC.externalCompleteView = externalCompleteView;
+    PKLightVideoPlayerViewController *vc = [PKLightVideoPlayerViewController nibInstance];
+    vc.sourceManager = self.sourceManager;
+    [self clearSources];
+    vc.videoPlayerCore = self.xmpVideoPlayerCore;
+    vc.externalCompleteView = completeView;
+    vc.externalErrorView = errorView;
+    _lightVideoPlayerVC = vc;
+    
+    [self.xmpVideoPlayerCore switchVideoWithContentURLString:videoUrl];
+    
+    return vc;
 }
 
-- (void)setExternalErrorView:(UIView *)externalErrorView
+
+- (void)resetLightPlayer
 {
-    _externalErrorView = externalErrorView;
-    
-    self.lightVideoPlayerVC.externalErrorView = externalErrorView;
+    if (_lightVideoPlayerVC) {
+        [_lightVideoPlayerVC resetPlayerUI];
+    }
 }
 
 #pragma mark - Private

@@ -17,6 +17,7 @@
 #import "PKTitleSource.h"
 #import "PKPlayerStatusSource.h"
 #import "TWeakTimer.h"
+#import "PKPlayerManager.h"
 
 @interface PKLightVideoPlayerViewController () <PKVideoPlayerCoreDelegate, PKControlBarEventProtocol>
 {
@@ -62,13 +63,6 @@
                                                object:nil];
 }
 
-- (void)viewDidAppear:(BOOL)animated
-{
-    [super viewDidAppear:animated];
-    
-    [self resetPlayerUI];
-}
-
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
@@ -104,15 +98,17 @@
     self.controlBarModel.durationTime = 0;
     self.controlBarModel.controlBarHidden = NO;
     [self stopAutoHideControlTimer];
-        
-    //移除外部视图
+    
+    //外部视图
     if (_externalErrorView && _externalErrorView.superview) {
         [_externalErrorView removeFromSuperview];
     }
-        
     if (_externalCompleteView && _externalCompleteView.superview) {
         [_externalCompleteView removeFromSuperview];
     }
+    
+    //隐藏播放视图
+    self.videoPlayerCore.videoView.hidden = YES;
 }
 
 #pragma mark -- 私有API
@@ -126,7 +122,7 @@
         [self.view insertSubview:_videoPlayerCore.videoView atIndex:0];
         
         [self addContraintsOnView:_videoPlayerCore.videoView];
-        
+ 
         //设置delegate
         _videoPlayerCore.delegate = self;
         
@@ -211,19 +207,19 @@
     self.autoHideControlTimer = nil;
 }
 
-//- (void)postStartPlayingNotification {
-//    NSDictionary *userInfo = @{kPKPlayerNotificationVideoInfoKey:self.videoPlayerCore.videoInfo};
-//    [[NSNotificationCenter defaultCenter] postNotificationName:kPKPlayerStartPlayingNotification
-//                                                        object:nil
-//                                                      userInfo:userInfo];
-//}
-//
-//- (void)postFinishPlayingNotification {
-//    NSDictionary *userInfo = @{kPKPlayerNotificationVideoInfoKey:self.videoPlayerCore.videoInfo};
-//    [[NSNotificationCenter defaultCenter] postNotificationName:kPKPlayerFinishPlayingNotification
-//                                                        object:nil
-//                                                      userInfo:userInfo];
-//}
+- (void)postStartPlayingNotification {
+    NSDictionary *userInfo = @{kPKPlayerNotificationVideoInfoKey:self.videoPlayerCore.videoInfo};
+    [[NSNotificationCenter defaultCenter] postNotificationName:kPKPlayerStartPlayingNotification
+                                                        object:nil
+                                                      userInfo:userInfo];
+}
+
+- (void)postFinishPlayingNotification {
+    NSDictionary *userInfo = @{kPKPlayerNotificationVideoInfoKey:self.videoPlayerCore.videoInfo};
+    [[NSNotificationCenter defaultCenter] postNotificationName:kPKPlayerFinishPlayingNotification
+                                                        object:nil
+                                                      userInfo:userInfo];
+}
 
 #pragma mark -- 事件
 - (void)autoHideControlBar:(TWeakTimer *)timer
@@ -290,6 +286,18 @@ openCompletedWithResult:(BOOL)isReadyForPlaying
 
     if (isReadyForPlaying)
     {
+        [NSObject syncTaskOnMainWithBlock:^{
+            self.videoPlayerCore.videoView.hidden = NO;
+            
+            if (_externalErrorView && _externalErrorView.superview) {
+                [_externalErrorView removeFromSuperview];
+            }
+            if (_externalCompleteView && _externalCompleteView.superview) {
+                [_externalCompleteView removeFromSuperview];
+            }
+        }];
+ 
+        
         __weak typeof(self) weakSelf = self;
         
         [videoPlayerCore playWithExecutionHandler:^(BOOL executed) {
@@ -321,19 +329,17 @@ openCompletedWithResult:(BOOL)isReadyForPlaying
     {
         case kVideoPlayCompletionTypeEOF:
         {
-            if (_externalCompleteView)
-            {
-                [_externalCompleteView removeFromSuperview];
+            if (_externalCompleteView && !videoPlayerCore.isSwitching) {
                 [self.view addSubview:_externalCompleteView];
                 [self addContraintsOnView:_externalCompleteView];
             }
+            
             break;
         }
         case kVideoPlayCompletionTypeClosed:
         case kVideoPlayCompletionTypeError:
         {
-            if (_externalErrorView) {
-                [_externalErrorView removeFromSuperview];
+            if (_externalErrorView && !videoPlayerCore.isSwitching) {
                 [self.view addSubview:_externalErrorView];
                 [self addContraintsOnView:_externalErrorView];
             }
@@ -344,6 +350,8 @@ openCompletedWithResult:(BOOL)isReadyForPlaying
         default:
             break;
     }
+    
+    self.videoPlayerCore.videoView.hidden = YES;
     
     NSLog(@"轻量级播放器>>>>>>>>>>>>> 播放完成");
 }

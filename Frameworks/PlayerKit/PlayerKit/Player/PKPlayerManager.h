@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
+#import "PKControlBarDefine.h"
 
 @class PKSourceManager;
 @class PKVideoInfo;
@@ -92,15 +93,18 @@ extern NSString *const kPKPlayerNotificationVideoInfoKey;
 
 #pragma mark -- 新接口
 
-- (void)releasePlayerVC;
-
 @property (nonatomic, weak) UIView *externalCompleteView;
+
 @property (nonatomic, weak) UIView *externalErrorView;
 
-@property (nonatomic, assign) BOOL isFullScreen;
+@property (nonatomic, assign) PKVideoControlBarStyle playerStyle;
 
 @property (nonatomic, copy) NSString *videoUrl;
 
-@property (nonatomic, strong, readonly) UIViewController *playerVC;
+- (UIViewController *)lightPlayerWithVideoUrl:(NSString *)videoUrl
+                                 completeView:(UIView *)completeView
+                                    errorView:(UIView *)errorView;
+
+- (void)resetLightPlayer;
 
 @end
