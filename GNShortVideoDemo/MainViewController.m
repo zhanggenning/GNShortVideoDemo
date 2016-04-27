@@ -34,8 +34,7 @@ static NSString * const kTestUrl4 = @"http://v4.pstatp.com/1728e034de89476b50e0d
 //    [PKPlayerManager sharedManager].playerVC.view.center = self.view.center;
 //    [self.view addSubview:[PKPlayerManager sharedManager].playerVC.view];
 //    [self addChildViewController:[PKPlayerManager sharedManager].playerVC];
-    
-    [PKPlayerManager sharedManager].videoUrl = kTestUrl2;
+
 }
 - (IBAction)removeAction:(id)sender
 {

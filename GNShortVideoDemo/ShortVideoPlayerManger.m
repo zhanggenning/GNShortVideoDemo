@@ -126,7 +126,7 @@ typedef NS_ENUM(NSInteger, PKVideoPlayerOrientation)
 {
     _videoUrl = videoUrl;
     
-    [PKPlayerManager sharedManager].videoUrl = videoUrl;
+    [[PKPlayerManager sharedManager] switchVideoUrl:videoUrl];;
 }
 
 - (void)initPlayStateSource
@@ -174,7 +174,7 @@ typedef NS_ENUM(NSInteger, PKVideoPlayerOrientation)
         
         _initRect = self.playerVC.view.frame;
         
-        [PKPlayerManager sharedManager].playerStyle = kVideoControlBarFull;
+        [PKPlayerManager sharedManager].playerControlStyle = kVideoControlBarFull;
         
         [UIView animateWithDuration:0.3 animations:^{
             self.playerVC.view.frame = [UIScreen mainScreen].bounds;
@@ -202,7 +202,7 @@ typedef NS_ENUM(NSInteger, PKVideoPlayerOrientation)
                 
                 _initRect = self.playerVC.view.frame;
                 
-                [PKPlayerManager sharedManager].playerStyle = kVideoControlBarFull;
+                [PKPlayerManager sharedManager].playerControlStyle = kVideoControlBarFull;
                 
                 [UIView animateWithDuration:0.3 animations:^{
                     self.playerVC.view.transform = CGAffineTransformMakeRotation(M_PI_2);
@@ -227,7 +227,7 @@ typedef NS_ENUM(NSInteger, PKVideoPlayerOrientation)
                 
                 _initRect = self.playerVC.view.frame;
                 
-                [PKPlayerManager sharedManager].playerStyle = kVideoControlBarFull;
+                [PKPlayerManager sharedManager].playerControlStyle = kVideoControlBarFull;
                 
                 [UIView animateWithDuration:0.3 animations:^{
                     self.playerVC.view.frame = [UIScreen mainScreen].bounds; //设备方向为横屏方向直接全屏
@@ -251,7 +251,7 @@ typedef NS_ENUM(NSInteger, PKVideoPlayerOrientation)
                 
                 _initRect = self.playerVC.view.frame;
                 
-                [PKPlayerManager sharedManager].playerStyle = kVideoControlBarFull;
+                [PKPlayerManager sharedManager].playerControlStyle = kVideoControlBarFull;
                 
                 [UIView animateWithDuration:0.3 animations:^{
                     self.playerVC.view.frame = [UIScreen mainScreen].bounds; //设备方向为横屏方向直接全屏
@@ -279,7 +279,7 @@ typedef NS_ENUM(NSInteger, PKVideoPlayerOrientation)
     }
     
     //换控制条
-    [PKPlayerManager sharedManager].playerStyle = kVideoControlBarBase;
+    [PKPlayerManager sharedManager].playerControlStyle = kVideoControlBarBase;
     
     [UIView animateWithDuration:0.3 animations:^{
         
@@ -384,7 +384,7 @@ typedef NS_ENUM(NSInteger, PKVideoPlayerOrientation)
                         self.playerVC.view.transform = CGAffineTransformMakeRotation(M_PI_2);
                         self.playerVC.view.frame = [UIScreen mainScreen].bounds;
                     } completion:^(BOOL finished) {
-                        [PKPlayerManager sharedManager].playerStyle = kVideoControlBarFull;
+                        [PKPlayerManager sharedManager].playerControlStyle = kVideoControlBarFull;
                         
                         _isFullScreen = YES;
                         _playerOrientation = kVideoPlayerLandscapeRight;
@@ -433,7 +433,7 @@ typedef NS_ENUM(NSInteger, PKVideoPlayerOrientation)
                         self.playerVC.view.transform = CGAffineTransformMakeRotation(-M_PI_2);
                         self.playerVC.view.frame = [UIScreen mainScreen].bounds;
                     } completion:^(BOOL finished) {
-                        [PKPlayerManager sharedManager].playerStyle = kVideoControlBarFull;
+                        [PKPlayerManager sharedManager].playerControlStyle = kVideoControlBarFull;
                         
                         _isFullScreen = YES;
                         _playerOrientation = kVideoPlayerLandscapeRight;

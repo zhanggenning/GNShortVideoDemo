@@ -9,3 +9,4 @@
 #import "PKPlayerManager.h"
 #import "PKVideoInfo.h"
 #import "PKStreamSlice.h"
+#import "PKControlBarDefine.h"

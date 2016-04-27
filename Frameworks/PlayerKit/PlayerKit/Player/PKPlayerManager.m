@@ -80,7 +80,12 @@
 - (PKSourceManager *)currentSourceManager {
     if (self.videoPlayerVC) {
         return self.videoPlayerVC.sourceManager;
-    } else {
+    }
+    else if (self.lightVideoPlayerVC.sourceManager)
+    {
+        return self.sourceManager;
+    }
+    else {
         [self initSourceManager];
         return self.sourceManager;
     }
@@ -278,6 +283,9 @@
 - (void)initSourceManager {
     if (!self.sourceManager) {
         self.sourceManager = [[PKSourceManager alloc] init];
+    }
+    if (self.lightVideoPlayerVC) {
+        self.lightVideoPlayerVC.sourceManager = self.sourceManager;
     }
 }
 
