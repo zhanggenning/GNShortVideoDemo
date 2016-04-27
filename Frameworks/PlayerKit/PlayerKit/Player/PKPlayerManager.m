@@ -273,6 +273,20 @@
     }
 }
 
+- (void)playWithLightPlayer
+{
+    if (_lightVideoPlayerVC) {
+        [_lightVideoPlayerVC play];
+    }
+}
+
+- (void)pauseWithLightPlayer
+{
+    if (_lightVideoPlayerVC) {
+        [_lightVideoPlayerVC pause];
+    }
+}
+
 #pragma mark - Private
 
 - (void)initSourceManager {

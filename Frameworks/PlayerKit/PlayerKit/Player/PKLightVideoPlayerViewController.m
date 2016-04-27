@@ -111,6 +111,20 @@
     self.videoPlayerCore.videoView.hidden = YES;
 }
 
+- (void)play
+{
+    if (_videoPlayerCore.isPaused) {
+        [self switchPlayStateToPause:NO];
+    }
+}
+
+- (void)pause
+{
+    if (!_videoPlayerCore.isPaused) {
+        [self switchPlayStateToPause:YES];
+    }
+}
+
 #pragma mark -- 私有API
 - (void)loadVideoPlayerCore
 {
@@ -221,6 +235,47 @@
                                                       userInfo:userInfo];
 }
 
+- (void)switchPlayStateToPause:(BOOL)isPause
+{
+    __weak typeof(self) weakSelf = self;
+    
+    if (isPause)
+    {
+        [self.videoPlayerCore pauseWithExecutionHandler:^(BOOL executed) {
+            
+            __strong typeof(weakSelf) self = weakSelf;
+            
+            if (executed)
+            {
+                //停止自动隐藏
+                [self stopAutoHideControlTimer];
+                
+                [NSObject asyncTaskOnMainWithBlock:^{
+                    self.controlBarModel.playState = kVideoControlBarPlay;
+                    self.controlBarModel.controlBarHidden = NO;
+                }];
+            }
+        }];
+    }
+    else
+    {
+        [self.videoPlayerCore playWithExecutionHandler:^(BOOL executed) {
+            
+            __strong typeof(weakSelf) self = weakSelf;
+            
+            if (executed)
+            {
+                //重置自动隐藏
+                [self startAutoHideControlTimer];
+                
+                [NSObject asyncTaskOnMainWithBlock:^{
+                    self.controlBarModel.playState = kVideoControlBarPause;
+                }];
+            }
+        }];
+    }
+}
+
 #pragma mark -- 事件
 - (void)autoHideControlBar:(TWeakTimer *)timer
 {
@@ -235,15 +290,7 @@
 {
     if (!self.videoPlayerCore.isPaused)
     {
-        //停止自动隐藏
-        [self stopAutoHideControlTimer];
-        
-        [self.videoPlayerCore pauseWithExecutionHandler:^(BOOL executed) {
-            [NSObject asyncTaskOnMainWithBlock:^{
-                self.controlBarModel.playState = kVideoControlBarPlay;
-                self.controlBarModel.controlBarHidden = NO;
-            }];
-        }];
+        [self switchPlayStateToPause:YES];
     }
 }
 
@@ -421,42 +468,13 @@ openCompletedWithResult:(BOOL)isReadyForPlaying
 //播放按键点击事件
 - (void)videoControlBarPlayBtnClicked:(id<PKControlBarProtocol>) controlBar
 {
-    __weak typeof(self) weakSelf = self;
-    
     if (!_videoPlayerCore.isPaused)
     {
-        [self.videoPlayerCore pauseWithExecutionHandler:^(BOOL executed) {
-            
-            __strong typeof(weakSelf) self = weakSelf;
-            
-            if (executed)
-            {
-                //停止自动隐藏
-                [self stopAutoHideControlTimer];
-                
-                [NSObject asyncTaskOnMainWithBlock:^{
-                    self.controlBarModel.playState = kVideoControlBarPlay;
-                    self.controlBarModel.controlBarHidden = NO;
-                }];
-            }
-        }];
+        [self switchPlayStateToPause:YES];
     }
     else
     {
-        [self.videoPlayerCore playWithExecutionHandler:^(BOOL executed) {
-            
-            __strong typeof(weakSelf) self = weakSelf;
-            
-            if (executed)
-            {
-                //重置自动隐藏
-                [self startAutoHideControlTimer];
-                
-                [NSObject asyncTaskOnMainWithBlock:^{
-                    self.controlBarModel.playState = kVideoControlBarPause;
-                }];
-            }
-        }];
+        [self switchPlayStateToPause:NO];
     }
 }
 

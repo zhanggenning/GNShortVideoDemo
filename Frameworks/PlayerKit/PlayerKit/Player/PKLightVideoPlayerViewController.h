@@ -28,4 +28,8 @@
 
 - (void)resetPlayerUI;
 
+- (void)play;
+
+- (void)pause;
+
 @end

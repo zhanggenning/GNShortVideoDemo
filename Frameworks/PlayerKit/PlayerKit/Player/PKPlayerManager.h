@@ -107,4 +107,8 @@ extern NSString *const kPKPlayerNotificationVideoInfoKey;
 
 - (void)resetLightPlayer;
 
+- (void)playWithLightPlayer;
+
+- (void)pauseWithLightPlayer;
+
 @end

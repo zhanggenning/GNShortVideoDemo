@@ -31,6 +31,7 @@
 		2F261EC61CC2185A00325A82 /* PlayerKitResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 2F261E6D1CC203C700325A82 /* PlayerKitResources.bundle */; };
 		2F261ECA1CC2187E00325A82 /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F261EC81CC2187E00325A82 /* MainViewController.m */; };
 		2F261ECB1CC2187E00325A82 /* MainViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2F261EC91CC2187E00325A82 /* MainViewController.xib */; };
+		2F3420461CD0E691009E2988 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F3420451CD0E691009E2988 /* Reachability.m */; };
 		2FECF5C91CCF0143008628E1 /* ShorVideoFeedViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2FECF5BF1CCF0143008628E1 /* ShorVideoFeedViewController.m */; };
 		2FECF5CA1CCF0143008628E1 /* ShorVideoFeedViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2FECF5C01CCF0143008628E1 /* ShorVideoFeedViewController.xib */; };
 		2FECF5CB1CCF0143008628E1 /* ShortVideoFeedCellModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 2FECF5C21CCF0143008628E1 /* ShortVideoFeedCellModel.m */; };
@@ -111,6 +112,8 @@
 		2F261EC71CC2187E00325A82 /* MainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainViewController.h; sourceTree = "<group>"; };
 		2F261EC81CC2187E00325A82 /* MainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainViewController.m; sourceTree = "<group>"; };
 		2F261EC91CC2187E00325A82 /* MainViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainViewController.xib; sourceTree = "<group>"; };
+		2F3420441CD0E691009E2988 /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
+		2F3420451CD0E691009E2988 /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
 		2FECF5BE1CCF0143008628E1 /* ShorVideoFeedViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShorVideoFeedViewController.h; sourceTree = "<group>"; };
 		2FECF5BF1CCF0143008628E1 /* ShorVideoFeedViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShorVideoFeedViewController.m; sourceTree = "<group>"; };
 		2FECF5C01CCF0143008628E1 /* ShorVideoFeedViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ShorVideoFeedViewController.xib; sourceTree = "<group>"; };
@@ -186,6 +189,8 @@
 				2F261EC71CC2187E00325A82 /* MainViewController.h */,
 				2F261EC81CC2187E00325A82 /* MainViewController.m */,
 				2F261EC91CC2187E00325A82 /* MainViewController.xib */,
+				2F3420441CD0E691009E2988 /* Reachability.h */,
+				2F3420451CD0E691009E2988 /* Reachability.m */,
 				2FECF5D01CCF0149008628E1 /* ShortVideoFeed */,
 				2F261E4D1CC1FC3F00325A82 /* Assets.xcassets */,
 				2F261E4F1CC1FC3F00325A82 /* LaunchScreen.storyboard */,
@@ -397,6 +402,7 @@
 				2F261E461CC1FC3F00325A82 /* AppDelegate.m in Sources */,
 				2FECF5E61CCFA3C1008628E1 /* ShortVideoPlayerErrorView.m in Sources */,
 				2FECF5D41CCF1032008628E1 /* ShortVideoPlayerManger.m in Sources */,
+				2F3420461CD0E691009E2988 /* Reachability.m in Sources */,
 				2F261ECA1CC2187E00325A82 /* MainViewController.m in Sources */,
 				2FECF5CB1CCF0143008628E1 /* ShortVideoFeedCellModel.m in Sources */,
 				2FECF5C91CCF0143008628E1 /* ShorVideoFeedViewController.m in Sources */,
