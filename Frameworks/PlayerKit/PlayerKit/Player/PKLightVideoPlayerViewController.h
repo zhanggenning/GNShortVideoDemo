@@ -28,7 +28,7 @@
 
 - (void)resetPlayerUI;
 
-- (void)play;
+- (void)resumePlaying;
 
 - (void)pause;
 

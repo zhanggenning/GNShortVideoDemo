@@ -111,7 +111,7 @@
     self.videoPlayerCore.videoView.hidden = YES;
 }
 
-- (void)play
+- (void)resumePlaying
 {
     if (_videoPlayerCore.isPaused) {
         [self switchPlayStateToPause:NO];

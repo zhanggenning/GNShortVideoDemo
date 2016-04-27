@@ -14,7 +14,5 @@
 @property (copy, nonatomic) BOOL (^needResumePlayingBlock) ();
 @property (copy, nonatomic) void (^openCompletedBlock) (PKVideoInfo *info);
 @property (copy, nonatomic) void (^playCompletedBlock) (PKVideoInfo *info);
-
 @property (copy, nonatomic) void (^screenSizeSwitchBlock)(); //半屏／全屏状态切换
-
 @end

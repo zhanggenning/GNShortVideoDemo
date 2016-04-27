@@ -78,13 +78,9 @@
 }
 
 - (PKSourceManager *)currentSourceManager {
-    if (self.videoPlayerVC){
+    if (self.videoPlayerVC) {
         return self.videoPlayerVC.sourceManager;
-    }
-    else if (_lightVideoPlayerVC.sourceManager) {
-        return _lightVideoPlayerVC.sourceManager;
-    }
-    else {
+    } else {
         [self initSourceManager];
         return self.sourceManager;
     }
@@ -98,12 +94,19 @@
     if (self.videoPlayerVC) {
         [self.videoPlayerVC pause];
     }
+    if (self.lightVideoPlayerVC) {
+        [self.lightVideoPlayerVC pause];
+    }
 }
 
 - (void)resumePlaying {
     if (self.videoPlayerVC) {
         [self.videoPlayerVC resumePlaying];
     }
+    if (self.lightVideoPlayerVC) {
+        [self.lightVideoPlayerVC resumePlaying];
+    }
+    
 }
 
 - (void)close {
@@ -223,24 +226,17 @@
     }];
 }
 
-
-#pragma mark -- 新增
-- (void)setVideoUrl:(NSString *)videoUrl
+#pragma mark - 新接口
+-(void)setPlayerControlStyle:(PKVideoControlBarStyle)playerControlStyle
 {
-    _videoUrl = videoUrl;
-
-    [self.xmpVideoPlayerCore switchVideoWithContentURLString:videoUrl];
-}
-
-- (void)setPlayerStyle:(PKVideoControlBarStyle)playerStyle
-{
-    if (_playerStyle != playerStyle)
+    if (_playerControlStyle != playerControlStyle && _lightVideoPlayerVC)
     {
-        self.lightVideoPlayerVC.controlBarStyle = playerStyle;
+        self.lightVideoPlayerVC.controlBarStyle = playerControlStyle;
         
-        _playerStyle = playerStyle;
+        _playerControlStyle = playerControlStyle;
     }
 }
+
 
 - (UIViewController *)lightPlayerWithVideoUrl:(NSString *)videoUrl
                                  completeView:(UIView *)completeView
@@ -265,6 +261,10 @@
     return vc;
 }
 
+- (void)switchVideoUrl:(NSString *)videoUrl
+{
+    [self.xmpVideoPlayerCore switchVideoWithContentURLString:videoUrl];
+}
 
 - (void)resetLightPlayer
 {
@@ -273,29 +273,11 @@
     }
 }
 
-- (void)playWithLightPlayer
-{
-    if (_lightVideoPlayerVC) {
-        [_lightVideoPlayerVC play];
-    }
-}
-
-- (void)pauseWithLightPlayer
-{
-    if (_lightVideoPlayerVC) {
-        [_lightVideoPlayerVC pause];
-    }
-}
-
 #pragma mark - Private
 
 - (void)initSourceManager {
     if (!self.sourceManager) {
         self.sourceManager = [[PKSourceManager alloc] init];
-    }
-    
-    if (_lightVideoPlayerVC) {
-        self.lightVideoPlayerVC.sourceManager = self.sourceManager;
     }
 }
 
