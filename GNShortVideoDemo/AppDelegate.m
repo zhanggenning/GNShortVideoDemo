@@ -23,8 +23,8 @@
     self.window.backgroundColor = [UIColor whiteColor];
     [self.window makeKeyAndVisible];
     
-//    self.window.rootViewController = [MainViewController new];
-    self.window.rootViewController = [ShorVideoFeedViewController new];
+    self.window.rootViewController = [MainViewController new];
+//    self.window.rootViewController = [ShorVideoFeedViewController new];
 
     return YES;
 }

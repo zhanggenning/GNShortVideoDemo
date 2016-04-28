@@ -333,6 +333,9 @@ openCompletedWithResult:(BOOL)isReadyForPlaying
 
     if (isReadyForPlaying)
     {
+        //开始播放通知
+        [self postStartPlayingNotification];
+        
         [NSObject syncTaskOnMainWithBlock:^{
             self.videoPlayerCore.videoView.hidden = NO;
             
@@ -384,6 +387,10 @@ openCompletedWithResult:(BOOL)isReadyForPlaying
             break;
         }
         case kVideoPlayCompletionTypeClosed:
+        {
+            //手动关闭不显示
+            break;
+        }
         case kVideoPlayCompletionTypeError:
         {
             if (_externalErrorView && !videoPlayerCore.isSwitching) {
@@ -399,6 +406,9 @@ openCompletedWithResult:(BOOL)isReadyForPlaying
     }
     
     self.videoPlayerCore.videoView.hidden = YES;
+    
+    //结束播放通知
+    [self postFinishPlayingNotification];
     
     NSLog(@"轻量级播放器>>>>>>>>>>>>> 播放完成");
 }

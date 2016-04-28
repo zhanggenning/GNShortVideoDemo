@@ -8,17 +8,26 @@
 
 #import "MainViewController.h"
 #import "PlayerKit.h"
+#import "PKPlayerStatusSource.h"
+#import "PKSourceManager.h"
 
 static NSString * const kTestUrl1 = @"http://v.jxvdy.com/sendfile/w5bgP3A8JgiQQo5l0hvoNGE2H16WbN09X-ONHPq3P3C1BISgf7C-qVs6_c8oaw3zKScO78I--b0BGFBRxlpw13sf2e54QA";
-static NSString * const kTestUrl2 = @"http://v4.pstatp.com/525d7a128d00488a0f2efc28ca491a75/571db85c/origin/7605/1526846847";
-static NSString * const kTestUrl3 = @"http://v7.pstatp.com/165206dc5d61a5477a9d6f2f6abaa769/571db8bc/origin/15793/486638799";
-static NSString * const kTestUrl4 = @"http://v4.pstatp.com/1728e034de89476b50e0d0dae67b2209/571db8f0/origin/9306/3704849961";
+static NSString * const kTestUrl2 = @"http://flv2.bn.netease.com/videolib3/1604/27/gkYRt8042/SD/gkYRt8042-mobile.mp4";
+
+@interface MainViewController ()
+
+@property (nonatomic, assign) BOOL isFullScreen;
+@property (nonatomic, assign) CGRect initFrame;
+@property (nonatomic, strong) UIViewController *player;
+
+@end
 
 @implementation MainViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
+    
 }
 
 - (void)didReceiveMemoryWarning {
@@ -28,21 +37,59 @@ static NSString * const kTestUrl4 = @"http://v4.pstatp.com/1728e034de89476b50e0d
 
 - (IBAction)btnAction:(UIButton *)sender
 {
-//    [[PKPlayerManager sharedManager] playWithContentURLString:urlString];
-    
-//    [PKPlayerManager sharedManager].playerVC.view.frame = CGRectMake(0, 0, 300, 200);
-//    [PKPlayerManager sharedManager].playerVC.view.center = self.view.center;
-//    [self.view addSubview:[PKPlayerManager sharedManager].playerVC.view];
-//    [self addChildViewController:[PKPlayerManager sharedManager].playerVC];
+    if (!_player) {
+        _player = [[PKPlayerManager sharedManager] lightPlayerWithVideoUrl:kTestUrl2 completeView:nil errorView:nil];
+        [self initPlayStateSource];
+        [[PKPlayerManager sharedManager] resetLightPlayer];
+    }
 
+    _player.view.frame = CGRectMake(0, 0, 300, 200);
+    _player.view.center = self.view.center;
+    [self addChildViewController:_player];
+    [self.view addSubview:_player.view];
 }
 - (IBAction)removeAction:(id)sender
 {
-//    [[PKPlayerManager sharedManager].playerVC removeFromParentViewController];
-//    
-//    [[PKPlayerManager sharedManager].playerVC.view removeFromSuperview];
-//    
-//    [[PKPlayerManager sharedManager] releasePlayerVC];
+    if (_player) {
+        [_player removeFromParentViewController];
+        [_player.view removeFromSuperview];
+        _player = nil;
+    }
+}
+
+- (void)initPlayStateSource
+{
+    PKPlayerStatusSource *playerStateSource = [[PKPlayerStatusSource alloc] init];
+    
+    __weak typeof(self) weakSelf = self;
+    [playerStateSource setScreenSizeSwitchBlock:^{
+        __strong typeof(weakSelf) self = weakSelf;
+        if (self.isFullScreen) //全屏 -> 普通
+        {
+            [UIView animateWithDuration:0.3 animations:^{
+                _player.view.transform = CGAffineTransformIdentity;
+                _player.view.frame = _initFrame;
+            } completion:^(BOOL finished) {
+                [PKPlayerManager sharedManager].playerControlStyle = kVideoControlBarBase;
+                self.isFullScreen = NO;
+            }];
+        }
+        else //普通 -> 全屏
+        {
+            self.initFrame = self.player.view.frame;
+            
+            [UIView animateWithDuration:0.3 animations:^{
+                _player.view.transform = CGAffineTransformMakeRotation(M_PI_2);
+                _player.view.frame = [UIScreen mainScreen].bounds;
+            } completion:^(BOOL finished) {
+                [PKPlayerManager sharedManager].playerControlStyle = kVideoControlBarFull;
+                self.isFullScreen = YES;
+            }];
+        }
+    }];
+    
+    PKSourceManager *sourceManager = [[PKPlayerManager sharedManager] currentSourceManager];
+    sourceManager.playerStatusSource = playerStateSource;
 }
 
 @end
