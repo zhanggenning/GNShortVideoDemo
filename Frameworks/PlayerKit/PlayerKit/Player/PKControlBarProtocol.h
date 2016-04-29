@@ -34,6 +34,10 @@
 
 - (void)setControlBarMainTitle:(NSString *)title;
 
+- (void)setControlBarVolumeProcess:(CGFloat)process;
+
+- (void)setControlBarBrightnessProcess:(CGFloat)process;
+
 @end
 
 
@@ -58,5 +62,11 @@
 
 //控制栏点击事件
 - (void)videoControlBarTapClicked:(id<PKControlBarProtocol>)controlBar;
+
+//音量改变事件
+- (void)videoControlBarVolumeChange:(BOOL)isIncrease percent:(CGFloat)percent;
+
+//亮度改变事件
+- (void)videoControlBarBrightnessChange:(BOOL)isIncrease percent:(CGFloat)percent;
 
 @end

@@ -16,6 +16,15 @@
 
 @implementation PKLightVideoControlBarModel
 
+- (instancetype)init
+{
+    self = [super init];
+    if (self) {
+        _userInteractive = YES;
+    }
+    return self;
+}
+
 #pragma mark -- 私有API
 /**
  *  根据控制栏样式，获取相应的view的class字符串
@@ -58,6 +67,9 @@
     self.playTime = _playTime;
     self.durationTime = _durationTime;
     self.mainTitle = _mainTitle;
+    self.volume = _volume;
+    self.brightness = _brightness;
+    self.userInteractive = _userInteractive;
 }
 
 #pragma mark -- 属性
@@ -193,5 +205,34 @@
     }
 }
 
+//音量
+- (void)setVolume:(CGFloat)volume
+{
+    _volume = volume;
+    
+    if (self.controlBar && [self.controlBar respondsToSelector:@selector(setControlBarVolumeProcess:)]) {
+        [self.controlBar setControlBarVolumeProcess:volume];
+    }
+}
+
+//亮度
+- (void)setBrightness:(CGFloat)brightness
+{
+    _brightness = brightness;
+    
+    if (self.controlBar && [self.controlBar respondsToSelector:@selector(setControlBarBrightnessProcess:)]) {
+        [self.controlBar setControlBarBrightnessProcess:brightness];
+    }
+}
+
+- (void)setUserInteractive:(BOOL)userInteractive
+{
+    if (self.controlBar && [self.controlBar isKindOfClass:[UIView class]])
+    {
+        ((UIView *)self.controlBar).userInteractionEnabled = userInteractive;
+    }
+    
+    _userInteractive = userInteractive;
+}
 
 @end

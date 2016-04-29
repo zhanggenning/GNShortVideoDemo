@@ -80,18 +80,6 @@
 
 - (void)resetPlayerUI
 {
-    //刷新标题
-    if (_sourceManager.titleSource.titleBlock)
-    {
-        self.controlBarModel.mainTitle = _sourceManager.titleSource.titleBlock();
-    }
-        
-    //同步状态
-    if (!_videoPlayerCore.isReadyForPlaying)
-    {
-        self.controlBarModel.playState = kVideoControlBarBuffering;
-    }
-        
     self.controlBarModel.playProcess = 0.0;
     self.controlBarModel.bufferProcess = 0.0;
     self.controlBarModel.playTime = 0;
@@ -109,6 +97,25 @@
     
     //隐藏播放视图
     self.videoPlayerCore.videoView.hidden = YES;
+}
+
+- (void)viewDidAppear:(BOOL)animated
+{
+    //刷新标题
+    if (_sourceManager.titleSource.titleBlock)
+    {
+        self.controlBarModel.mainTitle = _sourceManager.titleSource.titleBlock();
+    }
+    
+    //同步状态
+    if (!_videoPlayerCore.isReadyForPlaying)
+    {
+        self.controlBarModel.playState = kVideoControlBarBuffering;
+        self.controlBarModel.userInteractive = NO;
+    }
+
+    self.controlBarModel.volume = _videoPlayerCore.volume;
+    self.controlBarModel.brightness = [UIScreen mainScreen].brightness;
 }
 
 - (void)resumePlaying
@@ -167,7 +174,7 @@
         [self addContraintsOnView:self.controlBarModel.controlBarView];
         
         self.controlBarModel.delegate = self;
-  
+        
         _isContorlBarLoaded = YES;
     }
 }
@@ -333,6 +340,8 @@ openCompletedWithResult:(BOOL)isReadyForPlaying
 
     if (isReadyForPlaying)
     {
+        self.controlBarModel.userInteractive = YES;
+        
         //开始播放通知
         [self postStartPlayingNotification];
         
@@ -347,6 +356,9 @@ openCompletedWithResult:(BOOL)isReadyForPlaying
             }
         }];
  
+        [NSObject asyncTaskOnMainWithBlock:^{
+            self.controlBarModel.durationTime = videoInfo.videoDurationInMS / 1000; //设置文件时长
+        }];
         
         __weak typeof(self) weakSelf = self;
         
@@ -355,11 +367,7 @@ openCompletedWithResult:(BOOL)isReadyForPlaying
             __strong typeof(weakSelf) self = weakSelf;
             
             if (executed) {
-                [NSObject asyncTaskOnMainWithBlock:^{
-                    self.controlBarModel.playState = kVideoControlBarPause; //播放时，换成暂停的图片
-                    self.controlBarModel.durationTime = videoInfo.videoDurationInMS / 1000; //设置文件时长
-                }];
-                
+ 
                 //自动隐藏
                 [self startAutoHideControlTimer];
             }
@@ -453,9 +461,12 @@ openCompletedWithResult:(BOOL)isReadyForPlaying
         state = (self.videoPlayerCore.isPaused ?  kVideoControlBarPlay : kVideoControlBarPause);
     }
     
-    [NSObject asyncTaskOnMainWithBlock:^{
-        self.controlBarModel.playState = state;
-    }];
+    if (self.controlBarModel.playState != state)
+    {
+        [NSObject asyncTaskOnMainWithBlock:^{
+            self.controlBarModel.playState = state;
+        }];
+    }
 }
 
 - (void)videoPlayerCore:(PKVideoPlayerCoreBase *)videoPlayerCore
@@ -528,6 +539,32 @@ openCompletedWithResult:(BOOL)isReadyForPlaying
     else //显示时开始自动隐藏计时器
     {
         [self startAutoHideControlTimer];
+    }
+}
+
+//音量改变事件
+- (void)videoControlBarVolumeChange:(BOOL)isIncrease percent:(CGFloat)percent
+{
+    if (isIncrease)
+    {
+        [_videoPlayerCore increaseVolume:percent];
+    }
+    else
+    {
+        [_videoPlayerCore decreaseVolume:percent];
+    }
+}
+
+//亮度改变事件
+- (void)videoControlBarBrightnessChange:(BOOL)isIncrease percent:(CGFloat)percent
+{
+    if (isIncrease)
+    {
+        [UIScreen mainScreen].brightness += percent;
+    }
+    else
+    {
+        [UIScreen mainScreen].brightness -= percent;
     }
 }
 

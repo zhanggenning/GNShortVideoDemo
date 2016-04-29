@@ -33,4 +33,10 @@
 
 @property (nonatomic, copy) NSString *mainTitle;
 
+@property (nonatomic, assign) CGFloat volume;
+
+@property (nonatomic, assign) CGFloat brightness;
+
+@property (nonatomic, assign) BOOL userInteractive;
+
 @end

@@ -156,12 +156,16 @@ static const CGFloat kMinTimeForHSeekingInSec = 0.5;
     if (isIncrease)
     {
         self.leftProcessSlider.process += kLeftSliderMinStep;
-        [PKVolumeController increaseVolume:kLeftSliderMinStep];
     }
     else
     {
         self.leftProcessSlider.process -= kLeftSliderMinStep;
-        [PKVolumeController decreaseVolume:kLeftSliderMinStep];
+    }
+    
+    //改变音量
+    if (_delegate && [_delegate respondsToSelector:@selector(videoControlBarVolumeChange:percent:)])
+    {
+        [_delegate videoControlBarVolumeChange:isIncrease percent:kLeftSliderMinStep];
     }
 }
 
@@ -177,12 +181,16 @@ static const CGFloat kMinTimeForHSeekingInSec = 0.5;
     if (isIncrease)
     {
         self.rightProcessSlider.process += kRightSliderMinStep;
-        [UIScreen mainScreen].brightness += kRightSliderMinStep;
     }
     else
     {
         self.rightProcessSlider.process -= kRightSliderMinStep;
-        [UIScreen mainScreen].brightness -= kRightSliderMinStep;
+    }
+    
+    //改变亮度
+    if (_delegate && [_delegate respondsToSelector:@selector(videoControlBarBrightnessChange:percent:)])
+    {
+        [_delegate videoControlBarBrightnessChange:isIncrease percent:kRightSliderMinStep];
     }
 }
 
@@ -492,6 +500,16 @@ static const CGFloat kMinTimeForHSeekingInSec = 0.5;
 - (void)setControlBarMainTitle:(NSString *)title
 {
     self.mainTitleLab.text = title ?: @"";
+}
+
+- (void)setControlBarVolumeProcess:(CGFloat)process
+{
+    self.leftProcessSlider.process = process;
+}
+
+- (void)setControlBarBrightnessProcess:(CGFloat)process
+{
+    self.rightProcessSlider.process = process;
 }
 
 #pragma mark -- <PKLightVideoPlayerSliderProtocol>
