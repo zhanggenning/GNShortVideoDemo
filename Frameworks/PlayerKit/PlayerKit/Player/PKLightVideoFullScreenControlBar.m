@@ -107,6 +107,7 @@ static const CGFloat kMinTimeForHSeekingInSec = 0.5;
 //手势方向
 - (LightVideoPanMoveDirection)directionWithTranslation:(CGPoint)translation
 {
+
     if (translation.x > translation.y)
     {
         // 左右移动手势
@@ -115,7 +116,7 @@ static const CGFloat kMinTimeForHSeekingInSec = 0.5;
     else
     {
         // 上下移动手势
-        if (_preLocationForPanGesture.x < ([UIScreen landscapeScreenBounds].size.width/2))
+        if (_preLocationForPanGesture.x < [UIScreen mainScreen].bounds.size.width/2)
         {
             return  kLightVideoPanMoveVerticalLeft;
         }
@@ -333,7 +334,7 @@ static const CGFloat kMinTimeForHSeekingInSec = 0.5;
                         valueWillChange = NO;
                     }
 
-                    CGFloat screenWidth = [UIScreen landscapeScreenBounds].size.width;
+                    CGFloat screenWidth = [UIScreen mainScreen].bounds.size.width;
                     if (xDistance >= screenWidth*kMinTimeForHSeekingInSec/kMaxTimeForHSeekingInSec)
                     {
                         NSInteger multiplier = xDistance * kMaxTimeForHSeekingInSec/(screenWidth*kMinTimeForHSeekingInSec);

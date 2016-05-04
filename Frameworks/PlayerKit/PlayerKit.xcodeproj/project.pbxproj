@@ -230,6 +230,8 @@
 		2F421DDE1CC506340017E332 /* PKLightVideoPlayerSlider.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F421DDC1CC506340017E332 /* PKLightVideoPlayerSlider.m */; };
 		2F5A16261CC753D000F9EAAB /* PKLightVideoControlBarModel.h in Headers */ = {isa = PBXBuildFile; fileRef = 2F5A16241CC753D000F9EAAB /* PKLightVideoControlBarModel.h */; };
 		2F5A16271CC753D000F9EAAB /* PKLightVideoControlBarModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F5A16251CC753D000F9EAAB /* PKLightVideoControlBarModel.m */; };
+		2F6A370D1CDA2B4B0019ED8A /* PKLightVideoVolumeManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 2F6A370B1CDA2B4B0019ED8A /* PKLightVideoVolumeManager.h */; };
+		2F6A370E1CDA2B4B0019ED8A /* PKLightVideoVolumeManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F6A370C1CDA2B4B0019ED8A /* PKLightVideoVolumeManager.m */; };
 		2FBB8C081CCDC80600367545 /* PKLightVideoProcessIndicator.h in Headers */ = {isa = PBXBuildFile; fileRef = 2FBB8C061CCDC80600367545 /* PKLightVideoProcessIndicator.h */; };
 		2FBB8C091CCDC80600367545 /* PKLightVideoProcessIndicator.m in Sources */ = {isa = PBXBuildFile; fileRef = 2FBB8C071CCDC80600367545 /* PKLightVideoProcessIndicator.m */; };
 		2FBB8C0B1CCDC88000367545 /* PKLightVideoProcessIndicator.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2FBB8C0A1CCDC88000367545 /* PKLightVideoProcessIndicator.xib */; };
@@ -531,6 +533,8 @@
 		2F421DDC1CC506340017E332 /* PKLightVideoPlayerSlider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PKLightVideoPlayerSlider.m; sourceTree = "<group>"; };
 		2F5A16241CC753D000F9EAAB /* PKLightVideoControlBarModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PKLightVideoControlBarModel.h; sourceTree = "<group>"; };
 		2F5A16251CC753D000F9EAAB /* PKLightVideoControlBarModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PKLightVideoControlBarModel.m; sourceTree = "<group>"; };
+		2F6A370B1CDA2B4B0019ED8A /* PKLightVideoVolumeManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PKLightVideoVolumeManager.h; sourceTree = "<group>"; };
+		2F6A370C1CDA2B4B0019ED8A /* PKLightVideoVolumeManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PKLightVideoVolumeManager.m; sourceTree = "<group>"; };
 		2FBB8C061CCDC80600367545 /* PKLightVideoProcessIndicator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PKLightVideoProcessIndicator.h; sourceTree = "<group>"; };
 		2FBB8C071CCDC80600367545 /* PKLightVideoProcessIndicator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PKLightVideoProcessIndicator.m; sourceTree = "<group>"; };
 		2FBB8C0A1CCDC88000367545 /* PKLightVideoProcessIndicator.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PKLightVideoProcessIndicator.xib; sourceTree = "<group>"; };
@@ -975,6 +979,8 @@
 			children = (
 				2F191C6B1CC623A0003D7367 /* PKControlBarDefine.h */,
 				2F191C5E1CC61536003D7367 /* PKControlBarProtocol.h */,
+				2F6A370B1CDA2B4B0019ED8A /* PKLightVideoVolumeManager.h */,
+				2F6A370C1CDA2B4B0019ED8A /* PKLightVideoVolumeManager.m */,
 				2F5A16241CC753D000F9EAAB /* PKLightVideoControlBarModel.h */,
 				2F5A16251CC753D000F9EAAB /* PKLightVideoControlBarModel.m */,
 				2F421DDB1CC506340017E332 /* PKLightVideoPlayerSlider.h */,
@@ -1021,6 +1027,7 @@
 				111F22E11AE9E53700EA118B /* MBProgressHUD.h in Headers */,
 				113DA0931B0092ED0075FF82 /* PKSourceManager.h in Headers */,
 				111F22E21AE9E55100EA118B /* PKResolutionSource.h in Headers */,
+				2F6A370D1CDA2B4B0019ED8A /* PKLightVideoVolumeManager.h in Headers */,
 				111F22E01AE9E53400EA118B /* WEPopoverController.h in Headers */,
 				111F22E31AE9E55A00EA118B /* PKSubtitleSource.h in Headers */,
 				1165A1241B4393A50030B641 /* PKAudioTrackCell.h in Headers */,
@@ -1296,6 +1303,7 @@
 				113336401B1ED29D0080DF43 /* PKDLNASource.m in Sources */,
 				112FE39D1AC14AE100C7CCA2 /* UIBarButtonItem+WEPopover.m in Sources */,
 				11C9E7A81A595B12001F7338 /* PKVideoPlayerViewController.m in Sources */,
+				2F6A370E1CDA2B4B0019ED8A /* PKLightVideoVolumeManager.m in Sources */,
 				11BB73B11A6CE484002FFFD3 /* NSObject+pk.m in Sources */,
 				11C7FB191A80644D007D3136 /* MBProgressHUD.m in Sources */,
 				1165A1251B4393A50030B641 /* PKAudioTrackCell.m in Sources */,

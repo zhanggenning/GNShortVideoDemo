@@ -18,6 +18,7 @@
 #import "PKPlayerStatusSource.h"
 #import "TWeakTimer.h"
 #import "PKPlayerManager.h"
+#import "PKLightVideoVolumeManager.h"
 
 @interface PKLightVideoPlayerViewController () <PKVideoPlayerCoreDelegate, PKControlBarEventProtocol>
 {
@@ -56,6 +57,9 @@
                                              selector:@selector(resignActiveNotification:)
                                                  name:UIApplicationWillResignActiveNotification
                                                object:nil];
+    
+    //注：音量视图一定要在当前视图层级才能隐藏
+    [self.view addSubview:[PKLightVideoVolumeManager shareInstance].volumeView];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -63,8 +67,10 @@
     // Dispose of any resources that can be recreated.
 }
 
-- (void)viewDidAppear:(BOOL)animated
+- (void)viewWillAppear:(BOOL)animated
 {
+    [super viewWillAppear:animated];
+    
     //刷新标题
     if (_sourceManager.titleSource.titleBlock)
     {
@@ -76,12 +82,11 @@
     {
         self.controlBarModel.playState = kVideoControlBarBuffering;
         self.controlBarModel.userInteractive = NO;
+        [self addExternBackView];
     }
     
-    self.controlBarModel.volume = _videoPlayerCore.volume;
+    self.controlBarModel.volume = [PKLightVideoVolumeManager shareInstance].volume;
     self.controlBarModel.brightness = [UIScreen mainScreen].brightness;
-    
-    [self addExternBackView];
 }
 
 - (void)viewDidLayoutSubviews
@@ -371,6 +376,11 @@ openCompletedWithResult:(BOOL)isReadyForPlaying
         //开始播放通知
         [self postStartPlayingNotification];
         
+        //加载完成回调
+        if (_sourceManager.playerStatusSource.openCompletedBlock) {
+            _sourceManager.playerStatusSource.openCompletedBlock(videoInfo);
+        }
+        
         [NSObject syncTaskOnMainWithBlock:^{
             
             [self addVideoView];
@@ -404,6 +414,11 @@ openCompletedWithResult:(BOOL)isReadyForPlaying
     }
     else
     {
+        //加载完成回调
+        if (_sourceManager.playerStatusSource.openCompletedBlock) {
+            _sourceManager.playerStatusSource.openCompletedBlock(nil);
+        }
+        
         NSLog(@"文件打开错误");
     }
 }
@@ -419,9 +434,13 @@ openCompletedWithResult:(BOOL)isReadyForPlaying
             if (_externalCompleteView && !videoPlayerCore.isSwitching) {
                 
                 [self addExternBackView];
-                
                 [self.view addSubview:_externalCompleteView];
                 [self addContraintsOnView:_externalCompleteView];
+                
+                //播放完成回调
+                if (_sourceManager.playerStatusSource.playCompletedBlock) {
+                    _sourceManager.playerStatusSource.playCompletedBlock(videoPlayerCore.videoInfo);
+                }
             }
             
             break;
@@ -436,9 +455,13 @@ openCompletedWithResult:(BOOL)isReadyForPlaying
             if (_externalErrorView && !videoPlayerCore.isSwitching) {
                 
                 [self addExternBackView];
-                
                 [self.view addSubview:_externalErrorView];
                 [self addContraintsOnView:_externalErrorView];
+                
+                //播放完成回调
+                if (_sourceManager.playerStatusSource.playCompletedBlock) {
+                    _sourceManager.playerStatusSource.playCompletedBlock(videoPlayerCore.videoInfo);
+                }
             }
             
             break;
@@ -582,11 +605,11 @@ openCompletedWithResult:(BOOL)isReadyForPlaying
 {
     if (isIncrease)
     {
-        [_videoPlayerCore increaseVolume:percent];
+        [[PKLightVideoVolumeManager shareInstance] increaseVolume:percent];
     }
     else
     {
-        [_videoPlayerCore decreaseVolume:percent];
+        [[PKLightVideoVolumeManager shareInstance] decreaseVolume:percent];
     }
 }
 
