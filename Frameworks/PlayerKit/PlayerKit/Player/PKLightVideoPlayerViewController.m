@@ -80,6 +80,8 @@
     
     self.controlBarModel.volume = _videoPlayerCore.volume;
     self.controlBarModel.brightness = [UIScreen mainScreen].brightness;
+    
+    [self addExternBackView];
 }
 
 - (void)viewDidLayoutSubviews
@@ -147,8 +149,6 @@
     _videoPlayerCore.videoView.translatesAutoresizingMaskIntoConstraints = NO;
     [self.view insertSubview:_videoPlayerCore.videoView atIndex:0];
     [_videoPlayerCore setVideoViewSize:self.view.bounds.size];
-
-//    [self addContraintsOnView:_videoPlayerCore.videoView];
 }
 
 - (void)removeVideoView
@@ -183,6 +183,27 @@
         self.controlBarModel.delegate = nil;
         
         _isContorlBarLoaded = NO;
+    }
+}
+
+
+- (void)addExternBackView
+{
+    if (_externalBackView && _isContorlBarLoaded) {
+        
+        if (_externalBackView.superview) {
+            [_externalBackView removeFromSuperview];
+        }
+        
+        [self.view insertSubview:_externalBackView belowSubview:self.controlBarModel.controlBarView];
+        [self addContraintsOnView:_externalBackView];
+    }
+}
+
+- (void)removeExternBackView
+{
+    if (_externalBackView && _externalBackView.superview) {
+        [_externalBackView removeFromSuperview];
     }
 }
 
@@ -360,6 +381,8 @@ openCompletedWithResult:(BOOL)isReadyForPlaying
             if (_externalCompleteView && _externalCompleteView.superview) {
                 [_externalCompleteView removeFromSuperview];
             }
+            
+            [self removeExternBackView];
         }];
  
         [NSObject asyncTaskOnMainWithBlock:^{
@@ -394,6 +417,9 @@ openCompletedWithResult:(BOOL)isReadyForPlaying
         case kVideoPlayCompletionTypeEOF:
         {
             if (_externalCompleteView && !videoPlayerCore.isSwitching) {
+                
+                [self addExternBackView];
+                
                 [self.view addSubview:_externalCompleteView];
                 [self addContraintsOnView:_externalCompleteView];
             }
@@ -408,6 +434,9 @@ openCompletedWithResult:(BOOL)isReadyForPlaying
         case kVideoPlayCompletionTypeError:
         {
             if (_externalErrorView && !videoPlayerCore.isSwitching) {
+                
+                [self addExternBackView];
+                
                 [self.view addSubview:_externalErrorView];
                 [self addContraintsOnView:_externalErrorView];
             }

@@ -233,6 +233,7 @@
 - (UIViewController *)lightPlayerWithVideoUrl:(NSString *)videoUrl
                                  completeView:(UIView *)completeView
                                     errorView:(UIView *)errorView
+                                    backView:(UIView *)backView
 {
     if (_lightVideoPlayerVC) {
         NSAssert(NO, @"[ERROR]: Play when is playing!");
@@ -245,6 +246,7 @@
     vc.videoPlayerCore = self.xmpVideoPlayerCore;
     vc.externalCompleteView = completeView;
     vc.externalErrorView = errorView;
+    vc.externalBackView = backView;
     _lightVideoPlayerVC = vc;
     
     [self.xmpVideoPlayerCore switchVideoWithContentURLString:videoUrl];

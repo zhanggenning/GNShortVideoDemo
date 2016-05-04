@@ -30,6 +30,7 @@ typedef NS_ENUM(NSInteger, PKVideoPlayerOrientation)
 }
 @property (nonatomic, strong) ShortVideoPlayerShareView *shareView;
 @property (nonatomic, strong) ShortVideoPlayerErrorView *errorView;
+@property (nonatomic, strong) UIImageView *backView;
 @property (nonatomic, strong) UIViewController *videoPlayerVC;
 
 @property (nonatomic, strong) NSString *videoUrl;
@@ -43,14 +44,6 @@ typedef NS_ENUM(NSInteger, PKVideoPlayerOrientation)
 
 @implementation ShortVideoPlayerManger
 
-- (instancetype)init
-{
-    if (self = [super init])
-    {
-
-    }
-    return self;
-}
 
 + (instancetype)shareInstance
 {
@@ -81,7 +74,8 @@ typedef NS_ENUM(NSInteger, PKVideoPlayerOrientation)
     //初始化播放器
     _videoPlayerVC = [[PKPlayerManager sharedManager] lightPlayerWithVideoUrl:videoUrl
                                                                  completeView:self.shareView
-                                                                    errorView:self.errorView];
+                                                                    errorView:self.errorView
+                                                                    backView:self.backView];
     
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(orientChange:)
@@ -345,6 +339,14 @@ typedef NS_ENUM(NSInteger, PKVideoPlayerOrientation)
     }
     
     return _errorView;
+}
+
+- (UIImageView *)backView
+{
+    if (!_backView) {
+        _backView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"test"]];
+    }
+    return _backView;
 }
 
 - (UIViewController *)playerVC

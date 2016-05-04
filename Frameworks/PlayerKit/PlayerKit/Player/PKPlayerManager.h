@@ -94,7 +94,8 @@ extern NSString *const kPKPlayerNotificationVideoInfoKey;
 //轻量级播放器初始化
 - (UIViewController *)lightPlayerWithVideoUrl:(NSString *)videoUrl
                                  completeView:(UIView *)completeView
-                                    errorView:(UIView *)errorView;
+                                    errorView:(UIView *)errorView
+                                     backView:(UIView *)backView;
 
 //轻量级播放器切换videoUrl
 - (void)lightPlayerSwitchVideoUrl:(NSString *)videoUrl;

@@ -39,7 +39,7 @@ static NSString * const kTestUrl2 = @"http://flv2.bn.netease.com/videolib3/1604/
 {
     if (!_player) {
         [self initPlayStateSource];
-        _player = [[PKPlayerManager sharedManager] lightPlayerWithVideoUrl:kTestUrl2 completeView:nil errorView:nil];
+        _player = [[PKPlayerManager sharedManager] lightPlayerWithVideoUrl:kTestUrl2 completeView:nil errorView:nil backView:nil];
      
     }
 
