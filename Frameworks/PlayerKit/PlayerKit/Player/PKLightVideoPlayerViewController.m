@@ -21,10 +21,10 @@
 
 @interface PKLightVideoPlayerViewController () <PKVideoPlayerCoreDelegate, PKControlBarEventProtocol>
 {
-    BOOL _isPlayerCoreLoaded; //播放核加载
     BOOL _isContorlBarLoaded; //控制条加载
     BOOL _isProcessChangeing; //进度改变中
     BOOL _isPlayerUIInited;   //界面初始化
+    CGRect _currentRect;
 }
 
 @property (strong, nonatomic) TWeakTimer *autoHideControlTimer;
@@ -38,8 +38,6 @@
 {
     [self unloadVideoControlBar];
     
-    [self unloadVideoPlayerCore];
-    
     [self.videoPlayerCore close];
     
     [[NSNotificationCenter defaultCenter] removeObserver:self];
@@ -50,9 +48,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
-    
-    //装载播放核
-    [self loadVideoPlayerCore];
     
     //装载控制条
     [self loadVideoControlBar];
@@ -66,6 +61,37 @@
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (void)viewDidAppear:(BOOL)animated
+{
+    //刷新标题
+    if (_sourceManager.titleSource.titleBlock)
+    {
+        self.controlBarModel.mainTitle = _sourceManager.titleSource.titleBlock();
+    }
+    
+    //同步状态
+    if (!_videoPlayerCore.isReadyForPlaying)
+    {
+        self.controlBarModel.playState = kVideoControlBarBuffering;
+        self.controlBarModel.userInteractive = NO;
+    }
+    
+    self.controlBarModel.volume = _videoPlayerCore.volume;
+    self.controlBarModel.brightness = [UIScreen mainScreen].brightness;
+}
+
+- (void)viewDidLayoutSubviews
+{
+    if (!CGRectEqualToRect(_currentRect, self.view.bounds)) {
+        
+        if (_videoPlayerCore.videoView.superview == self.view) {
+            [_videoPlayerCore setVideoViewSize:self.view.bounds.size];
+        }
+        
+        _currentRect = self.view.bounds;
+    }
 }
 
 #pragma mark -- 公共API
@@ -96,26 +122,7 @@
     }
     
     //隐藏播放视图
-    self.videoPlayerCore.videoView.hidden = YES;
-}
-
-- (void)viewDidAppear:(BOOL)animated
-{
-    //刷新标题
-    if (_sourceManager.titleSource.titleBlock)
-    {
-        self.controlBarModel.mainTitle = _sourceManager.titleSource.titleBlock();
-    }
-    
-    //同步状态
-    if (!_videoPlayerCore.isReadyForPlaying)
-    {
-        self.controlBarModel.playState = kVideoControlBarBuffering;
-        self.controlBarModel.userInteractive = NO;
-    }
-
-    self.controlBarModel.volume = _videoPlayerCore.volume;
-    self.controlBarModel.brightness = [UIScreen mainScreen].brightness;
+    [self removeVideoView];
 }
 
 - (void)resumePlaying
@@ -133,37 +140,25 @@
 }
 
 #pragma mark -- 私有API
-- (void)loadVideoPlayerCore
+- (void)addVideoView
 {
-    if (!_isPlayerCoreLoaded && _videoPlayerCore)
+    [self removeVideoView];
+    
+    _videoPlayerCore.videoView.translatesAutoresizingMaskIntoConstraints = NO;
+    [self.view insertSubview:_videoPlayerCore.videoView atIndex:0];
+    [_videoPlayerCore setVideoViewSize:self.view.bounds.size];
+
+//    [self addContraintsOnView:_videoPlayerCore.videoView];
+}
+
+- (void)removeVideoView
+{
+    if (_videoPlayerCore.videoView.superview)
     {
-        _videoPlayerCore.videoView.translatesAutoresizingMaskIntoConstraints = NO;
-        
-        //添加videoView
-        [self.view insertSubview:_videoPlayerCore.videoView atIndex:0];
-        
-        [self addContraintsOnView:_videoPlayerCore.videoView];
- 
-        //设置delegate
-        _videoPlayerCore.delegate = self;
-        
-        _isPlayerCoreLoaded = YES;
+        [_videoPlayerCore.videoView removeFromSuperview];
     }
 }
 
-- (void)unloadVideoPlayerCore
-{
-    if (_isPlayerCoreLoaded && _videoPlayerCore)
-    {
-        //移除videoView
-        [_videoPlayerCore.videoView removeFromSuperview];
-        
-        //移除delegate
-        _videoPlayerCore.delegate = nil;
-        
-        _isPlayerCoreLoaded = NO;
-    }
-}
 
 - (void)loadVideoControlBar
 {
@@ -329,6 +324,16 @@
     }
 }
 
+- (void)setVideoPlayerCore:(PKVideoPlayerCoreBase *)videoPlayerCore
+{
+    _videoPlayerCore = videoPlayerCore;
+    
+    if (_videoPlayerCore)
+    {
+        _videoPlayerCore.delegate = self;
+    }
+}
+
 #pragma mark -- 代理
 #pragma mark ---- <PKVideoPlayerCoreDelegate>
 - (void)videoPlayerCore:(PKVideoPlayerCoreBase *)videoPlayerCore
@@ -346,7 +351,8 @@ openCompletedWithResult:(BOOL)isReadyForPlaying
         [self postStartPlayingNotification];
         
         [NSObject syncTaskOnMainWithBlock:^{
-            self.videoPlayerCore.videoView.hidden = NO;
+            
+            [self addVideoView];
             
             if (_externalErrorView && _externalErrorView.superview) {
                 [_externalErrorView removeFromSuperview];
@@ -413,7 +419,7 @@ openCompletedWithResult:(BOOL)isReadyForPlaying
             break;
     }
     
-    self.videoPlayerCore.videoView.hidden = YES;
+    [self removeVideoView];
     
     //结束播放通知
     [self postFinishPlayingNotification];
@@ -461,7 +467,7 @@ openCompletedWithResult:(BOOL)isReadyForPlaying
         state = (self.videoPlayerCore.isPaused ?  kVideoControlBarPlay : kVideoControlBarPause);
     }
     
-    if (self.controlBarModel.playState != state)
+    if (self.controlBarModel.playState != state && !self.videoPlayerCore.isSwitching)
     {
         [NSObject asyncTaskOnMainWithBlock:^{
             self.controlBarModel.playState = state;

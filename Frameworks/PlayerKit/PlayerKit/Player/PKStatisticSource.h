@@ -12,28 +12,53 @@
 
 #pragma mark -
 
-/// 播放失败类型
+// 播放失败类型
 typedef NS_ENUM(NSInteger, PKFailType) {
     kFailTypeOpening=0,     // 打开失败
     kFailTypePlaying,       // 播放过程失败
 };
 
+// 播放结束类型
+typedef NS_ENUM(NSInteger, PKEndType) {
+    kPlayEndByComplete = 0, //播放完成
+    kPlayEndByUser, //用户停止
+    kPlayEndByFail  //播放失败
+};
+
 #pragma mark -
 @interface PKStatisticSource : NSObject
 
-@property (copy, nonatomic) void (^startPlayingStatisticBlock) (void);
-@property (copy, nonatomic) void (^playFailedStatisticBlock) (PKFailType type);
+//开始播放统计
+@property (copy, nonatomic) void (^startPlayingStatisticBlock) (PKVideoInfo *info);
+
+//结束播放统计
+@property (copy, nonatomic) void (^stopPlayingStatisticBlock) (PKEndType endType, NSTimeInterval playTime,
+                                                               PKVideoInfo *videoInfo, NSError *error);
+//快进/快退统计
 @property (copy, nonatomic) void (^seekStatisticBlock) (BOOL isGesture, BOOL isRewind);
-@property (copy, nonatomic) void (^videoInfoStatisticBlock) (PKVideoInfo *info);
-@property (copy, nonatomic) void (^playTimeStatisticBlock) (NSTimeInterval time);
+
+//分集按钮点击统计
 @property (copy, nonatomic) void (^episodeBtnClickStatisticBlock) (void);
+
 @property (copy, nonatomic) void (^subtitleBtnClickStatisticBlock) (void);
+
+//全屏/非全屏切换统计
 @property (copy, nonatomic) void (^displaymodeChangedStatisticBlock) (PKVideoViewDisplayMode mode);
+
 @property (copy, nonatomic) void (^displayPlayerViewStatisticBlock) (void);
+
+//DLNA按钮点击统计
 @property (copy, nonatomic) void (^dlnaBtnClickStatisticBlock) (void);
-@property (copy, nonatomic) void (^userPauseStatisticBlock) (void);
+
+//播放/开始按钮统计
+@property (copy, nonatomic) void (^userPauseStatisticBlock) (BOOL isPauseMode);
+
+//音轨按钮统计
 @property (copy, nonatomic) void (^audioTrackBtnClickStatisticBlock) (void);
+
 @property (copy, nonatomic) void (^audioTrackInfoStatisticBlock) (NSArray *audioTracks);
+
+//下一集按钮统计
 @property (copy, nonatomic) void (^nextBtnClickStatisticBlock) (void);
 
 @end

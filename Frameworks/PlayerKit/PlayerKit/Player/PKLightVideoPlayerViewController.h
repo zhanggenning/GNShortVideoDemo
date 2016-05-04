@@ -24,6 +24,8 @@
 
 @property (weak, nonatomic) UIView *externalErrorView;
 
+@property (weak, nonatomic) UIView *externalBackView;
+
 + (instancetype)nibInstance;
 
 - (void)resetPlayerUI;

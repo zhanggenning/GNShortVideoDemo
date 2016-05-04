@@ -11,7 +11,7 @@
 #import "ShortVideoFeedCellModel.h"
 #import "ShortVideoPlayerManger.h"
 
-@interface ShorVideoFeedViewController () <UITableViewDelegate, UITableViewDataSource, ShortVideoFeedCellProtocol, ShortVideoPlayerProtocol>
+@interface ShorVideoFeedViewController () <UITableViewDelegate, UITableViewDataSource, ShortVideoFeedCellProtocol>
 
 @property (nonatomic, strong) ShortVideoFeedCellModel *cellModel;
 @property (strong, nonatomic) ShortVideoFeedCell *heightCell;
@@ -26,8 +26,6 @@
     // Do any additional setup after loading the view from its nib.
 
     [_shortVideoFeedTab registerNib:[UINib nibWithNibName:NSStringFromClass([ShortVideoFeedCell class]) bundle:nil] forCellReuseIdentifier:@"cell"];
-    
-    [ShortVideoPlayerManger shareInstance].delegate = self;
 }
 
 - (void)didReceiveMemoryWarning {
@@ -136,26 +134,5 @@
     _playerVC.view.frame = [cell convertRect:imageFrame toView:_shortVideoFeedTab];
     [self addChildViewController:_playerVC];
     [_shortVideoFeedTab addSubview:_playerVC.view];
-}
-
-#pragma mark -- <ShortVideoPlayerProtocol>
-- (void)shortVideoPlayerWillSwitchToFullScreen
-{
-    if (_playerVC)
-    {
-        [_playerVC.view removeFromSuperview];
-        _playerVC.view.frame = [_shortVideoFeedTab convertRect:_playerVC.view.frame toView:self.view];
-        [self.view addSubview:[ShortVideoPlayerManger shareInstance].playerVC.view];
-    }
-}
-
-- (void)shortVideoPlayerDidSwitchToNormalScreen
-{
-    if (_playerVC)
-    {
-        [_playerVC.view removeFromSuperview];
-        _playerVC.view.frame = [self.view convertRect:_playerVC.view.frame toView:_shortVideoFeedTab];;
-        [_shortVideoFeedTab addSubview:_playerVC.view];
-    }
 }
 @end

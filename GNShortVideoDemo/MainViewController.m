@@ -38,9 +38,9 @@ static NSString * const kTestUrl2 = @"http://flv2.bn.netease.com/videolib3/1604/
 - (IBAction)btnAction:(UIButton *)sender
 {
     if (!_player) {
-        _player = [[PKPlayerManager sharedManager] lightPlayerWithVideoUrl:kTestUrl2 completeView:nil errorView:nil];
         [self initPlayStateSource];
-        [[PKPlayerManager sharedManager] resetLightPlayer];
+        _player = [[PKPlayerManager sharedManager] lightPlayerWithVideoUrl:kTestUrl2 completeView:nil errorView:nil];
+     
     }
 
     _player.view.frame = CGRectMake(0, 0, 300, 200);
@@ -70,7 +70,7 @@ static NSString * const kTestUrl2 = @"http://flv2.bn.netease.com/videolib3/1604/
                 _player.view.transform = CGAffineTransformIdentity;
                 _player.view.frame = _initFrame;
             } completion:^(BOOL finished) {
-                [PKPlayerManager sharedManager].playerControlStyle = kVideoControlBarBase;
+                [[PKPlayerManager sharedManager] lightPlayerSwithchControlBar:kVideoControlBarBase];
                 self.isFullScreen = NO;
             }];
         }
@@ -82,7 +82,7 @@ static NSString * const kTestUrl2 = @"http://flv2.bn.netease.com/videolib3/1604/
                 _player.view.transform = CGAffineTransformMakeRotation(M_PI_2);
                 _player.view.frame = [UIScreen mainScreen].bounds;
             } completion:^(BOOL finished) {
-                [PKPlayerManager sharedManager].playerControlStyle = kVideoControlBarFull;
+                [[PKPlayerManager sharedManager] lightPlayerSwithchControlBar:kVideoControlBarFull];;
                 self.isFullScreen = YES;
             }];
         }

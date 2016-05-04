@@ -125,9 +125,6 @@ typedef NS_ENUM(NSInteger, PKPlayerViewDisplayMode) {
 @property (assign, nonatomic) NSInteger displayProgressInMS;
 @property (strong, nonatomic) PKMusicPlayViewController *musicBgVc;
 
-
-
-
 @property (weak, nonatomic) IBOutlet UIView *holder;
 @property (weak, nonatomic) IBOutlet UIView *gestureHolder;
 @property (weak, nonatomic) IBOutlet UIView *loadingHolder;
@@ -202,6 +199,7 @@ typedef NS_ENUM(NSInteger, PKPlayerViewDisplayMode) {
 - (void)doubleTouchTapGestureAction:(UITapGestureRecognizer *)sender;
 - (void)swipeGestureAction:(UISwipeGestureRecognizer *)sender;
 - (void)panGestureAction:(UIPanGestureRecognizer *)sender;
+- (void)longPressGestureAction:(UILongPressGestureRecognizer *)sender;
 
 - (void)resignActiveNotification:(NSNotification *)notification;
 - (void)becomeActiveNotification:(NSNotification *)notification;
@@ -263,18 +261,17 @@ typedef NS_ENUM(NSInteger, PKPlayerViewDisplayMode) {
 - (void)syncSystemInfo;
 - (void)disableControlAndButton;
 - (void)seekForDisplayProgressAndUpdateViews:(NSInteger)progressInMS;
+- (void)showVideoInfo;
 
 - (void)doStartPlayingStatistic;
-- (void)doPlayFailedStatisticWithType:(PKFailType)type;
+- (void)doStopPlayingStatistic : (PKEndType)endType withError:(NSError *)error;
 - (void)doSeekStatisticWithType:(BOOL)isGesture isRewind:(BOOL)isRewind;
-- (void)doVideoInfoStatistic;
-- (void)doPlayTimeStatistic;
 - (void)doEpisodeBtnClickStatistic;
 - (void)doSubtitleBtnClickStatistic;
 - (void)doDisplaymodeChangedStatistic;
 - (void)doDisplayPlayerViewStatistic;
 - (void)doDLNABtnClickStatistic;
-- (void)doUserPauseStatistic;
+- (void)doUserPauseStatistic : (BOOL)isPauseMode;
 - (void)doAudioTrackBtnClickStatistic;
 - (void)doAudioTrackInfoStatistic;
 - (void)donextBtnClickStatistic;
@@ -318,7 +315,10 @@ typedef NS_ENUM(NSInteger, PKPlayerViewDisplayMode) {
     
     if ([self.videoPlayerCore canClose]) {
         [self notifyPlayCompleted];
-        [self doPlayTimeStatistic];
+        
+        //手动退出统计
+        [self doStopPlayingStatistic:kPlayEndByUser withError:nil];
+        
         [self saveRecordForPlayCompletionWithType:kVideoPlayCompletionTypeClosed];
         [self.videoPlayerCore close];
     }
@@ -342,7 +342,7 @@ typedef NS_ENUM(NSInteger, PKPlayerViewDisplayMode) {
     return YES;
 }
 
-- (NSUInteger)supportedInterfaceOrientations {
+- (UIInterfaceOrientationMask)supportedInterfaceOrientations {
     return UIInterfaceOrientationMaskLandscape;
 }
 
@@ -581,9 +581,8 @@ typedef NS_ENUM(NSInteger, PKPlayerViewDisplayMode) {
 }
 
 - (IBAction)playBtnAction:(id)sender {
-    if (!self.videoPlayerCore.isPaused) {
-        [self doUserPauseStatistic];
-    }
+    
+    [self doUserPauseStatistic:!self.videoPlayerCore.isPaused];
     
     [self startAutoHideControlTimer];
     [self switchToPausedStatus:!self.videoPlayerCore.isPaused];
@@ -732,8 +731,12 @@ typedef NS_ENUM(NSInteger, PKPlayerViewDisplayMode) {
     [self.videoPlayerCore setVolumeChangedBlock:^(CGFloat newVolume) {
         __strong typeof(weakSelf) strongSelf = weakSelf;
         if (strongSelf) {
-            strongSelf.landscapeVolumeSlider.progressInPercent = newVolume;
-            [strongSelf updateVolumeImageWithVolume:newVolume];
+        
+            dispatch_async(dispatch_get_main_queue(), ^{
+                strongSelf.landscapeVolumeSlider.progressInPercent = newVolume;
+                [strongSelf updateVolumeImageWithVolume:newVolume];
+            });
+            
         }
     }];
     
@@ -766,7 +769,13 @@ typedef NS_ENUM(NSInteger, PKPlayerViewDisplayMode) {
         self.isVideoViewLoaded = YES;
         
         // xib初始化的时候，view还没有自动适配，暂时直接使用屏幕的大小
+        self.videoPlayerCore.videoView.translatesAutoresizingMaskIntoConstraints = YES;
         [self.videoPlayerCore setVideoViewSize:[UIScreen landscapeScreenBounds].size];
+        
+        if (self.videoPlayerCore.videoView.superview) {
+            [self.videoPlayerCore.videoView removeFromSuperview];
+        }
+        
         [self.videoView addSubview:self.videoPlayerCore.videoView];
     }
 }
@@ -854,6 +863,11 @@ typedef NS_ENUM(NSInteger, PKPlayerViewDisplayMode) {
     [self.gestureHolder addGestureRecognizer:pan];
 //    [pan requireGestureRecognizerToFail:swipeLeft];
 //    [pan requireGestureRecognizerToFail:swipeRight];
+    
+    UILongPressGestureRecognizer *longPress = [[UILongPressGestureRecognizer alloc]
+                                               initWithTarget:self action:@selector(longPressGestureAction:)];
+    longPress.minimumPressDuration = 3.0;
+    [self.gestureHolder addGestureRecognizer:longPress];
 }
 
 - (void)doInit {
@@ -1367,6 +1381,12 @@ typedef NS_ENUM(NSInteger, PKPlayerViewDisplayMode) {
         }
         default:
             break;
+    }
+}
+
+- (void)longPressGestureAction:(UILongPressGestureRecognizer *)sender {
+    if (sender.state == UIGestureRecognizerStateBegan) {
+        [self showVideoInfo];
     }
 }
 
@@ -2196,33 +2216,38 @@ typedef NS_ENUM(NSInteger, PKPlayerViewDisplayMode) {
     [self hideProgressIndicator];
 }
 
+- (void)showVideoInfo {
+#ifdef DEBUG
+    NSString *text = nil;
+    text = self.videoPlayerCore.videoInfo.playContentURLString;
+    UIAlertView *av = [[UIAlertView alloc] initWithTitle:@"Video info"
+                                                 message:text
+                                                delegate:nil
+                                       cancelButtonTitle:@"OK"
+                                       otherButtonTitles:nil];
+    av.alertViewStyle = UIAlertViewStylePlainTextInput;
+    UITextField *tf = [av textFieldAtIndex:0];
+    tf.text = text;
+    [av show];
+#endif
+}
+
 - (void)doStartPlayingStatistic {
     if (self.sourceManager.statisticSource.startPlayingStatisticBlock) {
-        self.sourceManager.statisticSource.startPlayingStatisticBlock();
+        self.sourceManager.statisticSource.startPlayingStatisticBlock(self.videoPlayerCore.videoInfo);
     }
 }
 
-- (void)doPlayFailedStatisticWithType:(PKFailType)type {
-    if (self.sourceManager.statisticSource.playFailedStatisticBlock) {
-        self.sourceManager.statisticSource.playFailedStatisticBlock(type);
+- (void)doStopPlayingStatistic : (PKEndType)endType withError:(NSError *)error {
+    if (self.sourceManager.statisticSource.stopPlayingStatisticBlock) {
+        NSTimeInterval playTime = [self.videoPlayerCore timeIntervalSinceStartPlaying];
+        self.sourceManager.statisticSource.stopPlayingStatisticBlock(endType, playTime, self.videoPlayerCore.videoInfo, error);
     }
 }
 
 - (void)doSeekStatisticWithType:(BOOL)isGesture isRewind:(BOOL)isRewind {
     if (self.sourceManager.statisticSource.seekStatisticBlock) {
         self.sourceManager.statisticSource.seekStatisticBlock(isGesture, isRewind);
-    }
-}
-
-- (void)doVideoInfoStatistic {
-    if (self.sourceManager.statisticSource.videoInfoStatisticBlock) {
-        self.sourceManager.statisticSource.videoInfoStatisticBlock(self.videoPlayerCore.videoInfo);
-    }
-}
-
-- (void)doPlayTimeStatistic {
-    if (self.sourceManager.statisticSource.playTimeStatisticBlock) {
-        self.sourceManager.statisticSource.playTimeStatisticBlock([self.videoPlayerCore timeIntervalSinceStartPlaying]);
     }
 }
 
@@ -2256,9 +2281,9 @@ typedef NS_ENUM(NSInteger, PKPlayerViewDisplayMode) {
     }
 }
 
-- (void)doUserPauseStatistic {
+- (void)doUserPauseStatistic : (BOOL)isPauseMode {
     if (self.sourceManager.statisticSource.userPauseStatisticBlock) {
-        self.sourceManager.statisticSource.userPauseStatisticBlock();
+        self.sourceManager.statisticSource.userPauseStatisticBlock(isPauseMode);
     }
 }
 
@@ -2296,7 +2321,6 @@ openCompletedWithResult:(BOOL)isReadyForPlaying
             NSLog(@"[INFO]: 使用硬解加速中...");
         }
         
-        [self doVideoInfoStatistic];
         [self doAudioTrackInfoStatistic];
         [self initPlay];
     }
@@ -2314,8 +2338,6 @@ openCompletedWithResult:(BOOL)isReadyForPlaying
     
     [self resetInit];
     
-    [self doPlayTimeStatistic];
-    
     if (videoPlayerCore.isSwitching) {
         return;
     }
@@ -2323,18 +2345,27 @@ openCompletedWithResult:(BOOL)isReadyForPlaying
     [self saveRecordForPlayCompletionWithType:type];
     if (type == kVideoPlayCompletionTypeEOF) {
         if (![self switchToNextEpisodeIfNeeded]) {
+            
+            //播放完成统计
+            [self doStopPlayingStatistic:kPlayEndByComplete withError:nil];
+            
             [self doQuit];
         }
     } else if (type == kVideoPlayCompletionTypeClosed) {
         
+        //手动退出统计
+        [self doStopPlayingStatistic:kPlayEndByUser withError:nil];
+        
     } else if (type == kVideoPlayCompletionTypeError) {
+        
+        //播放失败统计
+        [self doStopPlayingStatistic:kPlayEndByFail withError:error];
+        
         NSInteger errorCode = error.code & 0xffffffff;
         if (errorCode == 0x80000001 || errorCode == 0x80000002) {
-            /// 打开失败统计
-            [self doPlayFailedStatisticWithType:kFailTypeOpening];
+            /// 打开失败
         } else {
-            /// 播放失败统计
-            [self doPlayFailedStatisticWithType:kFailTypePlaying];
+            /// 播放失败
         }
         
         if (![self switchToNextResolutionIfNeeded]) {

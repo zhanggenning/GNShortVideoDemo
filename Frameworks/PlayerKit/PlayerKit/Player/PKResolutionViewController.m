@@ -48,8 +48,6 @@ static const NSInteger kSelectedColorHexValue = 0x4375e1;
         CGSize popSize = CGSizeMake(rowWidth, rowHeight*3);
         if ([self respondsToSelector:@selector(setPreferredContentSize:)]) {
             self.preferredContentSize = popSize;
-        } else {
-            self.contentSizeForViewInPopover = popSize;
         }
     }
     return self;
@@ -104,8 +102,6 @@ static const NSInteger kSelectedColorHexValue = 0x4375e1;
     CGSize popSize = CGSizeMake(rowWidth, rowHeight*self.dataSourceArray.count);
     if ([self respondsToSelector:@selector(setPreferredContentSize:)]) {
         self.preferredContentSize = popSize;
-    } else {
-        self.contentSizeForViewInPopover = popSize;
     }
     
     if (self.tableView) {

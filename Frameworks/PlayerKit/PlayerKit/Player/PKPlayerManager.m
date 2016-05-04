@@ -33,6 +33,8 @@
 @property (strong, nonatomic) PKXMPVideoPlayerCore *xmpVideoPlayerCore;
 @property (strong, nonatomic) PKSystemVideoPlayerCore *systemVideoPlayerCore;
 @property (weak, nonatomic) PKVideoPlayerViewController *videoPlayerVC;
+
+@property (strong, nonatomic) PKSourceManager *lightPlayerSourceManager;
 @property (weak, nonatomic) PKLightVideoPlayerViewController *lightVideoPlayerVC;
 
 - (void)initSourceManager;
@@ -80,10 +82,6 @@
 - (PKSourceManager *)currentSourceManager {
     if (self.videoPlayerVC) {
         return self.videoPlayerVC.sourceManager;
-    }
-    else if (self.lightVideoPlayerVC.sourceManager)
-    {
-        return self.sourceManager;
     }
     else {
         [self initSourceManager];
@@ -232,17 +230,6 @@
 }
 
 #pragma mark - 新接口
--(void)setPlayerControlStyle:(PKVideoControlBarStyle)playerControlStyle
-{
-    if (_playerControlStyle != playerControlStyle && _lightVideoPlayerVC)
-    {
-        self.lightVideoPlayerVC.controlBarStyle = playerControlStyle;
-        
-        _playerControlStyle = playerControlStyle;
-    }
-}
-
-
 - (UIViewController *)lightPlayerWithVideoUrl:(NSString *)videoUrl
                                  completeView:(UIView *)completeView
                                     errorView:(UIView *)errorView
@@ -254,8 +241,7 @@
     }
     
     PKLightVideoPlayerViewController *vc = [PKLightVideoPlayerViewController nibInstance];
-    vc.sourceManager = self.sourceManager;
-    [self clearSources];
+    vc.sourceManager = self.lightPlayerSourceManager;
     vc.videoPlayerCore = self.xmpVideoPlayerCore;
     vc.externalCompleteView = completeView;
     vc.externalErrorView = errorView;
@@ -266,15 +252,34 @@
     return vc;
 }
 
-- (void)switchVideoUrl:(NSString *)videoUrl
+- (void)lightPlayerSwitchVideoUrl:(NSString *)videoUrl
 {
+    if (_lightVideoPlayerVC)
+    {
+        [_lightVideoPlayerVC resetPlayerUI];
+        
+        _lightVideoPlayerVC.videoPlayerCore = self.xmpVideoPlayerCore;
+    }
+    
     [self.xmpVideoPlayerCore switchVideoWithContentURLString:videoUrl];
 }
 
-- (void)resetLightPlayer
+- (void)lightPlayerSwithchControlBar:(PKVideoControlBarStyle)controlBarStyle
 {
-    if (_lightVideoPlayerVC) {
-        [_lightVideoPlayerVC resetPlayerUI];
+    if (_lightVideoPlayerVC && _lightVideoPlayerVC.controlBarStyle != controlBarStyle)
+    {
+        _lightVideoPlayerVC.controlBarStyle = controlBarStyle;
+    }
+}
+
+- (PKSourceManager *)currentLightPlayerSourceManger
+{
+    if (self.lightVideoPlayerVC) {
+        return self.videoPlayerVC.sourceManager;
+    }
+    else {
+        [self initLightPlayerSourceManager];
+        return self.lightPlayerSourceManager;
     }
 }
 
@@ -284,8 +289,11 @@
     if (!self.sourceManager) {
         self.sourceManager = [[PKSourceManager alloc] init];
     }
-    if (self.lightVideoPlayerVC) {
-        self.lightVideoPlayerVC.sourceManager = self.sourceManager;
+}
+
+- (void)initLightPlayerSourceManager {
+    if (!self.lightPlayerSourceManager) {
+        self.lightPlayerSourceManager = [[PKSourceManager alloc] init];
     }
 }
 

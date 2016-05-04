@@ -45,7 +45,7 @@
     NSError* error = nil;
     NSData *data = [self dataUsingEncoding:NSUTF8StringEncoding];
     id result = [NSJSONSerialization JSONObjectWithData:data
-                                                options:NSJSONReadingAllowFragments
+                                                options:NSJSONReadingMutableContainers
                                                   error:&error];
     if (error) {
         NSLog(@"[ERROR]: String: %@\nJson error: %@\n%s", self, error, __FUNCTION__);

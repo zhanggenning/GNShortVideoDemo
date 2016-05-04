@@ -91,21 +91,19 @@ extern NSString *const kPKPlayerNotificationVideoInfoKey;
 - (void)switchWithLocalPathsArray:(NSArray *)localPathsArray;
 
 #pragma mark -- 新接口
-//播放完成展现的视图（外部设置）
-@property (nonatomic, weak) UIView *externalCompleteView;
-
-//播放出错时展现的视图（外部设置）
-@property (nonatomic, weak) UIView *externalErrorView;
-
-//播放器控制栏风格
-@property (nonatomic, assign) PKVideoControlBarStyle playerControlStyle;
-
+//轻量级播放器初始化
 - (UIViewController *)lightPlayerWithVideoUrl:(NSString *)videoUrl
                                  completeView:(UIView *)completeView
                                     errorView:(UIView *)errorView;
 
-- (void)switchVideoUrl:(NSString *)videoUrl;
+//轻量级播放器切换videoUrl
+- (void)lightPlayerSwitchVideoUrl:(NSString *)videoUrl;
 
-- (void)resetLightPlayer;
+//轻量级播放器切换控制条
+- (void)lightPlayerSwithchControlBar:(PKVideoControlBarStyle)controlBarStyle;
+
+//轻量级播放器源管理器
+- (PKSourceManager *)currentLightPlayerSourceManger;
+
 
 @end
