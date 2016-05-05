@@ -295,6 +295,14 @@
             
             if (executed)
             {
+                //开始播放通知
+                [self postStartPlayingNotification];
+                
+                //开始播放回调
+                if (self.sourceManager.playerStatusSource.playStartBlock) {
+                    self.sourceManager.playerStatusSource.playStartBlock(self.videoPlayerCore.videoInfo);
+                }
+                
                 //重置自动隐藏
                 [self startAutoHideControlTimer];
                 
@@ -383,9 +391,6 @@ openCompletedWithResult:(BOOL)isReadyForPlaying
     {
         self.controlBarModel.userInteractive = YES;
         
-        //开始播放通知
-        [self postStartPlayingNotification];
-        
         //加载完成回调
         if (_sourceManager.playerStatusSource.openCompletedBlock) {
             _sourceManager.playerStatusSource.openCompletedBlock(videoInfo);
@@ -417,6 +422,14 @@ openCompletedWithResult:(BOOL)isReadyForPlaying
             
             if (executed) {
  
+                //开始播放通知
+                [self postStartPlayingNotification];
+                
+                //开始播放回调
+                if (self.sourceManager.playerStatusSource.playStartBlock) {
+                    self.sourceManager.playerStatusSource.playStartBlock(videoInfo);
+                }
+                
                 //自动隐藏
                 [self startAutoHideControlTimer];
             }

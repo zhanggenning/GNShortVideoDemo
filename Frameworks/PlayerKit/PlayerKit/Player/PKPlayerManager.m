@@ -90,7 +90,17 @@
 }
 
 - (BOOL)isPlaying {
-    return (self.videoPlayerVC != nil);
+//    return (self.videoPlayerVC != nil);
+  
+    if (self.xmpVideoPlayerCore.videoPlayerCoreState == kVideoPlayerCoreStatePlaying ||
+        self.xmpVideoPlayerCore.videoPlayerCoreState == kVideoPlayerCoreStatePlay)
+    {
+        return YES;
+    }
+    else
+    {
+        return NO;
+    }
 }
 
 - (void)pause {
