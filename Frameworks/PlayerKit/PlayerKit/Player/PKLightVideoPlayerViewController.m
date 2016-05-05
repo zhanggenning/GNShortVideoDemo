@@ -58,6 +58,8 @@
                                                  name:UIApplicationWillResignActiveNotification
                                                object:nil];
     
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(volumeChanged:) name:@"AVSystemController_SystemVolumeDidChangeNotification" object:nil];
+    
     //注：音量视图一定要在当前视图层级才能隐藏
     [self.view addSubview:[PKLightVideoVolumeManager shareInstance].volumeView];
 }
@@ -320,6 +322,14 @@
     {
         [self switchPlayStateToPause:YES];
     }
+}
+
+//音量改变
+- (void)volumeChanged:(NSNotification *)notification
+{
+    CGFloat volume = [[[notification userInfo]
+                       objectForKey:@"AVSystemController_AudioVolumeNotificationParameter"] floatValue];
+    _controlBarModel.volume = volume;
 }
 
 #pragma mark -- 属性

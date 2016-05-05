@@ -147,7 +147,7 @@ typedef NS_ENUM(NSInteger, PKLightVideoSliderDirection)
     self.processLayer.frame = tempRect;
     
     tempRect = self.sliderView.bounds;
-    tempRect.size.height = _process * _sliderView.bounds.size.height;
+    tempRect.size.height = _bufferProcess * _sliderView.bounds.size.height;
     self.bufferProcessLayer.frame = tempRect;
     
     self.thumbView.center = CGPointMake(self.sliderView.center.x,
@@ -173,10 +173,12 @@ typedef NS_ENUM(NSInteger, PKLightVideoSliderDirection)
     
     tempRect = self.sliderView.bounds;
     tempRect.size.height = _process * _sliderView.bounds.size.height;
+    tempRect.origin.y = _sliderView.bounds.size.height - tempRect.size.height;
     self.processLayer.frame = tempRect;
     
     tempRect = self.sliderView.bounds;
-    tempRect.size.height = _process * _sliderView.bounds.size.height;
+    tempRect.size.height = _bufferProcess * _sliderView.bounds.size.height;
+    tempRect.origin.y = _sliderView.bounds.size.height - tempRect.size.height;
     self.bufferProcessLayer.frame = tempRect;
     
     self.thumbView.center = CGPointMake(_sliderView.center.x,
@@ -263,7 +265,8 @@ typedef NS_ENUM(NSInteger, PKLightVideoSliderDirection)
         case kVideoSliderVertaicalUp:
         {
             _thumbView.center = CGPointMake(_sliderView.center.x,
-                                            _sliderView.frame.origin.y + _sliderView.frame.size.height - _sliderView.frame.size.height * _process);
+                                            _sliderView.frame.origin.y + _sliderView.frame.size.height - _sliderView.frame.size.height * process);
+            
             [CATransaction begin];
             [CATransaction setDisableActions:YES];
             tempRect = self.sliderView.bounds;
