@@ -8,6 +8,7 @@
 
 #import "PKLightVideoPlayerSlider.h"
 #import "UIImage+pk.h"
+#import "UIColor+pk.h"
 
 static const CGFloat kSliderHeight = 4; //进度条宽度
 static const CGFloat kSliderThumbHeight = 26; //正方形滑块边长
@@ -63,13 +64,12 @@ typedef NS_ENUM(NSInteger, PKLightVideoSliderDirection)
         if (layer.bounds.size.width >= layer.bounds.size.height) //宽大于等于高：横向布局
         {
             [self layoutSubviewsOnLandscapeRight];
-            self.sliderDirection = kVideoSliderLandscapeRight;
         }
         else //宽小于高：竖向向下
         {
             [self layoutSubviewsOnVerticalUp];
-            self.sliderDirection = kVideoSliderVertaicalUp;
         }
+        [self layoutWithSliderDirection: self.sliderDirection];
         _currentBounds = layer.bounds;
     }
 }
@@ -78,7 +78,7 @@ typedef NS_ENUM(NSInteger, PKLightVideoSliderDirection)
 - (void)commonInit
 {
     self.backgroundColor = [UIColor clearColor];
-    self.sliderView.backgroundColor = [UIColor greenColor];
+    
     //进度条
     [self.sliderView.layer addSublayer:self.bufferProcessLayer];
     [self.sliderView.layer addSublayer:self.processLayer];
@@ -94,6 +94,30 @@ typedef NS_ENUM(NSInteger, PKLightVideoSliderDirection)
     
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapGestureAction:)];
     [self addGestureRecognizer:tap];
+}
+
+- (void)layoutWithSliderDirection:(PKLightVideoSliderDirection)direction
+{
+    switch (direction) {
+        case kVideoSliderLandscapeRight:
+        {
+            [self layoutSubviewsOnLandscapeRight];
+            break;
+        }
+        case kVideoSliderVertaicalDown:
+        {
+            [self layoutSubviewsOnVerticalDown];
+            break;
+        }
+        case kVideoSliderVertaicalUp:
+        {
+            [self layoutSubviewsOnVerticalUp];
+            break;
+        }
+        default:
+            break;
+    }
+
 }
 
 - (void)layoutSubviewsOnLandscapeRight
@@ -191,7 +215,7 @@ typedef NS_ENUM(NSInteger, PKLightVideoSliderDirection)
     if (!_sliderView)
     {
         _sliderView = [[UIView alloc] init];
-        _sliderView.backgroundColor = [UIColor blackColor];
+        _sliderView.backgroundColor = [UIColor colorWithHexValue:0x000000 alpha:0.6];
     }
     return _sliderView;
 }
@@ -201,7 +225,7 @@ typedef NS_ENUM(NSInteger, PKLightVideoSliderDirection)
     if (!_processLayer)
     {
         _processLayer = [CALayer layer];
-        _processLayer.backgroundColor = [UIColor blueColor].CGColor;
+        _processLayer.backgroundColor = [UIColor colorWithHexValue:0x1294f6 alpha:1.0].CGColor;
     }
     return _processLayer;
 }
@@ -211,7 +235,7 @@ typedef NS_ENUM(NSInteger, PKLightVideoSliderDirection)
     if (!_bufferProcessLayer)
     {
         _bufferProcessLayer = [CALayer layer];
-        _bufferProcessLayer.backgroundColor = [UIColor whiteColor].CGColor;
+        _bufferProcessLayer.backgroundColor = [UIColor colorWithHexValue:0xdddddd alpha:1.0].CGColor;
     }
     return _bufferProcessLayer;
 }
@@ -335,6 +359,8 @@ typedef NS_ENUM(NSInteger, PKLightVideoSliderDirection)
     
     self.thumbView.hidden = thumbHidden;
     self.userInteractionEnabled = !thumbHidden;
+    
+    [self layoutWithSliderDirection: self.sliderDirection];
 }
 
 #pragma mark -- 事件

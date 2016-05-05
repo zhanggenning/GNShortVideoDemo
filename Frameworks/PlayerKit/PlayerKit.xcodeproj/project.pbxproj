@@ -235,6 +235,14 @@
 		2FBB8C081CCDC80600367545 /* PKLightVideoProcessIndicator.h in Headers */ = {isa = PBXBuildFile; fileRef = 2FBB8C061CCDC80600367545 /* PKLightVideoProcessIndicator.h */; };
 		2FBB8C091CCDC80600367545 /* PKLightVideoProcessIndicator.m in Sources */ = {isa = PBXBuildFile; fileRef = 2FBB8C071CCDC80600367545 /* PKLightVideoProcessIndicator.m */; };
 		2FBB8C0B1CCDC88000367545 /* PKLightVideoProcessIndicator.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2FBB8C0A1CCDC88000367545 /* PKLightVideoProcessIndicator.xib */; };
+		2FC720D11CDB741000B9EFE4 /* pk_LightVideo_pause.png in Resources */ = {isa = PBXBuildFile; fileRef = 2FC720CD1CDB741000B9EFE4 /* pk_LightVideo_pause.png */; };
+		2FC720D21CDB741000B9EFE4 /* pk_LightVideo_pauseH.png in Resources */ = {isa = PBXBuildFile; fileRef = 2FC720CE1CDB741000B9EFE4 /* pk_LightVideo_pauseH.png */; };
+		2FC720D31CDB741000B9EFE4 /* pk_LightVideo_play.png in Resources */ = {isa = PBXBuildFile; fileRef = 2FC720CF1CDB741000B9EFE4 /* pk_LightVideo_play.png */; };
+		2FC720D41CDB741000B9EFE4 /* pk_LightVideo_playH.png in Resources */ = {isa = PBXBuildFile; fileRef = 2FC720D01CDB741000B9EFE4 /* pk_LightVideo_playH.png */; };
+		2FC720D71CDB820600B9EFE4 /* pk_LightVideo_small.png in Resources */ = {isa = PBXBuildFile; fileRef = 2FC720D51CDB820600B9EFE4 /* pk_LightVideo_small.png */; };
+		2FC720D81CDB820600B9EFE4 /* pk_LightVideo_smallH.png in Resources */ = {isa = PBXBuildFile; fileRef = 2FC720D61CDB820600B9EFE4 /* pk_LightVideo_smallH.png */; };
+		2FC720DB1CDB823D00B9EFE4 /* pk_LightVideo_full.png in Resources */ = {isa = PBXBuildFile; fileRef = 2FC720D91CDB823D00B9EFE4 /* pk_LightVideo_full.png */; };
+		2FC720DC1CDB823D00B9EFE4 /* pk_LightVideo_fullH.png in Resources */ = {isa = PBXBuildFile; fileRef = 2FC720DA1CDB823D00B9EFE4 /* pk_LightVideo_fullH.png */; };
 		44ABB3AE1B732D6C00E5FB62 /* libbz2.1.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 44ABB3AB1B732D6C00E5FB62 /* libbz2.1.0.dylib */; };
 		44ABB3AF1B732D6C00E5FB62 /* libiconv.2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 44ABB3AC1B732D6C00E5FB62 /* libiconv.2.dylib */; };
 		44ABB3B01B732D6C00E5FB62 /* libz.1.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 44ABB3AD1B732D6C00E5FB62 /* libz.1.dylib */; };
@@ -538,6 +546,14 @@
 		2FBB8C061CCDC80600367545 /* PKLightVideoProcessIndicator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PKLightVideoProcessIndicator.h; sourceTree = "<group>"; };
 		2FBB8C071CCDC80600367545 /* PKLightVideoProcessIndicator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PKLightVideoProcessIndicator.m; sourceTree = "<group>"; };
 		2FBB8C0A1CCDC88000367545 /* PKLightVideoProcessIndicator.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PKLightVideoProcessIndicator.xib; sourceTree = "<group>"; };
+		2FC720CD1CDB741000B9EFE4 /* pk_LightVideo_pause.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pk_LightVideo_pause.png; sourceTree = "<group>"; };
+		2FC720CE1CDB741000B9EFE4 /* pk_LightVideo_pauseH.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pk_LightVideo_pauseH.png; sourceTree = "<group>"; };
+		2FC720CF1CDB741000B9EFE4 /* pk_LightVideo_play.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pk_LightVideo_play.png; sourceTree = "<group>"; };
+		2FC720D01CDB741000B9EFE4 /* pk_LightVideo_playH.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pk_LightVideo_playH.png; sourceTree = "<group>"; };
+		2FC720D51CDB820600B9EFE4 /* pk_LightVideo_small.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pk_LightVideo_small.png; sourceTree = "<group>"; };
+		2FC720D61CDB820600B9EFE4 /* pk_LightVideo_smallH.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pk_LightVideo_smallH.png; sourceTree = "<group>"; };
+		2FC720D91CDB823D00B9EFE4 /* pk_LightVideo_full.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pk_LightVideo_full.png; sourceTree = "<group>"; };
+		2FC720DA1CDB823D00B9EFE4 /* pk_LightVideo_fullH.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pk_LightVideo_fullH.png; sourceTree = "<group>"; };
 		44ABB3AB1B732D6C00E5FB62 /* libbz2.1.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libbz2.1.0.dylib; path = /usr/lib/libbz2.1.0.dylib; sourceTree = "<absolute>"; };
 		44ABB3AC1B732D6C00E5FB62 /* libiconv.2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libiconv.2.dylib; path = /usr/lib/libiconv.2.dylib; sourceTree = "<absolute>"; };
 		44ABB3AD1B732D6C00E5FB62 /* libz.1.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.1.dylib; path = /usr/lib/libz.1.dylib; sourceTree = "<absolute>"; };
@@ -783,6 +799,14 @@
 		11C9E7531A595AE7001F7338 /* iphone */ = {
 			isa = PBXGroup;
 			children = (
+				2FC720D91CDB823D00B9EFE4 /* pk_LightVideo_full.png */,
+				2FC720DA1CDB823D00B9EFE4 /* pk_LightVideo_fullH.png */,
+				2FC720D51CDB820600B9EFE4 /* pk_LightVideo_small.png */,
+				2FC720D61CDB820600B9EFE4 /* pk_LightVideo_smallH.png */,
+				2FC720CD1CDB741000B9EFE4 /* pk_LightVideo_pause.png */,
+				2FC720CE1CDB741000B9EFE4 /* pk_LightVideo_pauseH.png */,
+				2FC720CF1CDB741000B9EFE4 /* pk_LightVideo_play.png */,
+				2FC720D01CDB741000B9EFE4 /* pk_LightVideo_playH.png */,
 				11409A6C1B098EF900543C8F /* pk_common_btn_d_i5.png */,
 				11F04EFF1B04A90F00C1FA28 /* pk_common_btn_d.png */,
 				11409A6D1B098EF900543C8F /* pk_common_btn_h_i5.png */,
@@ -1168,9 +1192,12 @@
 				932581951B4E7F6C00C39EF4 /* PKMusicPlayViewController.xib in Resources */,
 				11A1A96A1A70D5A400E35D53 /* PKProgressDescriptionView.xib in Resources */,
 				11F04EE51B04839700C1FA28 /* pk_quit_btn_n.png in Resources */,
+				2FC720DC1CDB823D00B9EFE4 /* pk_LightVideo_fullH.png in Resources */,
+				2FC720D41CDB741000B9EFE4 /* pk_LightVideo_playH.png in Resources */,
 				11317F5F1B05FDEB0061C95C /* PKVideoPlayerViewController_i5.xib in Resources */,
 				114169F41B44E476004DF19E /* PKAudioTrackCell.xib in Resources */,
 				11409A701B098EF900543C8F /* pk_common_btn_h_i5.png in Resources */,
+				2FC720D21CDB741000B9EFE4 /* pk_LightVideo_pauseH.png in Resources */,
 				11409A791B09927400543C8F /* pk_next_btn_d_i5.png in Resources */,
 				11AE24141A67BCF600425928 /* PKProgressDescriptionView~ipad.xib in Resources */,
 				11317F5D1B05D2750061C95C /* PKSubtitleCell.xib in Resources */,
@@ -1178,6 +1205,7 @@
 				11F04EF21B048F5D00C1FA28 /* pk_episode_btn_h~ipad.png in Resources */,
 				114C8A521B1324EF007271CC /* pk_guide_ipad.png in Resources */,
 				932581981B4E80AB00C39EF4 /* pk_music_paly_bg.png in Resources */,
+				2FC720D31CDB741000B9EFE4 /* pk_LightVideo_play.png in Resources */,
 				11F04F041B04A90F00C1FA28 /* pk_common_btn_h.png in Resources */,
 				112DA7171AD7C83C006EAEB6 /* PKSubtitleCell~ipad.xib in Resources */,
 				11F85E211A636F8100E95974 /* PKProgressIndicator~ipad.xib in Resources */,
@@ -1186,6 +1214,7 @@
 				11C9E7B11A595E65001F7338 /* PKVideoPlayerViewController~ipad.xib in Resources */,
 				113F8F6E1B256EC700BD1D3C /* pk_brightness_logo.png in Resources */,
 				2F421D9F1CC4C9510017E332 /* PKLightVideoPlayerViewController.xib in Resources */,
+				2FC720D11CDB741000B9EFE4 /* pk_LightVideo_pause.png in Resources */,
 				11C9E7841A595AE7001F7338 /* pk_next_btn_n.png in Resources */,
 				1165A1201B4393470030B641 /* PKAudioTrackViewController~ipad.xib in Resources */,
 				11C9E7731A595AE7001F7338 /* pk_pause_btn_n~ipad.png in Resources */,
@@ -1201,12 +1230,14 @@
 				11411B901AC9228D00D08FAD /* pk_episode_btn_n.png in Resources */,
 				114C8A571B132508007271CC /* pk_guide_i4.png in Resources */,
 				114C8A5A1B132508007271CC /* pk_guide_i6p.png in Resources */,
+				2FC720D81CDB820600B9EFE4 /* pk_LightVideo_smallH.png in Resources */,
 				112CC1991AC54FFA00623B40 /* PKMutilEpisodeCell.xib in Resources */,
 				11317F5B1B05C3890061C95C /* PKTip.xib in Resources */,
 				11D36BA11A5A62EE002B7CC4 /* pk_slider_thumb_btn_n.png in Resources */,
 				114C8A581B132508007271CC /* pk_guide_i5.png in Resources */,
 				11C9E7851A595AE7001F7338 /* pk_pause_btn_h.png in Resources */,
 				11AE24111A67B74400425928 /* pk_progress_description_bg~ipad.png in Resources */,
+				2FC720D71CDB820600B9EFE4 /* pk_LightVideo_small.png in Resources */,
 				11AE24131A67B76A00425928 /* pk_progress_description_bg.png in Resources */,
 				11409A711B098EF900543C8F /* pk_common_btn_n_i5.png in Resources */,
 				11409A6B1B098D2800543C8F /* pk_quit_btn_n_i5.png in Resources */,
@@ -1250,6 +1281,7 @@
 				1137AFDA1B78B2AD00F38B81 /* PKSubtitleCell_i5.xib in Resources */,
 				11C9E7691A595AE7001F7338 /* pk_volume_bg@2x.png in Resources */,
 				1137AFD61B78B25400F38B81 /* PKSubtitleViewController_i5.xib in Resources */,
+				2FC720DB1CDB823D00B9EFE4 /* pk_LightVideo_full.png in Resources */,
 				2FBB8C0B1CCDC88000367545 /* PKLightVideoProcessIndicator.xib in Resources */,
 				11F04EE41B04839700C1FA28 /* pk_quit_btn_h.png in Resources */,
 				113D3D171B034D9100095358 /* pk_common_btn_d~ipad.png in Resources */,
