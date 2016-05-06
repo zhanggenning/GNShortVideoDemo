@@ -25,6 +25,12 @@ typedef void(^SliderValueChangeBlock)(CGFloat process);
 
 @property (nonatomic, weak) id<PKLightVideoPlayerSliderProtocol> delegate;
 
+
+//设置颜色
+- (void)processHexColor:(NSInteger)hexColor alpha:(CGFloat)alpha;
+
+- (void)backHexColor:(NSInteger)hexColor alpha:(CGFloat)alpha;
+
 @end
 
 @protocol PKLightVideoPlayerSliderProtocol <NSObject>

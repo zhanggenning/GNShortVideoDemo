@@ -8,6 +8,7 @@
 
 #import "PKLightVideoControlBar.h"
 #import "PKLightVideoPlayerSlider.h"
+#import "PKLightVideoLoading.h"
 #import "NSBundle+pk.h"
 #import "UIImage+pk.h"
 #import "TWeakTimer.h"
@@ -16,15 +17,15 @@
 
 @property (strong, nonatomic) CAGradientLayer *topLayer;
 @property (strong, nonatomic) CAGradientLayer *bottomLayer;
-
 @property (weak, nonatomic) IBOutlet UIView *topControlBar;
 @property (weak, nonatomic) IBOutlet UIView *bottomControlBar;
 @property (weak, nonatomic) IBOutlet UIView *controlBarWrapView;
+
 @property (weak, nonatomic) IBOutlet UIButton *playBtn;
 @property (weak, nonatomic) IBOutlet UILabel *playTimeLab;
 @property (weak, nonatomic) IBOutlet UILabel *durationTimeLab;
 @property (weak, nonatomic) IBOutlet PKLightVideoPlayerSlider *processSlider;
-@property (weak, nonatomic) IBOutlet UIActivityIndicatorView *indicatorView;
+@property (weak, nonatomic) IBOutlet PKLightVideoLoading *indicatorView;
 @property (weak, nonatomic) IBOutlet PKLightVideoPlayerSlider *bottomProcessSlider;
 @property (weak, nonatomic) IBOutlet UILabel *mainTitle;
 

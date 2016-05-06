@@ -10,8 +10,8 @@
 #import "UIImage+pk.h"
 #import "UIColor+pk.h"
 
-static const CGFloat kSliderHeight = 4; //进度条宽度
-static const CGFloat kSliderThumbHeight = 26; //正方形滑块边长
+static const CGFloat kSliderHeight = 3; //进度条宽度
+static const CGFloat kSliderThumbHeight = 16; //正方形滑块边长
 
 typedef NS_ENUM(NSInteger, PKLightVideoSliderDirection)
 {
@@ -244,8 +244,9 @@ typedef NS_ENUM(NSInteger, PKLightVideoSliderDirection)
 {
     if (!_thumbView)
     {
-        UIImage *thumbImg = [UIImage imageInPKBundleWithName:@"pk_slider_thumb_btn_n.png"];
+        UIImage *thumbImg = [UIImage imageInPKBundleWithName:@"pk_LightVideo_thumb.png"];
         _thumbView = [[UIImageView alloc] initWithImage:thumbImg];
+        _thumbView.contentMode = UIViewContentModeScaleAspectFit;
         _thumbView.userInteractionEnabled = YES;
     }
     return _thumbView;
@@ -359,9 +360,19 @@ typedef NS_ENUM(NSInteger, PKLightVideoSliderDirection)
     
     self.thumbView.hidden = thumbHidden;
     self.userInteractionEnabled = !thumbHidden;
-    
-    [self layoutWithSliderDirection: self.sliderDirection];
 }
+
+#pragma mark -- 公共
+- (void)processHexColor:(NSInteger)hexColor alpha:(CGFloat)alpha
+{
+    _processLayer.backgroundColor = [UIColor colorWithHexValue:hexColor alpha:alpha].CGColor;
+}
+
+- (void)backHexColor:(NSInteger)hexColor alpha:(CGFloat)alpha
+{
+    _sliderView.backgroundColor = [UIColor colorWithHexValue:hexColor alpha:alpha];
+}
+
 
 #pragma mark -- 事件
 - (void)panGestureAction:(UIPanGestureRecognizer *)pan {

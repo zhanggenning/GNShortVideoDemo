@@ -60,6 +60,7 @@
         _cellModel.commentCount = 999;
         _cellModel.duration = 128;
         _cellModel.videoUrl = @"http://flv2.bn.netease.com/tvmrepo/2016/4/R/V/EBKGQHARV/SD/EBKGQHARV-mobile.mp4";
+        _cellModel.videoIsVertical = YES;
     }
     return _cellModel;
 }

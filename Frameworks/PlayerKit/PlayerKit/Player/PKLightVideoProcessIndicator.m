@@ -7,15 +7,24 @@
 //
 
 #import "PKLightVideoProcessIndicator.h"
+#import "PKLightVideoPlayerSlider.h"
 #import "NSBundle+pk.h"
 #import "UIImage+pk.h"
 
 @interface PKLightVideoProcessIndicator ()
 
+@property (nonatomic, assign) PKLightVideoIndicatorType type;
+@property (nonatomic, assign) CGFloat process;
+@property (nonatomic, assign) BOOL isRewind;
+@property (nonatomic, assign) BOOL isNoVolume;
+
 @property (nonatomic, strong) UIView *contentView;
-@property (weak, nonatomic) IBOutlet UIImageView *bgView;
+@property (weak, nonatomic) IBOutlet UIView *bgView;
 @property (weak, nonatomic) IBOutlet UIImageView *logoView;
 @property (weak, nonatomic) IBOutlet UILabel *timeLab;
+@property (weak, nonatomic) IBOutlet PKLightVideoPlayerSlider *processSlider;
+
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *constraint_bgViewH;
 
 @end
 
@@ -64,9 +73,11 @@
     self.backgroundColor = [UIColor clearColor];
     _contentView.backgroundColor = [UIColor clearColor];
     
-    UIImage *bgImage = [UIImage imageInPKBundleWithName:@"pk_common_round_bg.png"];
-    bgImage = [bgImage stretchableImageWithLeftCapWidth:2 topCapHeight:2];
-    self.bgView.image = bgImage;
+    _bgView.layer.cornerRadius = 5.0;
+    _processSlider.thumbHidden = YES;
+    _processSlider.layer.cornerRadius = 2.0;
+    [_processSlider processHexColor:0xffffff alpha:1.0];
+    [_processSlider backHexColor:0xffffff alpha:0.5];
 }
 
 - (void)addContraintsOnView:(UIView *)view
@@ -89,36 +100,141 @@
     }
 }
 
+- (void)configUserInfo:(NSDictionary *)userInfo type:(PKLightVideoIndicatorType)type
+{
+    if (!userInfo) {
+        return;
+    }
+    
+    switch (_type)
+    {
+        case kLightVideoIndicatorTime:
+        {
+            //设置时间字符串
+            if (userInfo[@"timeStr"])
+            {
+                NSString *timeStr = [NSString stringWithFormat:@"%@", userInfo[@"timeStr"]];
+                _timeLab.text = timeStr;
+            }
+            
+            //设置图片
+            if (userInfo[@"isRewind"])
+            {
+                self.isRewind = [userInfo[@"isRewind"] boolValue];
+            }
+            
+            break;
+        }
+        default:
+            break;
+    }
+}
+
 #pragma mark -- 属性
 - (void)setIsRewind:(BOOL)isRewind
 {
     _isRewind = isRewind;
     
-    UIImage *logoImage = nil;
-
     if (self.isRewind)
     {
-        logoImage = [UIImage imageInPKBundleWithName:@"pk_rewind_logo.png"];
+        self.logoView.image = [UIImage imageInPKBundleWithName:@"pk_LightVideo_rewind.png"];
     }
     else
     {
-        logoImage = [UIImage imageInPKBundleWithName:@"pk_fast_forward_logo.png"];
+        self.logoView.image = [UIImage imageInPKBundleWithName:@"pk_LightVideo_forward.png"];
     }
-    self.logoView.image = logoImage;
 }
 
-- (void)setDescriptionString:(NSString *)descriptionString
+- (void)setIsNoVolume:(BOOL)isNoVolume
 {
-    _descriptionString = descriptionString;
+    _isNoVolume = isNoVolume;
     
-    self.timeLab.text = self.descriptionString;
+    if (isNoVolume)
+    {
+        self.logoView.image = [UIImage imageInPKBundleWithName:@"pk_LightVideo_novolume.png"];
+    }
+    else
+    {
+        self.logoView.image = [UIImage imageInPKBundleWithName:@"pk_LightVideo_volume.png"];
+    }
 }
+
+- (void)setType:(PKLightVideoIndicatorType)type
+{
+    if (_type == type) {
+        return;
+    }
+    
+    switch (type)
+    {
+        case kLightVideoIndicatorTime:
+        {
+            _timeLab.hidden = NO;
+            _constraint_bgViewH.constant = 116.0;
+            self.isRewind = _isRewind;
+            break;
+        }
+        case kLightVideoIndicatorVolume:
+        {
+            _timeLab.hidden = YES;
+            _constraint_bgViewH.constant = 88.0;
+            self.isNoVolume = _isNoVolume;
+            break;
+        }
+        case kLightVideoIndicatorBrightness:
+        {
+            _timeLab.hidden = YES;
+            _constraint_bgViewH.constant = 88.0;
+            self.logoView.image = [UIImage imageInPKBundleWithName:@"pk_LightVideo_brightness.png"];
+            
+            break;
+        }
+        default:
+            break;
+    }
+    
+    _type = type;
+}
+
+- (void)setProcess:(CGFloat)process
+{
+    _process = process;
+    
+    _processSlider.process = process;
+    
+    //同步音量图片
+    if (_type == kLightVideoIndicatorVolume)
+    {
+        if (process <= 0)
+        {
+            if (!_isNoVolume) {
+                _isNoVolume = YES;
+            }
+        }
+        else
+        {
+            if (_isNoVolume) {
+                self.isNoVolume = NO;
+            }
+        }
+    }
+}
+
 
 #pragma mark -- 公共
-- (void)showWithDescription:(NSString *)descriptionString isRewind:(BOOL)isRewind
+- (void)showWithIndicatorType:(PKLightVideoIndicatorType)type
+                      process:(CGFloat)process
+                     userInfo:(NSDictionary *)userInfo
 {
-    self.descriptionString = descriptionString;
-    self.isRewind = isRewind;
+    //设置类型
+    self.type = type;
+
+    //设置进度
+    self.process = process;
+    
+    //设置用户信息
+    [self configUserInfo:userInfo type:type];
+
 }
 
 @end

@@ -3,56 +3,70 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
-        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
-        <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="PKLightVideoProcessIndicator">
             <connections>
-                <outlet property="bgView" destination="99V-xP-rTg" id="B0t-yr-chE"/>
+                <outlet property="bgView" destination="SBx-TL-yRM" id="awJ-Ur-gAz"/>
+                <outlet property="constraint_bgViewH" destination="XIM-Ty-zdP" id="GcK-W2-y1f"/>
                 <outlet property="logoView" destination="U2L-Ve-Kgy" id="uSI-6X-pfj"/>
+                <outlet property="processSlider" destination="s3z-d3-Mw4" id="BXA-o3-CUf"/>
                 <outlet property="timeLab" destination="o5J-hu-vIw" id="DX2-lF-2xK"/>
             </connections>
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <view contentMode="scaleToFill" id="iN0-l3-epB">
-            <rect key="frame" x="0.0" y="0.0" width="300" height="200"/>
+        <view alpha="0.40000000000000002" contentMode="scaleToFill" id="iN0-l3-epB">
+            <rect key="frame" x="0.0" y="0.0" width="140" height="271"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="pk_common_round_bg.png" translatesAutoresizingMaskIntoConstraints="NO" id="99V-xP-rTg">
-                    <rect key="frame" x="0.0" y="0.0" width="300" height="200"/>
-                </imageView>
-                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="pk_fast_forward_logo.png" translatesAutoresizingMaskIntoConstraints="NO" id="U2L-Ve-Kgy">
-                    <rect key="frame" x="105" y="16" width="90" height="80"/>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="SBx-TL-yRM" userLabel="back View">
+                    <rect key="frame" x="0.0" y="0.0" width="140" height="116"/>
+                    <subviews>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="00:00 / 00:00" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="o5J-hu-vIw">
+                            <rect key="frame" x="0.0" y="82" width="140" height="16"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                            <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="s3z-d3-Mw4" customClass="PKLightVideoPlayerSlider">
+                            <rect key="frame" x="12" y="66" width="116" height="4"/>
+                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="4" id="UiD-hO-eBh"/>
+                            </constraints>
+                        </view>
+                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="pk_LightVideo_forward.png" translatesAutoresizingMaskIntoConstraints="NO" id="U2L-Ve-Kgy">
+                            <rect key="frame" x="45" y="8" width="50" height="50"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="50" id="53n-d9-M3k"/>
+                                <constraint firstAttribute="width" constant="50" id="XJf-UN-3Ke"/>
+                            </constraints>
+                        </imageView>
+                    </subviews>
+                    <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.40000000000000002" colorSpace="calibratedRGB"/>
                     <constraints>
-                        <constraint firstAttribute="width" secondItem="U2L-Ve-Kgy" secondAttribute="height" multiplier="9:8" id="hzV-UB-IpY"/>
+                        <constraint firstItem="U2L-Ve-Kgy" firstAttribute="top" secondItem="SBx-TL-yRM" secondAttribute="top" constant="8" id="2e5-ks-8Cw"/>
+                        <constraint firstItem="U2L-Ve-Kgy" firstAttribute="centerX" secondItem="SBx-TL-yRM" secondAttribute="centerX" id="BCh-T8-kSO"/>
+                        <constraint firstAttribute="trailing" secondItem="s3z-d3-Mw4" secondAttribute="trailing" constant="12" id="HcI-gL-z9m"/>
+                        <constraint firstAttribute="trailing" secondItem="o5J-hu-vIw" secondAttribute="trailing" id="MJV-Da-ALl"/>
+                        <constraint firstItem="o5J-hu-vIw" firstAttribute="leading" secondItem="SBx-TL-yRM" secondAttribute="leading" id="QdW-WA-KSH"/>
+                        <constraint firstAttribute="height" constant="116" id="XIM-Ty-zdP"/>
+                        <constraint firstItem="o5J-hu-vIw" firstAttribute="top" secondItem="s3z-d3-Mw4" secondAttribute="bottom" constant="12" id="buf-fa-b4n"/>
+                        <constraint firstItem="s3z-d3-Mw4" firstAttribute="top" secondItem="U2L-Ve-Kgy" secondAttribute="bottom" constant="8" id="eLf-Ql-6iH"/>
+                        <constraint firstItem="s3z-d3-Mw4" firstAttribute="leading" secondItem="SBx-TL-yRM" secondAttribute="leading" constant="12" id="gQw-dn-5CI"/>
                     </constraints>
-                </imageView>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="00:00/00:00" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="o5J-hu-vIw">
-                    <rect key="frame" x="0.0" y="104" width="300" height="80"/>
-                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    <nil key="highlightedColor"/>
-                </label>
+                </view>
             </subviews>
             <constraints>
-                <constraint firstAttribute="trailing" secondItem="99V-xP-rTg" secondAttribute="trailing" id="41v-HI-6tN"/>
-                <constraint firstItem="U2L-Ve-Kgy" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="16" id="Bsv-Uc-Kwg"/>
-                <constraint firstItem="U2L-Ve-Kgy" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="JsG-rt-nMr"/>
-                <constraint firstAttribute="bottom" secondItem="o5J-hu-vIw" secondAttribute="bottom" constant="16" id="McU-xz-vu4"/>
-                <constraint firstItem="99V-xP-rTg" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="N2i-qi-9cz"/>
-                <constraint firstItem="U2L-Ve-Kgy" firstAttribute="height" secondItem="iN0-l3-epB" secondAttribute="height" multiplier="1:2.5" id="NdH-lr-mlJ"/>
-                <constraint firstAttribute="bottom" secondItem="99V-xP-rTg" secondAttribute="bottom" id="aJ5-5S-O82"/>
-                <constraint firstAttribute="trailing" secondItem="o5J-hu-vIw" secondAttribute="trailing" id="l4i-Ft-piR"/>
-                <constraint firstItem="o5J-hu-vIw" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="lcS-ro-eoF"/>
-                <constraint firstItem="99V-xP-rTg" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="pQZ-pu-A2a"/>
-                <constraint firstItem="o5J-hu-vIw" firstAttribute="top" secondItem="U2L-Ve-Kgy" secondAttribute="bottom" constant="8" id="rQI-Df-53M"/>
+                <constraint firstAttribute="trailing" secondItem="SBx-TL-yRM" secondAttribute="trailing" id="LI1-Oq-RfB"/>
+                <constraint firstItem="SBx-TL-yRM" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="qHy-uk-brS"/>
+                <constraint firstItem="SBx-TL-yRM" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="uwO-v7-l6f"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <point key="canvasLocation" x="448" y="653.5"/>
         </view>
     </objects>
     <resources>
-        <image name="pk_common_round_bg.png" width="5" height="5"/>
-        <image name="pk_fast_forward_logo.png" width="108" height="97"/>
+        <image name="pk_LightVideo_forward.png" width="100" height="100"/>
     </resources>
 </document>
