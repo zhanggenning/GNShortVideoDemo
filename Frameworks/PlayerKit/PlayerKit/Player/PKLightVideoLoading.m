@@ -56,9 +56,10 @@
 {
     _rotationAnimation = [CABasicAnimation animationWithKeyPath:@"transform.rotation.z"];
     _rotationAnimation.toValue = [NSNumber numberWithFloat: M_PI * 2.0 ];
-    _rotationAnimation.duration = 0.5;
+    _rotationAnimation.duration = 0.8;
     _rotationAnimation.cumulative = YES;
     _rotationAnimation.repeatCount = HUGE_VALF;
+    _rotationAnimation.removedOnCompletion = NO;
     [_img.layer addAnimation:_rotationAnimation forKey:@"rotationAnimation"];
 }
 
@@ -80,6 +81,7 @@
     if (!_img) {
         _img = [[UIImageView alloc] init];
         _img.image = [UIImage imageInPKBundleWithName:@"pk_LightVideo_loading.png"];
+        _img.contentMode = UIViewContentModeScaleAspectFit;
     }
     return _img;
 }

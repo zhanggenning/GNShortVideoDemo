@@ -25,8 +25,6 @@ typedef NS_ENUM(NSInteger,  LightVideoPanMoveDirection) {
     kLightVideoPanMoveVerticalRight,  //右侧垂直方向滑动
 };
 
-static NSString * const kLightVideoGuideImageKey = @"kLightVideoGuideImageKey";
-
 /// 进度条最小变化步长
 static const CGFloat kLeftSliderMinStep = 0.02;
 static const CGFloat kRightSliderMinStep = 0.02;
@@ -46,19 +44,15 @@ static const CGFloat kMinTimeForHSeekingInSec = 0.5;
     NSInteger _durationTime;
     CGFloat _volumeProcess;
     CGFloat _brightProcess;
-    BOOL _noCheckGuide;
+    BOOL _isInitVolume;
 }
 
-@property (nonatomic, assign) BOOL needGuideImage;
 @property (strong, nonatomic) TWeakTimer *autoHideControlTimer;
 
-@property (strong, nonatomic) CAGradientLayer *topLayer;
-@property (strong, nonatomic) CAGradientLayer *bottomLayer;
 @property (weak, nonatomic) IBOutlet UIView *bottomControlBar;
 @property (weak, nonatomic) IBOutlet UIView *topControlBar;
 @property (weak, nonatomic) IBOutlet UIView *controlBarWrapView;
 
-@property (strong, nonatomic) UIImageView *guideImageView; //引导图
 @property (weak, nonatomic) IBOutlet UILabel *mainTitleLab;   //主标题控件
 @property (weak, nonatomic) IBOutlet UILabel *playTimeLab;    //播放时间控件
 @property (weak, nonatomic) IBOutlet UILabel *durationTimeLab; //文件时长控件
@@ -67,6 +61,7 @@ static const CGFloat kMinTimeForHSeekingInSec = 0.5;
 @property (weak, nonatomic) IBOutlet PKLightVideoPlayerSlider *processSlider; //播放进度控件
 @property (weak, nonatomic) IBOutlet PKLightVideoPlayerSlider *bottomProcessSlider; //缓冲进度控件
 @property (weak, nonatomic) IBOutlet PKLightVideoProcessIndicator *progressIndicatorView; //手势快进显示控件
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *constraint_indicatorH;
 
 @end
 
@@ -78,43 +73,12 @@ static const CGFloat kMinTimeForHSeekingInSec = 0.5;
     
     _controlBarWrapView.backgroundColor = [UIColor clearColor];
     _processSlider.delegate = self;
+    _processSlider.needBorderRadius = YES;
     _bottomProcessSlider.thumbHidden = YES;
-    
-    //渐变色顶部蒙层
-    _topLayer = [CAGradientLayer layer];
-    _topLayer.colors = [NSArray arrayWithObjects:(id)[UIColor colorWithRed:0 green:0 blue:0 alpha:0.3].CGColor, (id)[UIColor clearColor].CGColor,nil];
-    [_topControlBar.layer addSublayer:_topLayer];
-    
-    //渐变色底部蒙层
-    _bottomLayer = [CAGradientLayer layer];
-    _bottomLayer.colors = [NSArray arrayWithObjects: (id)[UIColor clearColor].CGColor, (id)[UIColor colorWithRed:0 green:0 blue:0 alpha:0.3].CGColor,  nil];
-    [_bottomControlBar.layer addSublayer:_bottomLayer];
+    _isInitVolume = YES;
 
     //初始化手势
     [self initGesture];
-}
-
-- (void)layoutSublayersOfLayer:(CALayer *)layer
-{
-    [super layoutSublayersOfLayer:layer];
-    
-    if (!CGRectEqualToRect(_topLayer.frame, _topControlBar.bounds)) {
-        _topLayer.frame = _topControlBar.bounds;
-    }
-    if (!CGRectEqualToRect(_bottomLayer.frame, _bottomControlBar.bounds)) {
-        _bottomLayer.frame = _bottomControlBar.bounds;
-    }
-    
-    if (self.bounds.size.width + self.bounds.size.height ==
-        [UIScreen mainScreen].bounds.size.width + [UIScreen mainScreen].bounds.size.height)
-    {
-        if (!_noCheckGuide && [self needGuideImage])
-        {
-            [self addGuideImage];
-            
-            _noCheckGuide = YES;
-        }
-    }
 }
 
 #pragma mark -- 私有
@@ -129,17 +93,6 @@ static const CGFloat kMinTimeForHSeekingInSec = 0.5;
     UIPanGestureRecognizer *pan = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(panAction:)];
     pan.delegate = self;
     [self addGestureRecognizer:pan];
-}
-
-//是否需要显示引导图
- - (void)addGuideImage
-{
-    [self addSubview:self.guideImageView];
-    self.guideImageView.frame = self.bounds;
-    
-    //点击手势
-    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(guideTapAction:)];
-    [self.guideImageView addGestureRecognizer:tap];
 }
 
 
@@ -242,12 +195,6 @@ static const CGFloat kMinTimeForHSeekingInSec = 0.5;
         _volumeProcess -= kLeftSliderMinStep;
     }
     
-    //显示浮层
-    self.progressIndicatorView.hidden = NO;
-    [self.progressIndicatorView showWithIndicatorType:kLightVideoIndicatorVolume
-                                              process:_volumeProcess
-                                             userInfo:nil];
-    
     //改变音量
     if (_delegate && [_delegate respondsToSelector:@selector(videoControlBarVolumeChange:percent:)])
     {
@@ -269,10 +216,13 @@ static const CGFloat kMinTimeForHSeekingInSec = 0.5;
     }
     
     //显示浮层
+    [self setControlBarHidden:YES];
+    
     self.progressIndicatorView.hidden = NO;
     [self.progressIndicatorView showWithIndicatorType:kLightVideoIndicatorBrightness
                                               process:_brightProcess
                                              userInfo:nil];
+    _constraint_indicatorH.constant = _progressIndicatorView.frame.size.height;
     
     //改变亮度
     if (_delegate && [_delegate respondsToSelector:@selector(videoControlBarBrightnessChange:percent:)])
@@ -304,12 +254,15 @@ static const CGFloat kMinTimeForHSeekingInSec = 0.5;
     //停止菊花
     [self.indicatorView stopAnimating];
     
+    [self setControlBarHidden:YES];
+    
     //显示浮层
     self.progressIndicatorView.hidden = NO;
     [self.progressIndicatorView showWithIndicatorType:kLightVideoIndicatorTime
                                               process:self.processSlider.process
                                              userInfo:@{@"timeStr":timeString,
                                                         @"isRewind": @(!isIncrement)}];
+    _constraint_indicatorH.constant = _progressIndicatorView.frame.size.height;
 
     
     //同步主控制栏
@@ -344,15 +297,6 @@ static const CGFloat kMinTimeForHSeekingInSec = 0.5;
     if (!self.progressIndicatorView.isHidden) {
         self.progressIndicatorView.hidden = YES;
     }
-}
-
-- (void)guideTapAction:(UIGestureRecognizer *)tap
-{
-    //移除引导图
-    [self.guideImageView removeFromSuperview];
-    
-    //设置
-    [[NSUserDefaults standardUserDefaults] setObject:@(NO) forKey:kLightVideoGuideImageKey];
 }
 
 - (void)tapAction:(UIGestureRecognizer *)tap
@@ -484,45 +428,6 @@ static const CGFloat kMinTimeForHSeekingInSec = 0.5;
 }
 
 
-- (BOOL)needGuideImage
-{
-    if ([[NSUserDefaults standardUserDefaults] objectForKey:kLightVideoGuideImageKey])
-    {
-        return NO;
-    }
-    else
-    {
-        if (self.bounds.size.width > self.bounds.size.height)
-        {
-            return YES;
-        }
-        else
-        {
-            return NO;
-        }
-    }
-}
-
-- (UIImageView *)guideImageView
-{
-    if (!_guideImageView)
-    {
-        _guideImageView = [[UIImageView alloc] init];
-        _guideImageView.userInteractionEnabled = YES;
-        
-        if ([UIDevice isIphone_480])
-        {
-            _guideImageView.image = [UIImage imageInPKBundleWithName:@"pk_LightVideo_guide.png"];
-        }
-        else
-        {
-            _guideImageView.image = [UIImage imageInPKBundleWithName:@"pk_LightVideo_guide6p.png"];
-        }
-    }
-    return _guideImageView;
-}
-
-
 #pragma mark -- 协议
 #pragma mark ---- <PKControlBarProtocol>
 + (id<PKControlBarProtocol>)nibInstance
@@ -552,6 +457,7 @@ static const CGFloat kMinTimeForHSeekingInSec = 0.5;
     {
         self.controlBarWrapView.hidden = NO;
         self.bottomProcessSlider.hidden = YES;
+        self.progressIndicatorView.hidden = YES;
     }
 }
 
@@ -624,9 +530,32 @@ static const CGFloat kMinTimeForHSeekingInSec = 0.5;
     self.mainTitleLab.text = title ?: @"";
 }
 
+- (void)setControlBarMainTitleHidden:(BOOL)hidden
+{
+    self.mainTitleLab.hidden = hidden;
+}
+
 - (void)setControlBarVolumeProcess:(CGFloat)process
 {
     _volumeProcess = process;
+    
+    if (_isInitVolume)
+    {
+        _isInitVolume = NO;
+    }
+    else
+    {
+        [self setControlBarHidden:YES];
+        
+        //显示浮层
+        self.progressIndicatorView.hidden = NO;
+        [self.progressIndicatorView showWithIndicatorType:kLightVideoIndicatorVolume
+                                                  process:_volumeProcess
+                                                 userInfo:nil];
+        _constraint_indicatorH.constant = _progressIndicatorView.frame.size.height;
+        
+        [self startAutoHideControlTimer];
+    }
 }
 
 - (void)setControlBarBrightnessProcess:(CGFloat)process

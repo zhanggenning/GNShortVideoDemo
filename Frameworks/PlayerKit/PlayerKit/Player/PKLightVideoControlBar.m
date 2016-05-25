@@ -15,8 +15,6 @@
 
 @interface PKLightVideoControlBar() <PKLightVideoPlayerSliderProtocol, UIGestureRecognizerDelegate>
 
-@property (strong, nonatomic) CAGradientLayer *topLayer;
-@property (strong, nonatomic) CAGradientLayer *bottomLayer;
 @property (weak, nonatomic) IBOutlet UIView *topControlBar;
 @property (weak, nonatomic) IBOutlet UIView *bottomControlBar;
 @property (weak, nonatomic) IBOutlet UIView *controlBarWrapView;
@@ -40,35 +38,13 @@
     
     self.controlBarWrapView.backgroundColor = [UIColor clearColor];
     self.processSlider.delegate = self;
+    self.processSlider.needBorderRadius = YES;
     self.bottomProcessSlider.thumbHidden = YES;
-    
-    //渐变色顶部蒙层
-    _topLayer = [CAGradientLayer layer];
-    _topLayer.colors = [NSArray arrayWithObjects:(id)[UIColor colorWithRed:0 green:0 blue:0 alpha:0.3].CGColor, (id)[UIColor clearColor].CGColor,nil];
-    [_topControlBar.layer addSublayer:_topLayer];
-  
-    
-    //渐变色底部蒙层
-    _bottomLayer = [CAGradientLayer layer];
-    _bottomLayer.colors = [NSArray arrayWithObjects: (id)[UIColor clearColor].CGColor, (id)[UIColor colorWithRed:0 green:0 blue:0 alpha:0.3].CGColor,  nil];
-    [_bottomControlBar.layer addSublayer:_bottomLayer];
     
     //点击手势
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapAction:)];
     tap.delegate = self;
     [self addGestureRecognizer:tap];
-}
-
-- (void)layoutSublayersOfLayer:(CALayer *)layer
-{
-    [super layoutSublayersOfLayer:layer];
-    
-    if (!CGRectEqualToRect(_topLayer.frame, _topControlBar.bounds)) {
-        _topLayer.frame = _topControlBar.bounds;
-    }
-    if (!CGRectEqualToRect(_bottomLayer.frame, _bottomControlBar.bounds)) {
-        _bottomLayer.frame = _bottomControlBar.bounds;
-    }
 }
 
 #pragma mark -- 私有
@@ -216,6 +192,11 @@
 - (void)setControlBarMainTitle:(NSString *)title
 {
     self.mainTitle.text = title ?: @"";
+}
+
+- (void)setControlBarMainTitleHidden:(BOOL)hidden
+{
+    self.mainTitle.hidden = hidden;
 }
 
 #pragma mark -- <PKLightVideoPlayerSliderProtocol>

@@ -91,6 +91,8 @@ extern NSString *const kPKPlayerNotificationVideoInfoKey;
 - (void)switchWithLocalPathsArray:(NSArray *)localPathsArray;
 
 #pragma mark -- 新接口
+@property (nonatomic, assign, readonly) CGFloat playProcess;
+
 //轻量级播放器初始化
 - (UIViewController *)lightPlayerWithVideoUrl:(NSString *)videoUrl
                                  completeView:(UIView *)completeView
@@ -103,8 +105,16 @@ extern NSString *const kPKPlayerNotificationVideoInfoKey;
 //轻量级播放器切换控制条
 - (void)lightPlayerSwithchControlBar:(PKVideoControlBarStyle)controlBarStyle;
 
+//隐藏控制条
+- (void)lightPlayerHiddenControlBar:(BOOL)isHidden;
+
+//隐藏主标题
+- (void)lightPlayerHiddenTitle:(BOOL)isHidden;
+
 //轻量级播放器源管理器
 - (PKSourceManager *)currentLightPlayerSourceManger;
+
+- (void)lightPlayerSeekWithProcess:(CGFloat)process;
 
 
 @end

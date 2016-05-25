@@ -463,10 +463,8 @@ static const NSInteger kFastForwardTimeInMS = 20*1000;
                               error:(NSError *)error {
     [self stopTimer];
     
-    if (type == kVideoPlayCompletionTypeClosed && self.needSwitchToNext) {
-        [self switchToNext];
-    }
-    
+    [self switchToNext];
+
     if (self.delegate && [self.delegate respondsToSelector:@selector(videoPlayerCore:playCompletedWithType:error:)]) {
         [self.delegate videoPlayerCore:self
                  playCompletedWithType:type
@@ -477,8 +475,10 @@ static const NSInteger kFastForwardTimeInMS = 20*1000;
 #pragma mark - Private
 
 - (void)handleLoadVideoContentCompleted {
-    self.isSwitching = NO;
-    self.nextVideoInfo = nil;
+    if (self.isSwitching && [self.videoInfo isSameWithVideoInfo:self.nextVideoInfo]) {
+        self.isSwitching = NO;
+        self.nextVideoInfo = nil;
+    }
     
     if (self.isReadyForPlaying) {
         self.startPlayingTime = [NSDate date];
@@ -574,16 +574,16 @@ static const NSInteger kFastForwardTimeInMS = 20*1000;
 - (void)switchToNext {
     if (self.needSwitchToNext) {
         self.isSwitching = YES;
-        if (!self.videoPlayerCoreState == kVideoPlayerCoreStateReady) {
-            [self doCloseWithCompletionHandler:NULL];
-        } else {
+        if (self.videoPlayerCoreState == kVideoPlayerCoreStateReady) {
             [self openWithVideoInfo:self.nextVideoInfo];
+        } else {
+            [self doCloseWithCompletionHandler:NULL];
         }
     }
 }
 
 - (BOOL)needSwitchToNext {
-    if (self.nextVideoInfo) {
+    if (self.nextVideoInfo && ![self.nextVideoInfo isSameWithVideoInfo:self.videoInfo]) {
         return YES;
     } else {
         return NO;

@@ -69,6 +69,7 @@ typedef NS_ENUM(NSInteger, PKLightVideoSliderDirection)
         {
             [self layoutSubviewsOnVerticalUp];
         }
+        
         [self layoutWithSliderDirection: self.sliderDirection];
         _currentBounds = layer.bounds;
     }
@@ -142,11 +143,17 @@ typedef NS_ENUM(NSInteger, PKLightVideoSliderDirection)
     self.processLayer.frame = tempRect;
     
     tempRect = self.sliderView.bounds;
-    tempRect.size.width = _process * _sliderView.bounds.size.width;
+    tempRect.size.width = _bufferProcess * _sliderView.bounds.size.width;
     self.bufferProcessLayer.frame = tempRect;
     
     self.thumbView.center = CGPointMake(self.sliderView.bounds.size.width * _process + kSliderThumbHeight/2,
                                         self.sliderView.center.y);
+    
+    if (_needBorderRadius)
+    {
+        _sliderView.layer.cornerRadius = (_sliderView.bounds.size.height / 2);
+        _sliderView.clipsToBounds = YES;
+    }
 }
 
 - (void)layoutSubviewsOnVerticalDown
@@ -176,6 +183,12 @@ typedef NS_ENUM(NSInteger, PKLightVideoSliderDirection)
     
     self.thumbView.center = CGPointMake(self.sliderView.center.x,
                                         self.sliderView.bounds.size.height * _process + kSliderThumbHeight/2);
+    
+    if (_needBorderRadius)
+    {
+        _sliderView.layer.cornerRadius = (_sliderView.bounds.size.width / 2);
+        _sliderView.clipsToBounds = YES;
+    }
 }
 
 - (void)layoutSubviewsOnVerticalUp
@@ -207,6 +220,12 @@ typedef NS_ENUM(NSInteger, PKLightVideoSliderDirection)
     
     self.thumbView.center = CGPointMake(_sliderView.center.x,
                                         _sliderView.frame.origin.y + _sliderView.frame.size.height - _sliderView.frame.size.height * _process);
+    
+    if (_needBorderRadius)
+    {
+        _sliderView.layer.cornerRadius = (_sliderView.bounds.size.width / 2);
+        _sliderView.clipsToBounds = YES;
+    }
 }
 
 #pragma mark -- 属性

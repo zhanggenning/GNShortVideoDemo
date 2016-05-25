@@ -19,13 +19,13 @@
 #import "TWeakTimer.h"
 #import "PKPlayerManager.h"
 #import "PKLightVideoVolumeManager.h"
+#import "PKStatisticSource.h"
 
 @interface PKLightVideoPlayerViewController () <PKVideoPlayerCoreDelegate, PKControlBarEventProtocol>
 {
     BOOL _isContorlBarLoaded; //控制条加载
     BOOL _isProcessChangeing; //进度改变中
     BOOL _isPlayerUIInited;   //界面初始化
-    CGRect _currentRect;
 }
 
 @property (strong, nonatomic) TWeakTimer *autoHideControlTimer;
@@ -42,6 +42,16 @@
     [self.videoPlayerCore close];
     
     [[NSNotificationCenter defaultCenter] removeObserver:self];
+    
+    //播放结束统计
+    if (_sourceManager.statisticSource.stopPlayingStatisticBlock)
+    {
+        NSTimeInterval playTime = [self.videoPlayerCore timeIntervalSinceStartPlaying];
+        _sourceManager.statisticSource.stopPlayingStatisticBlock(kPlayEndByUser,
+                                                                 playTime,
+                                                                 _videoPlayerCore.videoInfo,
+                                                                 nil);
+    }
 
     NSLog(@"页面释放.....");
 }
@@ -53,15 +63,15 @@
     //装载控制条
     [self loadVideoControlBar];
     
+    //外部背景
+    [self addExternBackViewBelowControlBar];
+    
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(resignActiveNotification:)
                                                  name:UIApplicationWillResignActiveNotification
                                                object:nil];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(volumeChanged:) name:@"AVSystemController_SystemVolumeDidChangeNotification" object:nil];
-    
-    //注：音量视图一定要在当前视图层级才能隐藏
-    [self.view addSubview:[PKLightVideoVolumeManager shareInstance].volumeView];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -80,26 +90,51 @@
     }
     
     //同步状态
-    if (!_videoPlayerCore.isReadyForPlaying)
+    if (_videoPlayerCore.videoPlayerCoreState == kVideoPlayerCoreStateOpening && !_isStartSwitch)
     {
         self.controlBarModel.playState = kVideoControlBarBuffering;
-        self.controlBarModel.userInteractive = NO;
-        [self addExternBackView];
+        self.controlBarModel.controlBarView.userInteractionEnabled = NO;
+        [self addExternBackViewBelowControlBar];
     }
-    
-    self.controlBarModel.volume = [PKLightVideoVolumeManager shareInstance].volume;
-    self.controlBarModel.brightness = [UIScreen mainScreen].brightness;
 }
 
 - (void)viewDidLayoutSubviews
 {
-    if (!CGRectEqualToRect(_currentRect, self.view.bounds)) {
-        
-        if (_videoPlayerCore.videoView.superview == self.view) {
-            [_videoPlayerCore setVideoViewSize:self.view.bounds.size];
-        }
-        
-        _currentRect = self.view.bounds;
+    if (_videoPlayerCore.videoView.superview == self.view &&
+        !CGRectEqualToRect(_videoPlayerCore.videoView.frame, self.view.bounds))
+    {
+        [_videoPlayerCore setVideoViewSize:self.view.bounds.size];
+    }
+    
+    if (_controlBarModel.controlBarView &&
+        !CGRectEqualToRect(_controlBarModel.controlBarView.frame, self.view.bounds))
+    {
+        _controlBarModel.controlBarView.frame = self.view.bounds;
+    }
+    
+    if (_externalBackView && !CGRectEqualToRect(_externalBackView.frame, self.view.bounds))
+    {
+        _externalBackView.frame = self.view.bounds;
+    }
+    
+    if (_externalErrorView && !CGRectEqualToRect(_externalErrorView.frame, self.view.bounds))
+    {
+        _externalErrorView.frame = self.view.bounds;
+    }
+    
+    if (_externalCompleteView && !CGRectEqualToRect(_externalCompleteView.frame, self.view.bounds))
+    {
+        _externalCompleteView.frame = self.view.bounds;
+    }
+    
+    //调整层级
+    if (_externalErrorView.superview && [_externalErrorView.superview.subviews lastObject] != _externalErrorView)
+    {
+        [_externalErrorView.superview bringSubviewToFront:_externalErrorView];
+    }
+    if (_externalCompleteView.superview && [_externalCompleteView.superview.subviews lastObject] != _externalCompleteView)
+    {
+        [_externalCompleteView.superview bringSubviewToFront:_externalCompleteView];
     }
 }
 
@@ -120,6 +155,8 @@
     self.controlBarModel.playTime = 0;
     self.controlBarModel.durationTime = 0;
     self.controlBarModel.controlBarHidden = NO;
+    self.controlBarModel.volume = [PKLightVideoVolumeManager shareInstance].volume;
+    self.controlBarModel.brightness = [UIScreen mainScreen].brightness;
     [self stopAutoHideControlTimer];
     
     //外部视图
@@ -131,7 +168,12 @@
     }
     
     //隐藏播放视图
-    [self removeVideoView];
+    if (_videoPlayerCore.videoView.superview)
+    {
+        [_videoPlayerCore.videoView removeFromSuperview];
+    }
+    
+    //等待视频打开完成
 }
 
 - (void)resumePlaying
@@ -148,32 +190,61 @@
     }
 }
 
+- (void)seekWithProcess:(CGFloat)process
+{
+    CGFloat dstProcess = process;
+    
+    if (process < 0.0)
+    {
+        dstProcess = 0.0;
+    }
+    if (process > 1.0)
+    {
+        dstProcess = 1.0;
+    }
+    
+    if (!_isStartSwitch)
+    {
+        [_videoPlayerCore seekWithProgress:dstProcess];
+    }
+}
+
+- (CGFloat)playProcess
+{
+    if (_controlBarModel)
+    {
+        return _controlBarModel.playProcess;
+    }
+    return 0.0;
+}
+
 #pragma mark -- 私有API
 - (void)addVideoView
 {
-    [self removeVideoView];
+    if (_videoPlayerCore.videoView.superview)
+    {
+        [_videoPlayerCore.videoView removeFromSuperview];
+    }
     
     _videoPlayerCore.videoView.translatesAutoresizingMaskIntoConstraints = NO;
     [self.view insertSubview:_videoPlayerCore.videoView atIndex:0];
     [_videoPlayerCore setVideoViewSize:self.view.bounds.size];
 }
 
-- (void)removeVideoView
-{
-    if (_videoPlayerCore.videoView.superview)
-    {
-        [_videoPlayerCore.videoView removeFromSuperview];
-    }
-}
-
-
 - (void)loadVideoControlBar
 {
     if (!_isContorlBarLoaded)
     {
-        [self.view addSubview:self.controlBarModel.controlBarView];
+        self.controlBarModel.controlBarView.frame = self.view.bounds;
         
-        [self addContraintsOnView:self.controlBarModel.controlBarView];
+        if (self.videoPlayerCore.videoView.superview == self.view)
+        {
+            [self.view insertSubview:self.controlBarModel.controlBarView aboveSubview:self.controlBarModel.controlBarView];
+        }
+        else
+        {
+            [self.view insertSubview:self.controlBarModel.controlBarView atIndex:0];
+        }
         
         self.controlBarModel.delegate = self;
         
@@ -194,7 +265,7 @@
 }
 
 
-- (void)addExternBackView
+- (void)addExternBackViewBelowControlBar
 {
     if (_externalBackView && _isContorlBarLoaded) {
         
@@ -202,35 +273,49 @@
             [_externalBackView removeFromSuperview];
         }
         
+        _externalBackView.frame = self.view.bounds;
+
         [self.view insertSubview:_externalBackView belowSubview:self.controlBarModel.controlBarView];
-        [self addContraintsOnView:_externalBackView];
     }
 }
 
-- (void)removeExternBackView
+- (void)addExternBackView
 {
-    if (_externalBackView && _externalBackView.superview) {
-        [_externalBackView removeFromSuperview];
+    if (_externalBackView) {
+        
+        if (_externalBackView.superview) {
+            [_externalBackView removeFromSuperview];
+        }
+        
+        _externalBackView.frame = self.view.bounds;
+        
+        [self.view addSubview:_externalBackView];
     }
 }
 
-- (void)addContraintsOnView:(UIView *)view
+- (void)addExternCompleteView
 {
-    view.translatesAutoresizingMaskIntoConstraints = NO;
-    
-    NSArray *contraints1 = [NSLayoutConstraint  constraintsWithVisualFormat:@"H:|-0-[view]-0-|"
-                                                                    options:0
-                                                                    metrics:nil
-                                                                      views:NSDictionaryOfVariableBindings(view)];
-    NSArray *contraints2 = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|-0-[view]-0-|"
-                                                                   options:0
-                                                                   metrics:nil
-                                                                     views:NSDictionaryOfVariableBindings(view)];
-    
-    if (view.superview)
+    if (_externalCompleteView)
     {
-        [view.superview addConstraints:contraints1];
-        [view.superview addConstraints:contraints2];
+        if (_externalCompleteView.superview) {
+            [_externalCompleteView removeFromSuperview];
+        }
+        
+        _externalCompleteView.frame = self.view.bounds;
+        [self.view addSubview:_externalCompleteView];
+    }
+}
+
+- (void)addExternErrorView
+{
+    if (_externalErrorView)
+    {
+        if (_externalErrorView.superview) {
+            [_externalErrorView removeFromSuperview];
+        }
+        
+        _externalErrorView.frame = self.view.bounds;
+        [self.view addSubview:_externalErrorView];
     }
 }
 
@@ -361,8 +446,18 @@
         [self loadVideoControlBar];
         
         //重置自动隐藏
-        self.controlBarModel.controlBarHidden = NO;
-        [self startAutoHideControlTimer];
+        self.hiddenControlBar = NO;
+        
+        //隐藏声音
+        if (controlBarStyle == kVideoControlBarBase)
+        {
+            [[PKLightVideoVolumeManager shareInstance].volumeView removeFromSuperview];
+        }
+        else
+        {
+            //注：音量视图一定要在当前视图层级才能隐藏
+            [self.view addSubview:[PKLightVideoVolumeManager shareInstance].volumeView];
+        }
         
         _controlBarStyle = controlBarStyle;
     }
@@ -378,6 +473,40 @@
     }
 }
 
+- (void)setHiddenControlBar:(BOOL)hiddenControlBar
+{
+    _hiddenControlBar = hiddenControlBar;
+    
+    _controlBarModel.controlBarHidden = hiddenControlBar;
+        
+    if (hiddenControlBar)
+    {
+        [self stopAutoHideControlTimer];
+    }
+    else
+    {
+        [self startAutoHideControlTimer];
+    }
+}
+
+- (void)setHiddenMainTitle:(BOOL)hiddenMainTitle
+{
+    _hiddenMainTitle = hiddenMainTitle;
+    
+    _controlBarModel.mainTitleHidden = hiddenMainTitle;
+}
+
+- (void)setIsStartSwitch:(BOOL)isStartSwitch
+{
+    if (isStartSwitch)
+    {
+        self.controlBarModel.playState = kVideoControlBarBuffering;
+        self.controlBarModel.controlBarView.userInteractionEnabled = NO;
+        [self addExternBackViewBelowControlBar];
+        _isStartSwitch = isStartSwitch;
+    }
+}
+
 #pragma mark -- 代理
 #pragma mark ---- <PKVideoPlayerCoreDelegate>
 - (void)videoPlayerCore:(PKVideoPlayerCoreBase *)videoPlayerCore
@@ -386,17 +515,25 @@ openCompletedWithResult:(BOOL)isReadyForPlaying
                   error:(NSError *)error
 {
     NSLog(@"轻量级播放器>>>>>>>>>>>>> 加载完成");
-
+    
+    _isStartSwitch = NO;
+    
     if (isReadyForPlaying)
     {
-        self.controlBarModel.userInteractive = YES;
+        self.controlBarModel.controlBarView.userInteractionEnabled = YES;
         
         //加载完成回调
         if (_sourceManager.playerStatusSource.openCompletedBlock) {
             _sourceManager.playerStatusSource.openCompletedBlock(videoInfo);
         }
         
-        [NSObject syncTaskOnMainWithBlock:^{
+        if (_sourceManager.statisticSource.startPlayingStatisticBlock)
+        {
+            _sourceManager.statisticSource.startPlayingStatisticBlock(videoInfo);
+        }
+        
+        
+        [NSObject asyncTaskOnMainWithBlock:^{
             
             [self addVideoView];
             
@@ -407,10 +544,10 @@ openCompletedWithResult:(BOOL)isReadyForPlaying
                 [_externalCompleteView removeFromSuperview];
             }
             
-            [self removeExternBackView];
-        }];
- 
-        [NSObject asyncTaskOnMainWithBlock:^{
+            if (_externalBackView && _externalBackView.superview) {
+                [_externalBackView removeFromSuperview];
+            }
+            
             self.controlBarModel.durationTime = videoInfo.videoDurationInMS / 1000; //设置文件时长
         }];
         
@@ -450,51 +587,85 @@ openCompletedWithResult:(BOOL)isReadyForPlaying
   playCompletedWithType:(PKVideoPlayCompletionType)type
                   error:(NSError *)error
 {
+    //播放完成移除
+    [_videoPlayerCore.videoView removeFromSuperview];
+    
     switch (type)
     {
         case kVideoPlayCompletionTypeEOF:
         {
-            if (_externalCompleteView && !videoPlayerCore.isSwitching) {
-                
+            if (_externalErrorView
+                && !videoPlayerCore.isSwitching)
+            {
+                //添加外部视图
                 [self addExternBackView];
-                [self.view addSubview:_externalCompleteView];
-                [self addContraintsOnView:_externalCompleteView];
+                [self addExternCompleteView];
                 
-                //播放完成回调
-                if (_sourceManager.playerStatusSource.playCompletedBlock) {
-                    _sourceManager.playerStatusSource.playCompletedBlock(videoPlayerCore.videoInfo);
-                }
+                //更换播放图标
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    self.controlBarModel.playState = kVideoControlBarPlay;
+                    [self stopAutoHideControlTimer];
+                });
+            }
+            
+            if (_sourceManager.statisticSource.stopPlayingStatisticBlock)
+            {
+                NSTimeInterval playTime = [self.videoPlayerCore timeIntervalSinceStartPlaying];
+                _sourceManager.statisticSource.stopPlayingStatisticBlock(kPlayEndByComplete,
+                                                                     playTime,
+                                                                     videoPlayerCore.videoInfo,
+                                                                     error);
+            }
+            break;
+        }
+        case kVideoPlayCompletionTypeError:
+        {
+            //添加外部视图
+            if (_externalErrorView
+                && !videoPlayerCore.isSwitching)
+            {
+                [self addExternBackView];
+                [self addExternErrorView];
+                
+                //更换播放图标
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    self.controlBarModel.playState = kVideoControlBarPlay;
+                    [self stopAutoHideControlTimer];
+                });
+            }
+            
+            if (_sourceManager.statisticSource.stopPlayingStatisticBlock)
+            {
+                NSTimeInterval playTime = [self.videoPlayerCore timeIntervalSinceStartPlaying];
+                _sourceManager.statisticSource.stopPlayingStatisticBlock(kPlayEndByFail,
+                                                                         playTime,
+                                                                         videoPlayerCore.videoInfo,
+                                                                         error);
             }
             
             break;
         }
         case kVideoPlayCompletionTypeClosed:
         {
-            //手动关闭不显示
-            break;
-        }
-        case kVideoPlayCompletionTypeError:
-        {
-            if (_externalErrorView && !videoPlayerCore.isSwitching) {
-                
-                [self addExternBackView];
-                [self.view addSubview:_externalErrorView];
-                [self addContraintsOnView:_externalErrorView];
-                
-                //播放完成回调
-                if (_sourceManager.playerStatusSource.playCompletedBlock) {
-                    _sourceManager.playerStatusSource.playCompletedBlock(videoPlayerCore.videoInfo);
-                }
+            if (_sourceManager.statisticSource.stopPlayingStatisticBlock)
+            {
+                //播放结束统计
+                NSTimeInterval playTime = [self.videoPlayerCore timeIntervalSinceStartPlaying];
+                _sourceManager.statisticSource.stopPlayingStatisticBlock(kPlayEndByUser,
+                                                                         playTime,
+                                                                         _videoPlayerCore.videoInfo,
+                                                                         nil);
             }
-            
             break;
         }
-            
         default:
             break;
     }
     
-    [self removeVideoView];
+    //播放完成回调
+    if (_sourceManager.playerStatusSource.playCompletedBlock) {
+        _sourceManager.playerStatusSource.playCompletedBlock(videoPlayerCore.videoInfo);
+    }
     
     //结束播放通知
     [self postFinishPlayingNotification];
@@ -510,22 +681,34 @@ openCompletedWithResult:(BOOL)isReadyForPlaying
         return;
     }
     
-    [NSObject asyncTaskOnMainWithBlock:^{
-        NSInteger durationInMS = self.videoPlayerCore.videoInfo.videoDurationInMS;
-        CGFloat process = (durationInMS == 0.0) ?: (CGFloat)timeInMS/durationInMS;
-        self.controlBarModel.playProcess = process;
-        self.controlBarModel.playTime = timeInMS / 1000;
-    }];
+    if (!_isStartSwitch)
+    {
+        [NSObject asyncTaskOnMainWithBlock:^{
+            NSInteger durationInMS = self.videoPlayerCore.videoInfo.videoDurationInMS;
+            CGFloat process = (durationInMS == 0.0) ?: (CGFloat)timeInMS/durationInMS;
+            self.controlBarModel.playProcess = process;
+            self.controlBarModel.playTime = timeInMS / 1000;
+        }];
+    }
 }
 
 - (void)videoPlayerCore:(PKVideoPlayerCoreBase *)videoPlayerCore
    bufferPositionUpdate:(NSInteger)timeInMS
 {
-    [NSObject asyncTaskOnMainWithBlock:^{
-        NSInteger durationInMS = self.videoPlayerCore.videoInfo.videoDurationInMS;
-        CGFloat bufferProcess = (durationInMS == 0.0) ?: (CGFloat)timeInMS/durationInMS;
-        self.controlBarModel.bufferProcess = bufferProcess;
-    } delay:.3];
+    if (!_isStartSwitch)
+    {
+        [NSObject asyncTaskOnMainWithBlock:^{
+            NSInteger durationInMS = self.videoPlayerCore.videoInfo.videoDurationInMS;
+            CGFloat bufferProcess = (durationInMS == 0.0) ?: (CGFloat)timeInMS/durationInMS;
+            
+            if (bufferProcess > 0.95) //取整一下
+            {
+                bufferProcess = 1.0;
+            }
+            
+            self.controlBarModel.bufferProcess = bufferProcess;
+        }];
+    }
 }
 
 - (void)videoPlayerCore:(PKVideoPlayerCoreBase *)videoPlayerCore
@@ -570,13 +753,22 @@ openCompletedWithResult:(BOOL)isReadyForPlaying
 //播放按键点击事件
 - (void)videoControlBarPlayBtnClicked:(id<PKControlBarProtocol>) controlBar
 {
+    BOOL state = NO;
+    
     if (!_videoPlayerCore.isPaused)
     {
-        [self switchPlayStateToPause:YES];
+        state = YES;
     }
     else
     {
-        [self switchPlayStateToPause:NO];
+        state = NO;
+    }
+    
+    [self switchPlayStateToPause:state];
+    
+    if (_sourceManager.statisticSource.userPauseStatisticBlock)
+    {
+        _sourceManager.statisticSource.userPauseStatisticBlock(state);
     }
 }
 

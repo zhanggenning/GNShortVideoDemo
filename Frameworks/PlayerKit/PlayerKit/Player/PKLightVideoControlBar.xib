@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10116" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10117" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
@@ -15,6 +15,19 @@
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Z4Y-Sx-1Bf">
                     <rect key="frame" x="0.0" y="0.0" width="667" height="375"/>
                     <subviews>
+                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="pk_LightVideo_blackImageUp.png" translatesAutoresizingMaskIntoConstraints="NO" id="skL-TS-xMY">
+                            <rect key="frame" x="0.0" y="0.0" width="667" height="68"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="68" id="K54-18-qpV"/>
+                                <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="68" id="fUf-xr-kkI"/>
+                            </constraints>
+                        </imageView>
+                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="pk_LightVideo_blackImageDown.png" translatesAutoresizingMaskIntoConstraints="NO" id="giB-9l-RZl">
+                            <rect key="frame" x="0.0" y="307" width="667" height="68"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="68" id="lkQ-dR-Uo8"/>
+                            </constraints>
+                        </imageView>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="oHX-A6-iCx">
                             <rect key="frame" x="309" y="163" width="49" height="49"/>
                             <constraints>
@@ -36,7 +49,7 @@
                                         <constraint firstAttribute="width" constant="50" id="uJc-9O-6g4"/>
                                     </constraints>
                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                    <inset key="contentEdgeInsets" minX="17" minY="12" maxX="17" maxY="12"/>
+                                    <inset key="contentEdgeInsets" minX="18" minY="12" maxX="17" maxY="12"/>
                                     <state key="normal" image="pk_LightVideo_full.png"/>
                                     <state key="highlighted" image="pk_LightVideo_fullH.png"/>
                                     <connections>
@@ -84,11 +97,11 @@
                             </constraints>
                         </view>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="AHS-EB-uor" userLabel="TopBar">
-                            <rect key="frame" x="0.0" y="0.0" width="667" height="38"/>
+                            <rect key="frame" x="0.0" y="0.0" width="667" height="41"/>
                             <subviews>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="title" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hwH-xM-g6a">
-                                    <rect key="frame" x="16" y="20" width="635" height="18"/>
-                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                    <rect key="frame" x="16" y="10" width="635" height="21"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     <nil key="highlightedColor"/>
                                 </label>
@@ -97,7 +110,7 @@
                                 <constraint firstItem="hwH-xM-g6a" firstAttribute="height" secondItem="AHS-EB-uor" secondAttribute="height" constant="-20" id="XY9-vi-GWb"/>
                                 <constraint firstAttribute="trailing" secondItem="hwH-xM-g6a" secondAttribute="trailing" constant="16" id="jBF-jW-j89"/>
                                 <constraint firstItem="hwH-xM-g6a" firstAttribute="leading" secondItem="AHS-EB-uor" secondAttribute="leading" constant="16" id="jLY-fg-CjA"/>
-                                <constraint firstItem="hwH-xM-g6a" firstAttribute="top" secondItem="AHS-EB-uor" secondAttribute="top" constant="20" id="vvI-7i-R16"/>
+                                <constraint firstItem="hwH-xM-g6a" firstAttribute="top" secondItem="AHS-EB-uor" secondAttribute="top" constant="10" id="vvI-7i-R16"/>
                             </constraints>
                         </view>
                     </subviews>
@@ -107,10 +120,16 @@
                         <constraint firstItem="oHX-A6-iCx" firstAttribute="centerX" secondItem="Z4Y-Sx-1Bf" secondAttribute="centerX" id="7sC-p1-A2s"/>
                         <constraint firstItem="AHS-EB-uor" firstAttribute="leading" secondItem="Z4Y-Sx-1Bf" secondAttribute="leading" id="KdD-gY-84i"/>
                         <constraint firstItem="oHX-A6-iCx" firstAttribute="centerY" secondItem="Z4Y-Sx-1Bf" secondAttribute="centerY" id="PGP-pR-2CI"/>
+                        <constraint firstAttribute="trailing" secondItem="giB-9l-RZl" secondAttribute="trailing" id="QY4-QU-ojz"/>
+                        <constraint firstItem="skL-TS-xMY" firstAttribute="leading" secondItem="Z4Y-Sx-1Bf" secondAttribute="leading" id="SDI-1B-OJ6"/>
                         <constraint firstAttribute="trailing" secondItem="p7y-ce-elH" secondAttribute="trailing" id="SFq-ei-3Re"/>
                         <constraint firstItem="AHS-EB-uor" firstAttribute="top" secondItem="Z4Y-Sx-1Bf" secondAttribute="top" id="Xx6-gE-7Ou"/>
+                        <constraint firstAttribute="trailing" secondItem="skL-TS-xMY" secondAttribute="trailing" id="Yta-3R-cPX"/>
                         <constraint firstAttribute="bottom" secondItem="p7y-ce-elH" secondAttribute="bottom" id="aw9-gT-WgA"/>
                         <constraint firstAttribute="trailing" secondItem="AHS-EB-uor" secondAttribute="trailing" id="hHs-LR-Ice"/>
+                        <constraint firstItem="giB-9l-RZl" firstAttribute="leading" secondItem="Z4Y-Sx-1Bf" secondAttribute="leading" id="q7g-tr-ixq"/>
+                        <constraint firstAttribute="bottom" secondItem="giB-9l-RZl" secondAttribute="bottom" id="rKn-nL-Eza"/>
+                        <constraint firstItem="skL-TS-xMY" firstAttribute="top" secondItem="Z4Y-Sx-1Bf" secondAttribute="top" id="sN3-ZF-AEe"/>
                         <constraint firstItem="p7y-ce-elH" firstAttribute="leading" secondItem="Z4Y-Sx-1Bf" secondAttribute="leading" id="vuu-Gn-ZLA"/>
                     </constraints>
                 </view>
@@ -159,6 +178,8 @@
         </view>
     </objects>
     <resources>
+        <image name="pk_LightVideo_blackImageDown.png" width="10" height="137"/>
+        <image name="pk_LightVideo_blackImageUp.png" width="10" height="137"/>
         <image name="pk_LightVideo_full.png" width="30" height="30"/>
         <image name="pk_LightVideo_fullH.png" width="30" height="30"/>
         <image name="pk_LightVideo_play.png" width="98" height="98"/>

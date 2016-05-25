@@ -33,6 +33,8 @@
 
 @property (nonatomic, copy) NSString *mainTitle;
 
+@property (nonatomic, assign) BOOL mainTitleHidden;
+
 @property (nonatomic, assign) CGFloat volume;
 
 @property (nonatomic, assign) CGFloat brightness;

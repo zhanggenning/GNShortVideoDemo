@@ -146,7 +146,7 @@
     
     if (self.controlBar && [self.controlBar respondsToSelector:@selector(setControlBarPlayState:)])
     {
-        [self.controlBar setControlBarPlayState:playState];
+        [self.controlBar setControlBarPlayState:kVideoControlBarBuffering];
     }
 }
 
@@ -202,6 +202,17 @@
     if (self.controlBar && [self.controlBar respondsToSelector:@selector(setControlBarMainTitle:)])
     {
         [self.controlBar setControlBarMainTitle:mainTitle];
+    }
+}
+
+//主标题隐藏
+- (void)setMainTitleHidden:(BOOL)mainTitleHidden
+{
+    _mainTitleHidden = mainTitleHidden;
+    
+    if (self.controlBar && [self.controlBar respondsToSelector:@selector(setControlBarMainTitleHidden:)])
+    {
+        [self.controlBar setControlBarMainTitleHidden:mainTitleHidden];
     }
 }
 

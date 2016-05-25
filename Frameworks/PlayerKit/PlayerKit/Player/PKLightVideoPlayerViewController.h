@@ -26,6 +26,16 @@
 
 @property (weak, nonatomic) UIView *externalBackView;
 
+@property (assign, nonatomic) BOOL hiddenMainTitle;
+
+@property (assign, nonatomic) BOOL hiddenControlBar;
+
+@property (assign, nonatomic) BOOL isStartSwitch;
+
+@property (copy, nonatomic) NSString *curUrlStr;
+
+@property (assign, nonatomic, readonly) CGFloat playProcess;
+
 + (instancetype)nibInstance;
 
 - (void)resetPlayerUI;
@@ -33,5 +43,7 @@
 - (void)resumePlaying;
 
 - (void)pause;
+
+- (void)seekWithProcess:(CGFloat)process;
 
 @end

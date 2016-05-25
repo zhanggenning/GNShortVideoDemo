@@ -73,6 +73,8 @@ typedef NS_ENUM(NSInteger, PKXMPVideoPlayerConfigType) {
     NSInteger result = [self.aPlayer Open:self.videoInfo.playContentURLString];
     if (result != 0) {
         NSLog(@"[ERROR]: Didn't execute opening!");
+        [self handleOpenCompleted];
+        [self handlePlayCompleted];
     }
 }
 

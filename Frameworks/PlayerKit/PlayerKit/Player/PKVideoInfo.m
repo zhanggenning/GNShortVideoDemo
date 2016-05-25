@@ -98,6 +98,31 @@ static NSString *const kM3U8CacheFileName = @"Temp.m3u8";
     return (self.videoFormatInfoArray.count > 0);
 }
 
+- (BOOL)isSameWithVideoInfo:(PKVideoInfo *)videoInfo {
+    if (self.contentType != videoInfo.contentType) {
+        return NO;
+    }
+    if (self.contentType == kVideoContentTypeLocalURLString ||
+        self.contentType == kVideoContentTypeOnlineURLString) {
+        if ([self.contentURLString isEqualToString:videoInfo.contentURLString]) {
+            return YES;
+        } else {
+            return NO;
+        }
+    } else if (self.contentType == kVideoContentTypeLocalStreamSlices ||
+               self.contentType == kVideoContentTypeOnlineStreamSlices) {
+        NSString *m3u8StringSelf = [self.class m3u8StringForStreamSlices:self.contentStreamSlices];
+        NSString *m3u8StringOther = [self.class m3u8StringForStreamSlices:videoInfo.contentStreamSlices];
+        if ([m3u8StringSelf isEqualToString:m3u8StringOther]) {
+            return YES;
+        } else {
+            return NO;
+        }
+    } else {
+        return NO;
+    }
+}
+
 #pragma mark - Private
 
 - (NSString *)cacheIntoFileWithM3U8String:(NSString *)m3u8String {

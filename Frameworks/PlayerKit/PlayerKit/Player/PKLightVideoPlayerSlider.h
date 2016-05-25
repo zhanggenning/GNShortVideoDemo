@@ -14,6 +14,8 @@ typedef void(^SliderValueChangeBlock)(CGFloat process);
 
 @interface PKLightVideoPlayerSlider : UIView
 
+@property (nonatomic, assign) BOOL needBorderRadius;
+
 //隐藏滑块
 @property (nonatomic, assign) CGFloat thumbHidden;
 

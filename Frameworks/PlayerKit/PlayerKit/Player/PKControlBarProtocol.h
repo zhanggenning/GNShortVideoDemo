@@ -34,6 +34,8 @@
 
 - (void)setControlBarMainTitle:(NSString *)title;
 
+- (void)setControlBarMainTitleHidden:(BOOL)hidden;
+
 - (void)setControlBarVolumeProcess:(CGFloat)process;
 
 - (void)setControlBarBrightnessProcess:(CGFloat)process;

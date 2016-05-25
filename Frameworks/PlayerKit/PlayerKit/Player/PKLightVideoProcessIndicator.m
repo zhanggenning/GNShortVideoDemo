@@ -10,6 +10,7 @@
 #import "PKLightVideoPlayerSlider.h"
 #import "NSBundle+pk.h"
 #import "UIImage+pk.h"
+#import "UIColor+pk.h"
 
 @interface PKLightVideoProcessIndicator ()
 
@@ -19,6 +20,7 @@
 @property (nonatomic, assign) BOOL isNoVolume;
 
 @property (nonatomic, strong) UIView *contentView;
+@property (weak, nonatomic) IBOutlet UIView *blackView;
 @property (weak, nonatomic) IBOutlet UIView *bgView;
 @property (weak, nonatomic) IBOutlet UIImageView *logoView;
 @property (weak, nonatomic) IBOutlet UILabel *timeLab;
@@ -73,9 +75,9 @@
     self.backgroundColor = [UIColor clearColor];
     _contentView.backgroundColor = [UIColor clearColor];
     
-    _bgView.layer.cornerRadius = 5.0;
+    _blackView.layer.cornerRadius = 5.0;
     _processSlider.thumbHidden = YES;
-    _processSlider.layer.cornerRadius = 2.0;
+    _processSlider.needBorderRadius = YES;
     [_processSlider processHexColor:0xffffff alpha:1.0];
     [_processSlider backHexColor:0xffffff alpha:0.5];
 }
@@ -114,7 +116,19 @@
             if (userInfo[@"timeStr"])
             {
                 NSString *timeStr = [NSString stringWithFormat:@"%@", userInfo[@"timeStr"]];
-                _timeLab.text = timeStr;
+                NSRange range = [timeStr rangeOfString:@"/"];
+                if (range.location != NSNotFound)
+                {
+                    NSMutableAttributedString *attrStr = [[NSMutableAttributedString alloc] initWithString:timeStr];
+                    [attrStr addAttribute:NSForegroundColorAttributeName
+                                    value:[UIColor colorWithHexValue:0x1294f6 alpha:1.0]
+                                    range:NSMakeRange(0, range.location - 1)];
+                    _timeLab.attributedText = attrStr;
+                }
+                else
+                {
+                    _timeLab.text = timeStr;
+                }
             }
             
             //设置图片
@@ -208,7 +222,7 @@
         if (process <= 0)
         {
             if (!_isNoVolume) {
-                _isNoVolume = YES;
+                self.isNoVolume = YES;
             }
         }
         else

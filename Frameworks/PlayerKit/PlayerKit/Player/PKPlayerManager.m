@@ -259,6 +259,10 @@
     vc.externalBackView = backView;
     _lightVideoPlayerVC = vc;
     
+    _lightVideoPlayerVC.curUrlStr = videoUrl;
+    
+    _lightVideoPlayerVC.isStartSwitch = YES;
+    
     [self.xmpVideoPlayerCore switchVideoWithContentURLString:videoUrl];
     
     return vc;
@@ -269,6 +273,10 @@
     if (_lightVideoPlayerVC)
     {
         [_lightVideoPlayerVC resetPlayerUI];
+        
+        _lightVideoPlayerVC.curUrlStr = videoUrl;
+        
+        _lightVideoPlayerVC.isStartSwitch = YES;
         
         _lightVideoPlayerVC.videoPlayerCore = self.xmpVideoPlayerCore;
     }
@@ -284,6 +292,20 @@
     }
 }
 
+- (void)lightPlayerHiddenControlBar:(BOOL)isHidden
+{
+    if (_lightVideoPlayerVC && _lightVideoPlayerVC.hiddenControlBar != isHidden) {
+        _lightVideoPlayerVC.hiddenControlBar = isHidden;
+    }
+}
+
+- (void)lightPlayerHiddenTitle:(BOOL)isHidden
+{
+    if (_lightVideoPlayerVC && _lightVideoPlayerVC.hiddenMainTitle != isHidden) {
+        _lightVideoPlayerVC.hiddenMainTitle = isHidden;
+    }
+}
+
 - (PKSourceManager *)currentLightPlayerSourceManger
 {
     if (self.lightVideoPlayerVC) {
@@ -293,6 +315,22 @@
         [self initLightPlayerSourceManager];
         return self.lightPlayerSourceManager;
     }
+}
+
+
+- (void)lightPlayerSeekWithProcess:(CGFloat)process
+{
+    if (self.lightVideoPlayerVC) {
+        [self.lightVideoPlayerVC seekWithProcess:process];
+    }
+}
+
+- (CGFloat)playProcess
+{
+    if (self.lightVideoPlayerVC) {
+        return self.lightVideoPlayerVC.playProcess;
+    }
+    return 0.0;
 }
 
 #pragma mark - Private

@@ -69,4 +69,7 @@ typedef NS_ENUM(NSInteger, PKVideoContentType) {
 /// 是否有视频或图片
 - (BOOL)hasVideo;
 
+/// 是否相同播放地址
+- (BOOL)isSameWithVideoInfo:(PKVideoInfo *)videoInfo;
+
 @end
